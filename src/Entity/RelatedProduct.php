@@ -12,41 +12,46 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'related_products')]
 class RelatedProduct
 {
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $from_target_id = null;
+    #[ORM\ManyToOne(targetEntity: Product::class, cascade: ['persist', 'remove'], inversedBy: 'relatedProducts_from')]
+    #[ORM\JoinColumn(name: 'from_target_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?Product $from_target = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $target_id = null;
+    #[ORM\ManyToOne(targetEntity: Product::class, cascade: ['persist', 'remove'], inversedBy: 'relatedProducts_target')]
+    #[ORM\JoinColumn(name: 'target_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?Product $target = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getFromTargetId(): ?int
+    public function getFromTarget(): ?Product
     {
-        return $this->from_target_id;
+        return $this->from_target;
     }
 
-    public function setFromTargetId(?int $from_target_id): void
+    public function setFromTarget(?Product $from_target): static
     {
-        $this->from_target_id = $from_target_id;
+        $this->from_target = $from_target;
+
+        return $this;
     }
 
-    public function getTargetId(): ?int
+    public function getTarget(): ?Product
     {
-        return $this->target_id;
+        return $this->target;
     }
 
-    public function setTargetId(?int $target_id): void
+    public function setTarget(?Product $target): static
     {
-        $this->target_id = $target_id;
+        $this->target = $target;
+
+        return $this;
     }
 
 }

@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'product_variants_attributes')]
 class ProductVariantAttribute
 {
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -24,29 +23,40 @@ class ProductVariantAttribute
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $attribute_id = null;
 
+
+    #[ORM\ManyToOne(targetEntity: ProductVariant::class, cascade: ['persist', 'remove'], inversedBy: 'productVariantsAttributes')]
+    #[ORM\JoinColumn(name: 'product_variant_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?ProductVariant $product_variant = null;
+
+    #[ORM\ManyToOne(targetEntity: Attribute::class, cascade: ['persist', 'remove'], inversedBy: 'productVariantsAttributes')]
+    #[ORM\JoinColumn(name: 'attribute_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?Attribute $attribute = null;
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getProductVariantId(): ?int
+    public function getProductVariant(): ?ProductVariant
     {
-        return $this->product_variant_id;
+        return $this->product_variant;
     }
 
-    public function setProductVariantId(?int $product_variant_id): void
+    public function setProductVariant(?ProductVariant $product_variant): static
     {
-        $this->product_variant_id = $product_variant_id;
+        $this->product_variant = $product_variant;
+
+        return $this;
     }
 
-    public function getAttributeId(): ?int
+    public function getAttribute(): ?Attribute
     {
-        return $this->attribute_id;
+        return $this->attribute;
     }
 
-    public function setAttributeId(?int $attribute_id): void
+    public function setAttribute(?Attribute $attribute): static
     {
-        $this->attribute_id = $attribute_id;
-    }
+        $this->attribute = $attribute;
 
+        return $this;
+    }
 }

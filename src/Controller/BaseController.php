@@ -23,7 +23,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 abstract class BaseController extends AbstractController
 {
-
     /**
      * @var EntityManagerInterface $em EntityManagerInterface instance
      */

@@ -12,17 +12,18 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'wishlist')]
 class Wishlist
 {
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $user_id = null;
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist', 'remove'], inversedBy: 'wishlists')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?User $user = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $product_id = null;
+    #[ORM\ManyToOne(targetEntity: Product::class, cascade: ['persist', 'remove'], inversedBy: 'wishlists')]
+    #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?Product $product = null;
 
     public function getId(): ?int
     {
@@ -36,24 +37,28 @@ class Wishlist
         return $this;
     }
 
-    public function getUserId(): ?int
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?int $user_id): void
+    public function setUser(?User $user): static
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
+
+        return $this;
     }
 
-    public function getProductId(): ?int
+    public function getProduct(): ?Product
     {
-        return $this->product_id;
+        return $this->product;
     }
 
-    public function setProductId(?int $product_id): void
+    public function setProduct(?Product $product): static
     {
-        $this->product_id = $product_id;
+        $this->product = $product;
+
+        return $this;
     }
 
 }

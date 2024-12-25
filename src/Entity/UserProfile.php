@@ -13,7 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'user_profiles')]
 class UserProfile
 {
-
     final public const int GENDER_MALE = 0;
 
     final public const int GENDER_FEMALE = 1;
@@ -31,8 +30,9 @@ class UserProfile
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $user_id = null;
+    #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'userProfiles', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?User $user = null;
 
     #[ORM\Column]
     private ?int $gender = null;
@@ -51,6 +51,8 @@ class UserProfile
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $avatar = null;
+
+
 
     public function getId(): ?int
     {
@@ -136,14 +138,16 @@ class UserProfile
         return $this;
     }
 
-    public function getUserId(): ?int
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?int $user_id): void
+    public function setUser(User $user): static
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
+
+        return $this;
     }
 
 }

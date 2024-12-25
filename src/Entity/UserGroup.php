@@ -12,17 +12,18 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'users_groups')]
 class UserGroup
 {
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $user_id = null;
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist', 'remove'], inversedBy: 'usersGroups')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?User $user = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $group_id = null;
+    #[ORM\ManyToOne(targetEntity: Group::class, cascade: ['persist', 'remove'], inversedBy: 'usersGroups')]
+    #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?Group $group_ref = null;
 
     public function getId(): ?int
     {
@@ -36,24 +37,28 @@ class UserGroup
         return $this;
     }
 
-    public function getUserId(): ?int
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?int $user_id): void
+    public function setUser(?User $user): static
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
+
+        return $this;
     }
 
-    public function getGroupId(): ?int
+    public function getGroupRef(): ?Group
     {
-        return $this->group_id;
+        return $this->group_ref;
     }
 
-    public function setGroupId(?int $group_id): void
+    public function setGroupRef(?Group $group_ref): static
     {
-        $this->group_id = $group_id;
+        $this->group_ref = $group_ref;
+
+        return $this;
     }
 
 }

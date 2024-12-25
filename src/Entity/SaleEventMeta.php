@@ -12,14 +12,14 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'sale_events_meta')]
 class SaleEventMeta
 {
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $sale_event_id = null;
+    #[ORM\ManyToOne(targetEntity: SaleEvent::class, cascade: ['persist', 'remove'], inversedBy: 'saleEventsMetas')]
+    #[ORM\JoinColumn(name: 'sale_event_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?SaleEvent $sale_event = null;
 
     #[ORM\Column(length: 255)]
     private ?string $meta_key = null;
@@ -56,14 +56,16 @@ class SaleEventMeta
         return $this;
     }
 
-    public function getSaleEventId(): ?int
+    public function getSaleEvent(): ?SaleEvent
     {
-        return $this->sale_event_id;
+        return $this->sale_event;
     }
 
-    public function setSaleEventId(?int $sale_event_id): void
+    public function setSaleEvent(?SaleEvent $sale_event): static
     {
-        $this->sale_event_id = $sale_event_id;
+        $this->sale_event = $sale_event;
+
+        return $this;
     }
 
 }

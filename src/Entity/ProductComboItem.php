@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'product_combo_items')]
 class ProductComboItem
 {
-
     final public const int DISCOUNT_TYPE_PERCENTAGE = 0;
 
     final public const int DISCOUNT_TYPE_FLAT = 1;
@@ -27,8 +26,9 @@ class ProductComboItem
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $parent_id = null;
+    #[ORM\ManyToOne(targetEntity: Product::class, cascade: ['persist', 'remove'], inversedBy: 'productComboItems')]
+    #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?Product $parent = null;
 
     #[ORM\Column]
     private array $child_ids = [];
@@ -80,14 +80,16 @@ class ProductComboItem
         return $this;
     }
 
-    public function getParentId(): ?int
+    public function getParent(): ?Product
     {
-        return $this->parent_id;
+        return $this->parent;
     }
 
-    public function setParentId(?int $parent_id): void
+    public function setParent(?Product $parent): static
     {
-        $this->parent_id = $parent_id;
+        $this->parent = $parent;
+
+        return $this;
     }
 
 }

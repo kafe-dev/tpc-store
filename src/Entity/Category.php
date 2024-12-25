@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\CategoryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -12,7 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'categories')]
 class Category
 {
-
     final public const int STATUS_INACTIVE = 0;
 
     final public const int STATUS_ACTIVE = 1;
@@ -30,8 +31,9 @@ class Category
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::BIGINT, nullable: true)]
-    private ?int $parent_id = null;
+    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'children', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+    private Collection $parent;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -53,7 +55,20 @@ class Category
 
     #[ORM\Column(options: ["default" => self::STATUS_INACTIVE])]
     private ?int $status = null;
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'parent')]
+    private ?self $children = null;
 
+    /**
+     * @var Collection<int, ProductCategory>
+     */
+    #[ORM\OneToMany(targetEntity: ProductCategory::class, mappedBy: 'category', orphanRemoval: true)]
+    private Collection $productsCategories;
+
+    public function __construct()
+    {
+        $this->parent = new ArrayCollection();
+        $this->productsCategories = new ArrayCollection();
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -149,15 +164,76 @@ class Category
 
         return $this;
     }
-
-    public function getParentId(): ?int
+    public function getChildren(): ?self
     {
-        return $this->parent_id;
+        return $this->children;
     }
 
-    public function setParentId(?int $parent_id): void
+    public function setChildren(?self $children): static
     {
-        $this->parent_id = $parent_id;
+        $this->children = $children;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getParent(): Collection
+    {
+        return $this->parent;
+    }
+
+    public function addParent(self $parent): static
+    {
+        if (!$this->parent->contains($parent)) {
+            $this->parent->add($parent);
+            $parent->setChildren($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParent(self $parent): static
+    {
+        if ($this->parent->removeElement($parent)) {
+            // set the owning side to null (unless already changed)
+            if ($parent->getChildren() === $this) {
+                $parent->setChildren(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductCategory>
+     */
+    public function getProductsCategories(): Collection
+    {
+        return $this->productsCategories;
+    }
+
+    public function addProductsCategory(ProductCategory $productsCategory): static
+    {
+        if (!$this->productsCategories->contains($productsCategory)) {
+            $this->productsCategories->add($productsCategory);
+            $productsCategory->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductsCategory(ProductCategory $productsCategory): static
+    {
+        if ($this->productsCategories->removeElement($productsCategory)) {
+            // set the owning side to null (unless already changed)
+            if ($productsCategory->getCategory() === $this) {
+                $productsCategory->setCategory(null);
+            }
+        }
+
+        return $this;
     }
 
 }

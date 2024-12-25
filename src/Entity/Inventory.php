@@ -6,6 +6,8 @@ namespace App\Entity;
 
 use App\Repository\InventoryRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,7 +16,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class Inventory
 {
-
     final public const int STATUS_INACTIVE = 0;
 
     final public const int STATUS_ACTIVE = 1;
@@ -35,8 +36,9 @@ class Inventory
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $commune_id = null;
+    #[ORM\ManyToOne(targetEntity: Commune::class, cascade: ['persist', 'remove'], inversedBy: 'inventories')]
+    #[ORM\JoinColumn(name: 'commune_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?Commune $commune = null;
 
     #[ORM\Column(length: 500)]
     private ?string $address = null;
@@ -55,7 +57,16 @@ class Inventory
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?DateTimeImmutable $updated_at = null;
+    /**
+     * @var Collection<int, ProductVariantInventory>
+     */
+    #[ORM\OneToMany(targetEntity: ProductVariantInventory::class, mappedBy: 'inventory', orphanRemoval: true)]
+    private Collection $productVariantInventories;
 
+    public function __construct()
+    {
+        $this->productVariantInventories = new ArrayCollection();
+    }
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
     public function lifecycle(): void
@@ -163,14 +174,44 @@ class Inventory
         return $this;
     }
 
-    public function getCommuneId(): ?int
+    public function getCommune(): ?Commune
     {
-        return $this->commune_id;
+        return $this->commune;
     }
 
-    public function setCommuneId(?int $commune_id): void
+    public function setCommune(?Commune $commune): static
     {
-        $this->commune_id = $commune_id;
+        $this->commune = $commune;
+
+        return $this;
+    }
+    /**
+     * @return Collection<int, ProductVariantInventory>
+     */
+    public function getProductVariantInventories(): Collection
+    {
+        return $this->productVariantInventories;
     }
 
+    public function addProductVariantInventory(ProductVariantInventory $productVariantInventory): static
+    {
+        if (!$this->productVariantInventories->contains($productVariantInventory)) {
+            $this->productVariantInventories->add($productVariantInventory);
+            $productVariantInventory->setInventory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductVariantInventory(ProductVariantInventory $productVariantInventory): static
+    {
+        if ($this->productVariantInventories->removeElement($productVariantInventory)) {
+            // set the owning side to null (unless already changed)
+            if ($productVariantInventory->getInventory() === $this) {
+                $productVariantInventory->setInventory(null);
+            }
+        }
+
+        return $this;
+    }
 }
