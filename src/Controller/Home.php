@@ -15,7 +15,6 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/', name: 'app_home_')]
 class Home extends BaseController
 {
-
     /**
      * Action index.
      *

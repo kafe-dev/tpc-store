@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'user_addresses')]
 class UserAddress
 {
-
     final public const int TYPE_HOME = 0;
 
     final public const int TYPE_OFFICE = 1;
@@ -30,11 +29,13 @@ class UserAddress
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $user_id = null;
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist', 'remove'], inversedBy: 'userAddresses')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?User $user = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $commune_id = null;
+    #[ORM\OneToOne(targetEntity: Commune::class, inversedBy: 'userAddresses', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(name: 'commune_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?Commune $commune = null;
 
     #[ORM\Column(length: 500)]
     private ?string $address = null;
@@ -92,25 +93,27 @@ class UserAddress
 
         return $this;
     }
-
-    public function getUserId(): ?int
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?int $user_id): void
+    public function setUser(?User $user): static
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
+
+        return $this;
+    }
+    public function getCommune(): ?Commune
+    {
+        return $this->commune;
     }
 
-    public function getCommuneId(): ?int
+    public function setCommune(Commune $commune): static
     {
-        return $this->commune_id;
-    }
+        $this->commune = $commune;
 
-    public function setCommuneId(?int $commune_id): void
-    {
-        $this->commune_id = $commune_id;
+        return $this;
     }
 
 }

@@ -1,13 +1,47 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}{{ app_name }} Admin{% endblock %}
-
-{% block importmap %}{{ importmap('admin') }}{% endblock %}
-
-{% block stylesheets %}{% endblock %}
+{% extends '_layouts/admin/blank.html.twig' %}
 
 {% block body %}
-    {% block content %}{% endblock %}
+    <div id="wrapper" data-controller="admin--dashboard">
+        {% include '_partials/admin/header.html.twig' %}
+
+        {% include '_partials/admin/sidebar.html.twig' %}
+
+        <div class="content-page">
+            <div class="content">
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div>
+                                <div class="d-flex justify-content-between">
+                                    <h4>{% block page %}{% endblock %}</h4>
+                                    <div id="x-breadcrumb">
+                                        <p class="breadcrumb-label">
+                                            <a href="{{ url('admin_dashboard_index') }}"><i class="fa fa-home"></i></a>
+                                            <span class="text-muted"><i class="fas fa-angle-right"></i></span>
+                                            <span class="text-muted">Here</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="header-title mb-3"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% block content %}{% endblock %}
+
+                </div>
+
+                {% include '_partials/admin/footer.html.twig' %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
-{% block javascripts %}{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('resources/admin/libs/morris-js/morris.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/raphael/raphael.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/js/dashboard.init.js') }}"></script>
+{% endblock %}

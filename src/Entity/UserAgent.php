@@ -14,7 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class UserAgent
 {
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

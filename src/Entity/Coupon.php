@@ -6,6 +6,8 @@ namespace App\Entity;
 
 use App\Repository\CouponRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -13,7 +15,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'coupons')]
 class Coupon
 {
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -30,7 +31,13 @@ class Coupon
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?DateTimeImmutable $expired_at = null;
+    #[ORM\OneToMany(targetEntity: LoyaltyCoupon::class, mappedBy: 'coupon', orphanRemoval: true)]
+    private Collection $loyaltyCoupons;
 
+    public function __construct()
+    {
+        $this->loyaltyCoupons = new ArrayCollection();
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -90,5 +97,33 @@ class Coupon
 
         return $this;
     }
+    /**
+     * @return Collection<int, LoyaltyCoupon>
+     */
+    public function getLoyaltyCoupons(): Collection
+    {
+        return $this->loyaltyCoupons;
+    }
 
+    public function addLoyaltyCoupon(LoyaltyCoupon $loyaltyCoupon): static
+    {
+        if (!$this->loyaltyCoupons->contains($loyaltyCoupon)) {
+            $this->loyaltyCoupons->add($loyaltyCoupon);
+            $loyaltyCoupon->setCoupon($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLoyaltyCoupon(LoyaltyCoupon $loyaltyCoupon): static
+    {
+        if ($this->loyaltyCoupons->removeElement($loyaltyCoupon)) {
+            // set the owning side to null (unless already changed)
+            if ($loyaltyCoupon->getCoupon() === $this) {
+                $loyaltyCoupon->setCoupon(null);
+            }
+        }
+
+        return $this;
+    }
 }

@@ -14,17 +14,18 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class Notification
 {
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $sender_id = null;
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist', 'remove'], inversedBy: 'senderNotis')]
+    #[ORM\JoinColumn(name: 'sender_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?User $sender = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $receiver_id = null;
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist', 'remove'], inversedBy: 'receiverNotis')]
+    #[ORM\JoinColumn(name: 'receiver_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?User $receiver = null;
 
     #[ORM\Column(length: 255)]
     private ?string $subject = null;
@@ -139,24 +140,28 @@ class Notification
         return $this;
     }
 
-    public function getSenderId(): ?int
+    public function getSender(): ?User
     {
-        return $this->sender_id;
+        return $this->sender;
     }
 
-    public function setSenderId(?int $sender_id): void
+    public function setSender(?User $sender): static
     {
-        $this->sender_id = $sender_id;
+        $this->sender = $sender;
+
+        return $this;
     }
 
-    public function getReceiverId(): ?int
+    public function getReceiver(): ?User
     {
-        return $this->receiver_id;
+        return $this->receiver;
     }
 
-    public function setReceiverId(?int $receiver_id): void
+    public function setReceiver(?User $receiver): static
     {
-        $this->receiver_id = $receiver_id;
+        $this->receiver = $receiver;
+
+        return $this;
     }
 
 }

@@ -6,6 +6,8 @@ namespace App\Entity;
 
 use App\Repository\LoyaltyRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,14 +16,14 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class Loyalty
 {
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::BIGINT)]
-    private ?int $user_id = null;
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist', 'remove'], inversedBy: 'loyalties')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?User $user = null;
 
     #[ORM\Column]
     private ?int $point = null;
@@ -35,6 +37,16 @@ class Loyalty
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?DateTimeImmutable $updated_at = null;
 
+    /**
+     * @var Collection<int, LoyaltyCoupon>
+     */
+    #[ORM\OneToMany(targetEntity: LoyaltyCoupon::class, mappedBy: 'loyalty', orphanRemoval: true)]
+    private Collection $loyaltyCoupons;
+
+    public function __construct()
+    {
+        $this->loyaltyCoupons = new ArrayCollection();
+    }
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
     public function lifecycle(): void
@@ -106,14 +118,46 @@ class Loyalty
         return $this;
     }
 
-    public function getUserId(): ?int
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?int $user_id): void
+    public function setUser(?User $user): static
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LoyaltyCoupon>
+     */
+    public function getLoyaltyCoupons(): Collection
+    {
+        return $this->loyaltyCoupons;
+    }
+
+    public function addLoyaltyCoupon(LoyaltyCoupon $loyaltyCoupon): static
+    {
+        if (!$this->loyaltyCoupons->contains($loyaltyCoupon)) {
+            $this->loyaltyCoupons->add($loyaltyCoupon);
+            $loyaltyCoupon->setLoyalty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLoyaltyCoupon(LoyaltyCoupon $loyaltyCoupon): static
+    {
+        if ($this->loyaltyCoupons->removeElement($loyaltyCoupon)) {
+            // set the owning side to null (unless already changed)
+            if ($loyaltyCoupon->getLoyalty() === $this) {
+                $loyaltyCoupon->setLoyalty(null);
+            }
+        }
+
+        return $this;
     }
 
 }

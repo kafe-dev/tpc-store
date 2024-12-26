@@ -12,14 +12,14 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'product_variant_images')]
 class ProductVariantImage
 {
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $product_variant_id = null;
+    #[ORM\ManyToOne(targetEntity: ProductVariant::class, cascade: ['persist', 'remove'], inversedBy: 'productVariantImages')]
+    #[ORM\JoinColumn(name: 'product_variant_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?ProductVariant $product_variant = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $image = null;
@@ -56,14 +56,16 @@ class ProductVariantImage
         return $this;
     }
 
-    public function getProductVariantId(): ?int
+    public function getProductVariant(): ?ProductVariant
     {
-        return $this->product_variant_id;
+        return $this->product_variant;
     }
 
-    public function setProductVariantId(?int $product_variant_id): void
+    public function setProductVariant(?ProductVariant $product_variant): static
     {
-        $this->product_variant_id = $product_variant_id;
+        $this->product_variant = $product_variant;
+
+        return $this;
     }
 
 }

@@ -12,17 +12,18 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'loyalties_coupons')]
 class LoyaltyCoupon
 {
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::BIGINT)]
-    private ?int $loyalty_id = null;
+    #[ORM\ManyToOne(targetEntity: Loyalty::class, cascade: ['persist', 'remove'], inversedBy: 'loyaltyCoupons')]
+    #[ORM\JoinColumn(name: 'loyalty_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?Loyalty $loyalty = null;
 
-    #[ORM\Column(type: Types::BIGINT)]
-    private ?int $coupon_id = null;
+    #[ORM\ManyToOne(targetEntity: Coupon::class, cascade: ['persist', 'remove'], inversedBy: 'loyaltyCoupons')]
+    #[ORM\JoinColumn(name: 'coupon_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?Coupon $coupon = null;
 
     public function getId(): ?int
     {
@@ -36,24 +37,28 @@ class LoyaltyCoupon
         return $this;
     }
 
-    public function getLoyaltyId(): ?int
+    public function getLoyalty(): ?Loyalty
     {
-        return $this->loyalty_id;
+        return $this->loyalty;
     }
 
-    public function setLoyaltyId(?int $loyalty_id): void
+    public function setLoyalty(?Loyalty $loyalty): static
     {
-        $this->loyalty_id = $loyalty_id;
+        $this->loyalty = $loyalty;
+
+        return $this;
     }
 
-    public function getCouponId(): ?int
+    public function getCoupon(): ?Coupon
     {
-        return $this->coupon_id;
+        return $this->coupon;
     }
 
-    public function setCouponId(?int $coupon_id): void
+    public function setCoupon(?Coupon $coupon): static
     {
-        $this->coupon_id = $coupon_id;
+        $this->coupon = $coupon;
+
+        return $this;
     }
 
 }

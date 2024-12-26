@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'settings')]
 class Setting
 {
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

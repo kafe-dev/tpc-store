@@ -6,6 +6,8 @@ namespace App\Entity;
 
 use App\Repository\SaleEventRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,7 +16,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class SaleEvent
 {
-
     final public const int DISCOUNT_TYPE_PERCENTAGE = 0;
 
     final public const int DISCOUNT_TYPE_FLAT = 1;
@@ -49,6 +50,24 @@ class SaleEvent
 
     #[ORM\Column]
     private ?DateTimeImmutable $updated_at = null;
+
+    /**
+     * @var Collection<int, SaleEventMeta>
+     */
+    #[ORM\OneToMany(targetEntity: SaleEventMeta::class, mappedBy: 'sale_event', orphanRemoval: true)]
+    private Collection $saleEventsMetas;
+
+    /**
+     * @var Collection<int, ProductVariantSaleEvent>
+     */
+    #[ORM\OneToMany(targetEntity: ProductVariantSaleEvent::class, mappedBy: 'sale_event', orphanRemoval: true)]
+    private Collection $productVariantSaleEvents;
+
+    public function __construct()
+    {
+        $this->saleEventsMetas = new ArrayCollection();
+        $this->productVariantSaleEvents = new ArrayCollection();
+    }
 
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
@@ -146,6 +165,65 @@ class SaleEvent
     public function setUpdatedAt(DateTimeImmutable $updated_at): static
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+    /**
+     * @return Collection<int, SaleEventMeta>
+     */
+    public function getSaleEventsMetas(): Collection
+    {
+        return $this->saleEventsMetas;
+    }
+
+    public function addSaleEventsMeta(SaleEventMeta $saleEventsMeta): static
+    {
+        if (!$this->saleEventsMetas->contains($saleEventsMeta)) {
+            $this->saleEventsMetas->add($saleEventsMeta);
+            $saleEventsMeta->setSaleEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSaleEventsMeta(SaleEventMeta $saleEventsMeta): static
+    {
+        if ($this->saleEventsMetas->removeElement($saleEventsMeta)) {
+            // set the owning side to null (unless already changed)
+            if ($saleEventsMeta->getSaleEvent() === $this) {
+                $saleEventsMeta->setSaleEvent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductVariantSaleEvent>
+     */
+    public function getProductVariantSaleEvents(): Collection
+    {
+        return $this->productVariantSaleEvents;
+    }
+
+    public function addProductVariantSaleEvent(ProductVariantSaleEvent $productVariantSaleEvent): static
+    {
+        if (!$this->productVariantSaleEvents->contains($productVariantSaleEvent)) {
+            $this->productVariantSaleEvents->add($productVariantSaleEvent);
+            $productVariantSaleEvent->setSaleEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductVariantSaleEvent(ProductVariantSaleEvent $productVariantSaleEvent): static
+    {
+        if ($this->productVariantSaleEvents->removeElement($productVariantSaleEvent)) {
+            // set the owning side to null (unless already changed)
+            if ($productVariantSaleEvent->getSaleEvent() === $this) {
+                $productVariantSaleEvent->setSaleEvent(null);
+            }
+        }
 
         return $this;
     }

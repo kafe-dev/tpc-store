@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 interface CrudInterface
 {
-
     /**
      * Returns data as json response.
      *

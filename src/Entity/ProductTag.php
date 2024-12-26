@@ -12,41 +12,46 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'products_tags')]
 class ProductTag
 {
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $product_id = null;
+    #[ORM\ManyToOne(targetEntity: Product::class, cascade: ['persist', 'remove'], inversedBy: 'productsTags')]
+    #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?Product $product = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $tag_id = null;
+    #[ORM\ManyToOne(targetEntity: Tag::class, cascade: ['persist', 'remove'], inversedBy: 'productsTags')]
+    #[ORM\JoinColumn(name: 'tag_id', referencedColumnName: 'id', nullable: false)]
+    private ?Tag $tag = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getProductId(): ?int
+    public function getProduct(): ?Product
     {
-        return $this->product_id;
+        return $this->product;
     }
 
-    public function setProductId(?int $product_id): void
+    public function setProduct(?Product $product): static
     {
-        $this->product_id = $product_id;
+        $this->product = $product;
+
+        return $this;
     }
 
-    public function getTagId(): ?int
+    public function getTag(): ?Tag
     {
-        return $this->tag_id;
+        return $this->tag;
     }
 
-    public function setTagId(?int $tag_id): void
+    public function setTag(?Tag $tag): static
     {
-        $this->tag_id = $tag_id;
+        $this->tag = $tag;
+
+        return $this;
     }
 
 }

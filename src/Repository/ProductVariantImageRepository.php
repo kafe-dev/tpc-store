@@ -10,7 +10,6 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class ProductVariantImageRepository extends ServiceEntityRepository
 {
-
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, ProductVariantImage::class);

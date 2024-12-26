@@ -14,14 +14,14 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class Analytic
 {
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: TYPES::BIGINT)]
-    private ?int $analytic_category_id = null;
+    #[ORM\ManyToOne(targetEntity: AnalyticCategory::class, cascade: ['persist', 'remove'], inversedBy: 'analytics')]
+    #[ORM\JoinColumn(name: 'analytic_category_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?AnalyticCategory $analytic_category = null;
 
     #[ORM\Column]
     private array $data = [];
@@ -46,16 +46,6 @@ class Analytic
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getAnalyticCategoryId(): ?int
-    {
-        return $this->analytic_category_id;
-    }
-
-    public function setAnalyticCategoryId(?int $analytic_category_id): void
-    {
-        $this->analytic_category_id = $analytic_category_id;
     }
 
     public function setId(int $id): static
@@ -97,6 +87,18 @@ class Analytic
     public function setUpdatedAt(DateTimeImmutable $updated_at): static
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getAnalyticCategory(): ?AnalyticCategory
+    {
+        return $this->analytic_category;
+    }
+
+    public function setAnalyticCategory(?AnalyticCategory $analytic_category): static
+    {
+        $this->analytic_category = $analytic_category;
 
         return $this;
     }

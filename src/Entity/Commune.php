@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\CommuneRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -12,7 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'communes')]
 class Commune
 {
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -24,15 +25,28 @@ class Commune
     #[ORM\Column(length: 255)]
     private ?string $code = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $district_id = null;
+    #[ORM\ManyToOne(targetEntity: District::class, cascade: ['persist', 'remove'], inversedBy: 'communes')]
+    #[ORM\JoinColumn(name: 'district_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private ?District $district = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 65, scale: 8)]
     private ?string $latitude = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 65, scale: 8)]
     private ?string $longitude = null;
+    #[ORM\OneToOne(targetEntity: UserAddress::class, mappedBy: 'commune', cascade: ['persist', 'remove'])]
+    private ?UserAddress $userAddresses = null;
 
+    /**
+     * @var Collection<int, Inventory>
+     */
+    #[ORM\OneToMany(targetEntity: Inventory::class, mappedBy: 'commune', orphanRemoval: true)]
+    private Collection $inventories;
+
+    public function __construct()
+    {
+        $this->inventories = new ArrayCollection();
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -93,14 +107,63 @@ class Commune
         return $this;
     }
 
-    public function getDistrictId(): ?int
+    public function getUserAddresses(): ?UserAddress
     {
-        return $this->district_id;
+        return $this->userAddresses;
     }
 
-    public function setDistrictId(?int $district_id): void
+    public function setUserAddresses(UserAddress $userAddresses): static
     {
-        $this->district_id = $district_id;
+        // set the owning side of the relation if necessary
+        if ($userAddresses->getCommune() !== $this) {
+            $userAddresses->setCommune($this);
+        }
+
+        $this->userAddresses = $userAddresses;
+
+        return $this;
+    }
+
+    public function getDistrict(): ?District
+    {
+        return $this->district;
+    }
+
+    public function setDistrict(?District $district): static
+    {
+        $this->district = $district;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Inventory>
+     */
+    public function getInventories(): Collection
+    {
+        return $this->inventories;
+    }
+
+    public function addInventory(Inventory $inventory): static
+    {
+        if (!$this->inventories->contains($inventory)) {
+            $this->inventories->add($inventory);
+            $inventory->setCommune($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInventory(Inventory $inventory): static
+    {
+        if ($this->inventories->removeElement($inventory)) {
+            // set the owning side to null (unless already changed)
+            if ($inventory->getCommune() === $this) {
+                $inventory->setCommune(null);
+            }
+        }
+
+        return $this;
     }
 
 }
