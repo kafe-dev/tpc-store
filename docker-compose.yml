@@ -39,6 +39,7 @@ services:
         volumes:
             - ./:/var/www/html/tpc-store
             - /var/www/html/tpc-store/var
+            - /var/www/html/tpc-store/vendor
             - ~/.composer-docker/cache:/root/.composer/cache:delegated
         extra_hosts:
             - "tpc-store.local:127.0.0.1"
