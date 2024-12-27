@@ -38,8 +38,9 @@ services:
         restart: always
         volumes:
             - ./:/var/www/html/tpc-store
-            - /var/www/html/tpc-store/var
-            - /var/www/html/tpc-store/vendor
+        #   Open comment if run on local machine
+        #   - /var/www/html/tpc-store/var
+        #   - /var/www/html/tpc-store/vendor
             - ~/.composer-docker/cache:/root/.composer/cache:delegated
         extra_hosts:
             - ${WEB_HOST}
