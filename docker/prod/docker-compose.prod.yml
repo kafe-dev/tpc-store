@@ -14,6 +14,22 @@ services:
         ports:
             - ${MYSQL_PORT}:3306
 
+    phpmyadmin:
+        container_name: tpc-store-phpmyadmin
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: phpmyadmin
+        environment:
+            - PMA_ARBITRARY=1
+            - PMA_HOST=mysql
+            - PMA_PORT=3306
+        restart: always
+        ports:
+            - 8081:80
+        links:
+            - mysql
+
     web:
         container_name: tpc-store-web
         build:

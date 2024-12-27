@@ -1,22 +1,14 @@
-# LOCAL
-<VirtualHost *:80>
-    DocumentRoot "/var/www/html/web-app/public"
+<VirtualHost *:8081>
+    ServerAdmin admin@tpc-store-pma
+    ServerName tpc-store-pma.seniorlab.dev
+    ServerAlias tpc-store-pma.seniorlab.dev
 
-    ServerAdmin admin@web-app
-    ServerName web-app.local
-    ServerAlias www.web-app.local
+    DocumentRoot "/usr/share/phpmyadmin/"
 
-    <Directory /var/www/html/web-app/public>
-        Options Indexes FollowSymLinks
-        AllowOverride All
-        Require all granted
-     </Directory>
-
-    ErrorLog "${APACHE_LOG_DIR}/web-app.local.error.log"
-    CustomLog "${APACHE_LOG_DIR}/web-app.local.access.log" combined
+    ErrorLog ${APACHE_LOG_DIR}/tpc-store-pma.seniorlab.dev.error.log
+    CustomLog ${APACHE_LOG_DIR}/tpc-store-pma.seniorlab.dev.access.log combined
 </VirtualHost>
 
-# SSL
 <VirtualHost *:443>
     DocumentRoot "/var/www/html/web-app/public"
 

@@ -1,3 +1,14 @@
+<VirtualHost *:8081>
+    ServerAdmin admin@tpc-store-pma
+    ServerName tpc-store-pma.local
+    ServerAlias tpc-store-pma.local
+
+    DocumentRoot "/usr/share/phpmyadmin/"
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
 <VirtualHost *:80>
     DocumentRoot "/var/www/html/web-app/public"
 
