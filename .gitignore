@@ -32,8 +32,9 @@
 ###< php-cs-fixer ###
 
 ###> docker ###
+/docker-compose.yml
+/Dockerfile
 /docker/ssl.key
 /docker/ssl.pem
 /docker/apache.conf
-/docker/install/setup.sh
 ###< docker ###
