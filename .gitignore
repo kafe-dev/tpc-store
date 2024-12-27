@@ -35,4 +35,5 @@
 /docker/ssl.key
 /docker/ssl.pem
 /docker/apache.conf
+/docker/install/setup.sh
 ###< docker ###
