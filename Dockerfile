@@ -25,13 +25,17 @@ RUN docker-php-ext-install \
     pdo_mysql \
     mysqli
 
-COPY tpc-store.conf /etc/apache2/sites-available/tpc-store.conf
+RUN mkdir /etc/apache2/ssl
+
+COPY vhost-config/tpc-store.conf /etc/apache2/sites-available/tpc-store.conf
+COPY vhost-config/ssl.key /etc/apache2/ssl/ssl.key
+COPY vhost-config/ssl.pem /etc/apache2/ssl/ssl.pem
+
+RUN a2enmod rewrite headers ssl
 
 RUN a2dissite 000-default.conf
 RUN a2ensite tpc-store.conf
-RUN service apache2 restart
 
-RUN a2enmod rewrite headers
 RUN service apache2 restart
 
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
@@ -46,3 +50,8 @@ RUN mkdir -p /home/devuser/.composer && \
     chown -R devuser:devuser /home/devuser
 
 EXPOSE 80
+
+USER ROOT
+WORKDIR /var/www/html/tpc-store
+RUN chmod +x /init.sh
+RUN ./init.sh

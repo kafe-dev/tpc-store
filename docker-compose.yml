@@ -4,12 +4,12 @@ services:
         build:
             context: .
             dockerfile: ./Dockerfile
-        image: mysql
+        image: mysql:8.3.0
         environment:
-            - MYSQL_ROOT_PASSWORD=tpc_store_mysql
-            - MYSQL_DATABASE=tpc_store_db
-            - MYSQL_USER=tpc_store_admin
-            - MYSQL_PASSWORD=tpc_store_mysql
+            - MYSQL_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
+            - MYSQL_DATABASE=${DATABASE_NAME}
+            - MYSQL_USER=${DATABASE_USER}
+            - MYSQL_PASSWORD=${DATABASE_PASSWORD}
         restart: always
         ports:
             - "3307:3306"
@@ -38,7 +38,6 @@ services:
         restart: always
         volumes:
             - ./:/var/www/html/tpc-store
-            - /var/www/html/tpc-store/vendor
             - /var/www/html/tpc-store/var
             - ~/.composer-docker/cache:/root/.composer/cache:delegated
         extra_hosts:

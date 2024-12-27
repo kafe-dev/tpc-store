@@ -3,10 +3,14 @@
 .vscode
 ###< code-editors ###
 
-###> symfony/framework-bundle ###
+###> environment ###
+/.env
 /.env.local
 /.env.local.php
 /.env.*.local
+###< environment ###
+
+###> symfony/framework-bundle ###
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
