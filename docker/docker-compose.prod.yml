@@ -1,0 +1,48 @@
+services:
+    mysql:
+        container_name: tpc-store-mysql
+        build:
+            context: ..
+            dockerfile: Dockerfile
+        image: mysql:8.3.0
+        environment:
+            - MYSQL_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
+            - MYSQL_DATABASE=${DATABASE_NAME}
+            - MYSQL_USER=${DATABASE_USER}
+            - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+        restart: always
+        ports:
+            - "3307:3306"
+
+    phpmyadmin:
+        container_name: tpc-store-phpmyadmin
+        build:
+            context: ..
+            dockerfile: Dockerfile
+        image: phpmyadmin
+        environment:
+            - PMA_ARBITRARY=1
+            - PMA_HOST=mysql
+            - PMA_PORT=3306
+        restart: always
+        ports:
+            - "8081:80"
+        links:
+            - mysql
+
+    web:
+        container_name: tpc-store-web
+        build:
+            context: ..
+            dockerfile: Dockerfile
+        restart: always
+        volumes:
+            - ./:/var/www/html/tpc-store
+            - ~/.composer-docker/cache:/root/.composer/cache:delegated
+        extra_hosts:
+            - ${WEB_HOST}
+        hostname: ${WEB_HOSTNAME}
+        ports:
+            - ${WEB_PORT}
+        links:
+            - mysql

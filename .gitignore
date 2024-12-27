@@ -32,7 +32,7 @@
 ###< php-cs-fixer ###
 
 ###> docker ###
-/vhost-config/ssl.key
-/vhost-config/ssl.pem
-/vhost-config/apache.conf
+/docker/ssl.key
+/docker/ssl.pem
+/docker/apache.conf
 ###< docker ###
