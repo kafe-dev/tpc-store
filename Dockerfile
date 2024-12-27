@@ -27,7 +27,7 @@ RUN docker-php-ext-install \
 
 RUN mkdir /etc/apache2/ssl
 
-COPY vhost-config/tpc-store.conf /etc/apache2/sites-available/tpc-store.conf
+COPY vhost-config/apache.conf /etc/apache2/sites-available/tpc-store.conf
 COPY vhost-config/ssl.key /etc/apache2/ssl/ssl.key
 COPY vhost-config/ssl.pem /etc/apache2/ssl/ssl.pem
 

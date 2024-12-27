@@ -30,3 +30,9 @@
 ###> php-cs-fixer ###
 .php-cs-fixer.cache
 ###< php-cs-fixer ###
+
+###> docker ###
+/vhost-config/ssl.key
+/vhost-config/ssl.pem
+/vhost-config/apache.conf
+###< docker ###
