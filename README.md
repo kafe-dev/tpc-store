@@ -85,6 +85,7 @@ $ cp -r docker/apache.conf.example ./apache.conf
 $ cp -r docker/ssl.key.example ./ssl.key
 $ cp -r docker/ssl.pem.example ./ssl.pem
 ```
+
 ```apacheconf
 # Local setup example
 <VirtualHost *:443>
@@ -139,4 +140,31 @@ $ docker-compose up -d
 ```shell
 $ cd tpc-store
 $ php bin/console doctrine:migrations:migrate
+```
+
+#### Limit Docker logs
+
+```shell
+cd /etc/logrotate.d/
+nano docker-logss
+```
+
+Then paste the following content:
+
+```shell
+/var/lib/docker/containers/*/*.log {
+  rotate 7
+  daily
+  compress
+  size=50M
+  missingok
+  delaycompress
+  copytruncate
+}
+```
+
+#### Clear unused Docker resources
+
+```shell
+$  docker system prune -f
 ```

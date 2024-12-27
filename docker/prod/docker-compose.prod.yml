@@ -12,23 +12,7 @@ services:
             - MYSQL_PASSWORD=${DATABASE_PASSWORD}
         restart: always
         ports:
-            - "3307:3306"
-
-    phpmyadmin:
-        container_name: tpc-store-phpmyadmin
-        build:
-            context: .
-            dockerfile: Dockerfile
-        image: phpmyadmin
-        environment:
-            - PMA_ARBITRARY=1
-            - PMA_HOST=mysql
-            - PMA_PORT=3306
-        restart: always
-        ports:
-            - "8081:80"
-        links:
-            - mysql
+            - ${MYSQL_PORT}:3306
 
     web:
         container_name: tpc-store-web
@@ -43,6 +27,6 @@ services:
             - ${WEB_HOST}
         hostname: ${WEB_HOSTNAME}
         ports:
-            - ${WEB_PORT}
+            - ${WEB_PORT}:443
         links:
             - mysql
