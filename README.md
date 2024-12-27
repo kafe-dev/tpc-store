@@ -13,7 +13,6 @@ The online store for laptops, pc and pc parts.
 ```shell
 $ cd ${ROOT_DIR}
 $ cp -r docker/docker-compose.local.yml ./docker-compose.yml
-$ cp -r docker/Dockerfile ./Dockerfile
 $ cp -r docker/apache.conf.example /docker/apache.conf
 ```
 
@@ -61,7 +60,6 @@ $ php bin/console doctrine:migrations:migrate
 ```shell
 $ cd ${ROOT_DIR}
 $ cp -r docker/docker-compose.prod.yml ./docker-compose.yml
-$ cp -r docker/Dockerfile ./Dockerfile
 $ cp -r docker/apache.conf.example /docker/apache.conf
 $ cp -r docker/ssl.key.example /docker/ssl.key
 $ cp -r docker/ssl.pem.example /docker/ssl.pem
