@@ -27,9 +27,9 @@ RUN docker-php-ext-install \
 
 RUN mkdir /etc/apache2/ssl
 
-COPY docker/apache.conf /etc/apache2/sites-available/tpc-store.conf
-COPY docker/ssl.key /etc/apache2/ssl/ssl.key
-COPY docker/ssl.pem /etc/apache2/ssl/ssl.pem
+COPY apache.conf /etc/apache2/sites-available/tpc-store.conf
+COPY ssl.key /etc/apache2/ssl/ssl.key
+COPY ssl.pem /etc/apache2/ssl/ssl.pem
 
 RUN a2enmod rewrite headers ssl
 

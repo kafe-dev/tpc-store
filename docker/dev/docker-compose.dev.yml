@@ -3,7 +3,7 @@ services:
         container_name: tpc-store-mysql
         build:
             context: .
-            dockerfile: ./docker/Dockerfile
+            dockerfile: Dockerfile
         image: mysql:8.3.0
         environment:
             - MYSQL_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
@@ -18,7 +18,7 @@ services:
         container_name: tpc-store-phpmyadmin
         build:
             context: .
-            dockerfile: ./docker/Dockerfile
+            dockerfile: Dockerfile
         image: phpmyadmin
         environment:
             - PMA_ARBITRARY=1
@@ -34,7 +34,7 @@ services:
         container_name: tpc-store-web
         build:
             context: .
-            dockerfile: ./docker/Dockerfile
+            dockerfile: Dockerfile
         restart: always
         volumes:
             - ./:/var/www/html/tpc-store

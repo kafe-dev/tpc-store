@@ -6,17 +6,38 @@ The online store for laptops, pc and pc parts.
 
 ### Docker
 
-#### Local setup
+#### Setup environment
+
+- Make .env file:
+
+```shell
+$ cp -r .env.example .env
+```
+
+- Update environment variables in `.env` file:
+
+```shell
+APP_NAME="TPC Store"
+APP_URL="http://tpc-store.local"
+
+DATABASE_SERVER=mysql
+DATABASE_ROOT_PASSWORD=mysql
+DATABASE_NAME=tpc_store_db
+DATABASE_USER=tpc_admin
+DATABASE_PASSWORD=tpc_password
+```
+
+#### Docker local setup
 
 - Copy necessary files:
 
 ```shell
-$ cd ${ROOT_DIR}
-$ cp -r docker/docker-compose.local.yml ./docker-compose.yml
-$ cp -r docker/apache.conf.example /docker/apache.conf
+$ cp -r docker/dev/Dockerfile.dev ./Dockerfile
+$ cp -r docker/dev/docker-compose.dev.yml ./docker-compose.yml
+$ cp -r docker/dev/apache.conf.dev ./apache.conf
 ```
 
-- Remove ```#SSL``` section in the ```docker/apache.conf``` file then modify the file to match your local environment.
+- Modify the `apache.conf` to match your local setup:
 
 ```apacheconf
 # Local setup example
@@ -53,20 +74,17 @@ $ chmod -R 777 var/
 $ php bin/console doctrine:migrations:migrate
 ```
 
-#### Prod setup
+#### Docker server setup
 
 - Copy necessary files:
 
 ```shell
-$ cd ${ROOT_DIR}
+$ cp -r docker/prod/Dockerfile.prod ./Dockerfile
 $ cp -r docker/docker-compose.prod.yml ./docker-compose.yml
-$ cp -r docker/apache.conf.example /docker/apache.conf
-$ cp -r docker/ssl.key.example /docker/ssl.key
-$ cp -r docker/ssl.pem.example /docker/ssl.pem
+$ cp -r docker/apache.conf.example ./apache.conf
+$ cp -r docker/ssl.key.example ./ssl.key
+$ cp -r docker/ssl.pem.example ./ssl.pem
 ```
-
-- Remove ```#LOCAL``` section in the ```docker/apache.conf``` file then modify the file to match your local environment.
-
 ```apacheconf
 # Local setup example
 <VirtualHost *:443>
@@ -96,7 +114,7 @@ $ cp -r docker/ssl.pem.example /docker/ssl.pem
 </VirtualHost>
 ```
 
-- Modify 2 files: ```docker/ssl.key``` and ```docker/ssl.pem``` to match your SSL certificate.
+- Modify 2 files: `ssl.key` and `ssl.pem` to match your SSL certificate.
 
 - Install Composer dependencies:
 
@@ -104,7 +122,7 @@ $ cp -r docker/ssl.pem.example /docker/ssl.pem
 $ composer install
 ```
 
-- Change permission for ```var``` directory:
+- Change permission for `var` directory:
 
 ```shell
 $ chmod -R 777 var/

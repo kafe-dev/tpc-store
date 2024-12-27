@@ -1,0 +1,16 @@
+<VirtualHost *:80>
+    DocumentRoot "/var/www/html/web-app/public"
+
+    ServerAdmin admin@web-app
+    ServerName web-app.local
+    ServerAlias www.web-app.local
+
+    <Directory /var/www/html/web-app/public>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+     </Directory>
+
+    ErrorLog "${APACHE_LOG_DIR}/web-app.local.error.log"
+    CustomLog "${APACHE_LOG_DIR}/web-app.local.access.log" combined
+</VirtualHost>

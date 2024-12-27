@@ -34,7 +34,7 @@
 ###> docker ###
 /docker-compose.yml
 /Dockerfile
-/docker/ssl.key
-/docker/ssl.pem
-/docker/apache.conf
+/apache.conf
+/ssl.key
+/ssl.pem
 ###< docker ###
