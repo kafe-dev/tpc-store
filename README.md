@@ -49,8 +49,8 @@ $ docker-compose up -d
 
 ```shell
 $ cd tpc-store
-$ chmod -R 777 /var/
 $ composer install
+$ chmod -R 777 var/
 $ php bin/console doctrine:migrations:migrate
 ```
 
@@ -100,16 +100,16 @@ $ cp -r docker/ssl.pem.example /docker/ssl.pem
 
 - Modify 2 files: ```docker/ssl.key``` and ```docker/ssl.pem``` to match your SSL certificate.
 
-- Change permission for ```var``` directory:
-
-```shell
-$ chmod -R 777 /var/
-```
-
 - Install Composer dependencies:
 
 ```shell
 $ composer install
+```
+
+- Change permission for ```var``` directory:
+
+```shell
+$ chmod -R 777 var/
 ```
 
 - Build Docker images:
