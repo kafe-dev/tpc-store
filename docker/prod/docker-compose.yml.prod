@@ -1,10 +1,10 @@
 services:
-    mysql:
-        container_name: tpc-store-mysql
+    mariadb:
+        container_name: mariadb
         build:
             context: .
             dockerfile: Dockerfile
-        image: mysql:8.3.0
+        image: mariadb:${DATABASE_VERSION}
         environment:
             - MYSQL_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
             - MYSQL_DATABASE=${DATABASE_NAME}
@@ -12,39 +12,21 @@ services:
             - MYSQL_PASSWORD=${DATABASE_PASSWORD}
         restart: always
         ports:
-            - ${MYSQL_PORT}:3306
-
-    phpmyadmin:
-        container_name: tpc-store-phpmyadmin
-        build:
-            context: .
-            dockerfile: Dockerfile
-        image: phpmyadmin
-        environment:
-            - PMA_ARBITRARY=1
-            - PMA_HOST=mysql
-            - PMA_PORT=3306
-        restart: always
-        ports:
-            - 8081:80
-        links:
-            - mysql
+            - ${DB_PORT}:3306
 
     web:
-        container_name: tpc-store-web
+        container_name: web
         build:
             context: .
             dockerfile: Dockerfile
         restart: always
         volumes:
             - ./:/var/www/html/tpc-store
-            - /var/www/html/tpc-store/var
-            - /var/www/html/tpc-store/vendor
             - ~/.composer-docker/cache:/root/.composer/cache:delegated
         extra_hosts:
             - ${WEB_HOST}
         hostname: ${WEB_HOSTNAME}
         ports:
-            - ${WEB_PORT}:80
+            - ${WEB_PORT}:443
         links:
-            - mysql
+            - mariadb

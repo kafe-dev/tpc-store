@@ -1,20 +1,9 @@
-<VirtualHost *:8081>
-    ServerAdmin admin@tpc-store-pma
-    ServerName tpc-store-pma.seniorlab.dev
-    ServerAlias tpc-store-pma.seniorlab.dev
+<VirtualHost tpc-store.seniorlab.dev:443>
+    DocumentRoot "/var/www/html/tpc-store/public"
 
-    DocumentRoot "/usr/share/phpmyadmin/"
-
-    ErrorLog ${APACHE_LOG_DIR}/tpc-store-pma.seniorlab.dev.error.log
-    CustomLog ${APACHE_LOG_DIR}/tpc-store-pma.seniorlab.dev.access.log combined
-</VirtualHost>
-
-<VirtualHost *:443>
-    DocumentRoot "/var/www/html/web-app/public"
-
-    ServerAdmin admin@web-app
-    ServerName web-app.example
-    ServerAlias www.web-app.example
+    ServerAdmin admin@tpc-store.seniorlab.dev
+    ServerName tpc-store.seniorlab.dev
+    ServerAlias tpc-store.seniorlab.dev
 
     SSLEngine on
 
@@ -25,12 +14,12 @@
         SSLOptions +StdEnvVars
     </FilesMatch>
 
-    <Directory /var/www/html/web-app/public/>
+    <Directory /var/www/html/tpc-store/public>
         Options Indexes FollowSymLinks
         AllowOverride All
         Require all granted
     </Directory>
 
-    ErrorLog ${APACHE_LOG_DIR}/web-app.example.error.log
-    CustomLog ${APACHE_LOG_DIR}/web-app.example.access.log combined
+    ErrorLog ${APACHE_LOG_DIR}/tpc-store.seniorlab.dev.error.log
+    CustomLog ${APACHE_LOG_DIR}/tpc-store.seniorlab.dev.access.log combined
 </VirtualHost>

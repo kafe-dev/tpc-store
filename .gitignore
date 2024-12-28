@@ -32,9 +32,10 @@
 ###< php-cs-fixer ###
 
 ###> docker ###
-/docker-compose.yml
-/Dockerfile
 /apache.conf
 /ssl.key
 /ssl.pem
+/Dockerfile
+/docker-compose.yml
+/docker-compose.override.yml
 ###< docker ###

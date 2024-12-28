@@ -1,27 +1,16 @@
-<VirtualHost *:8081>
-    ServerAdmin admin@tpc-store-pma
-    ServerName tpc-store-pma.local
-    ServerAlias tpc-store-pma.local
+<VirtualHost tpc-store.local:80>
+    DocumentRoot "/var/www/html/tpc-store/public"
 
-    DocumentRoot "/usr/share/phpmyadmin/"
+    ServerAdmin admin@tpc-store.local
+    ServerName tpc-store.local
+    ServerAlias www.tpc-store.local
 
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
-
-<VirtualHost *:80>
-    DocumentRoot "/var/www/html/web-app/public"
-
-    ServerAdmin admin@web-app
-    ServerName web-app.local
-    ServerAlias www.web-app.local
-
-    <Directory /var/www/html/web-app/public>
+    <Directory /var/www/html/tpc-store/public>
         Options Indexes FollowSymLinks
         AllowOverride All
         Require all granted
      </Directory>
 
-    ErrorLog "${APACHE_LOG_DIR}/web-app.local.error.log"
-    CustomLog "${APACHE_LOG_DIR}/web-app.local.access.log" combined
+    ErrorLog "${APACHE_LOG_DIR}/tpc-store.local.error.log"
+    CustomLog "${APACHE_LOG_DIR}/tpc-store.local.access.log" combined
 </VirtualHost>
