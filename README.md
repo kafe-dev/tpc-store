@@ -35,15 +35,26 @@ WEB_HOSTNAME="tpc-store.local"
 - Copy necessary files:
 
 ```shell
-$ cp -r /docker/dev/Dockerfile.dev ./Dockerfile
-$ cp -r /docker/dev/apache.conf.dev ./apache.conf
-$ cp -r /docker/docker-compose.override.dev ./docker-compose.override.yml
+$ cp -r docker/dev/Dockerfile.dev ./Dockerfile
+$ cp -r docker/dev/apache.conf.dev ./apache.conf
+$ cp -r docker/dev/docker-compose.override.dev ./docker-compose.override.yml
+```
+
+- Run the following commands:
+
+```shell
+$ php bin/console doctrine:migrations:migrate
 ```
 
 - Build Docker images:
 
 ```shell
 $ docker-compose build
+```
+
+- Run Docker containers:
+
+```shell
 $ docker-compose up -d
 ```
 
@@ -58,12 +69,38 @@ $ chmod -R 777 var/
 
 #### Docker prod setup
 
-- Just access the project root then run the following commands:
+- Copy necessary files:
 
 ```shell
-$ composer install --no-dev
+$ cp -r docker/prod/Dockerfile.prod ./Dockerfile
+$ cp -r docker/prod/apache.conf.prod ./apache.conf
+$ cp -r docker/prod/docker-compose.override.prod ./docker-compose.override.yml
+```
+
+- Change .env file:
+
+```
+APP_ENV=prod
+```
+
+- Run the following commands:
+
+```shell
+$ composer install --no-dev --optimize-autoloader
 $ chmod -R 777 var/
-$ php bin/console doctrine:migrations:migrate
+$ php bin/console asset-map:compile
+```
+
+- Build Docker images:
+
+```shell
+$ docker-compose build
+```
+
+- Run Docker containers:
+
+```shell
+$ docker-compose up -d
 ```
 
 #### Limit Docker logs
