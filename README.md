@@ -19,52 +19,44 @@ $ cp -r .env.example .env
 ```shell
 APP_NAME="TPC Store"
 APP_URL="http://tpc-store.local"
-
-DATABASE_SERVER=mariadb
-DATABASE_VERSION=11.4
-DATABASE_ROOT_PASSWORD=tpc_root_password
-DATABASE_NAME=tpc_store_db
-DATABASE_USER=tpc_admin
-DATABASE_PASSWORD=tpc_password
 ```
 
 - Specific Docker ports:
 
 ```shell
-DB_PORT=3306
-PMA_PORT=8081
+WEB_PORT=8080
+WEB_PORT_SSL=443
 WEB_HOST="tpc-store.local:127.0.0.1"
 WEB_HOSTNAME="tpc-store.local"
-WEB_PORT=80
 ```
 
-#### Docker local setup
+#### Docker dev setup
 
 - Copy necessary files:
 
 ```shell
 $ cp -r /docker/dev/Dockerfile.dev ./Dockerfile
-$ cp -r /docker/dev/docker-compose.yml.dev ./docker-compose.yml
-$ cp -r /docker/apache.conf.dev ./apache.conf
+$ cp -r /docker/dev/apache.conf.dev ./apache.conf
+$ cp -r /docker/docker-compose.override.dev ./docker-compose.override.yml
 ```
 
 - Build Docker images:
 
 ```shell
+$ docker-compose build
 $ docker-compose up -d
 ```
-
-#### Dev setup
 
 - Access the docker container web then run the following commands:
 
 ```shell
 $ composer install
 $ chmod -R 777 var/
-$ php bin/console doctrine:migrations:migrate
 ```
 
-#### Server setup
+- Access the web application on: `http://tpc-store.local:8080`
+
+#### Docker prod setup
 
 - Just access the project root then run the following commands:
 

@@ -1,0 +1,10 @@
+services:
+    tpc-store:
+        container_name: tpc-store
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: always
+        extra_hosts:
+            - ${WEB_HOST}
+        hostname: ${WEB_HOSTNAME}

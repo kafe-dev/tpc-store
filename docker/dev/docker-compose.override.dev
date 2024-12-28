@@ -1,0 +1,9 @@
+services:
+    tpc-store:
+        volumes:
+            - ./:/var/www/html/tpc-store
+            - /var/www/html/tpc-store/var
+            - /var/www/html/tpc-store/vendor
+            - ~/.composer-docker/cache:/root/.composer/cache:delegated
+        ports:
+            - ${WEB_PORT}:80
