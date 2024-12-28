@@ -24,5 +24,5 @@
 ###< symfony/asset-mapper ###
 
 ###> phpfixer/phpfix  ###
-.php-cs-fixer.cache
+/.php-cs-fixer.cache
 ###< phpfixer/phpfix ###

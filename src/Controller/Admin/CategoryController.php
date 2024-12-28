@@ -16,6 +16,7 @@ use App\Entity\Category;
 use App\Form\Type\CategoriesType;
 use App\Utils\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,7 +55,7 @@ class CategoryController extends BaseController implements CrudInterface
         $this->serializer = $serializer;
 		$this->fileUploader = $fileUploader;
     }
-    #[Route("/", name: "index")]
+    #[Route("/", name: "index",  methods: ['GET'])]
     public function index(): Response
     {
         return $this->render('admin/dashboard/category/index.html.twig');
@@ -67,7 +68,7 @@ class CategoryController extends BaseController implements CrudInterface
      *
      * @return JsonResponse
      */
-    #[Route("/list", name: "list")]
+    #[Route("/list", name: "list", methods: ['GET'])]
     public function list(): JsonResponse
     {
         $categories = $this->em->getRepository(Category::class)->findAll();
@@ -102,10 +103,15 @@ class CategoryController extends BaseController implements CrudInterface
      * @param int $id
      * @return Response
      */
-	#[Route("/detail/{id}", name: "detail")]
+	#[Route("/detail/{id}", name: "detail",  methods: ['GET'])]
     public function detail(int $id): Response
     {
-        // TODO: Implement detail() method.
+		$task = $this->em->getRepository(Category::class)->find($id);
+
+		return $this->render('admin/dashboard/category/detail.html.twig', [
+			'page_title' => 'Chi Tiết Danh Mục',
+			'category' => $task,
+		]);
     }
 
     /**
@@ -116,17 +122,28 @@ class CategoryController extends BaseController implements CrudInterface
      * @param Request $request
      * @return Response
      */
-	#[Route("/create", name: "create")]
+	#[Route("/create", name: "create", methods: ['GET','POST'])]
     public function create(Request $request): Response
     {
 		$category = new Category();
 
 		$form = $this->createForm(CategoriesType::class, $category, [
 			'data' => $this->em->getRepository(Category::class)->findAll(),
+			'cancel_url' => $this->generateUrl('admin_category_index'),
 		]);
 
+		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid())
 		{
+			if (!$this->em->getRepository(Category::class)->isSlugUnique($form->get('slug')->getData()))
+				return $this->redirectToRoute('admin_category_create');
+// need to update this
+			$category->setName($form->get('name')->getData());
+			$category->setSlug($form->get('slug')->getData());
+			$category->setDescription($form->get('description')->getData());
+			$category->setParent($form->get('parent')->getData());
+			$category->setStatus($form->get('status')->getData());
+
 			/** @var UploadedFile $imageFile */
 			$imageFile = $form->get('image')->getData();
 			if ($imageFile)
@@ -134,6 +151,11 @@ class CategoryController extends BaseController implements CrudInterface
 				$imageFileName = $this->fileUploader->upload($imageFile);
 				$category->setImage($imageFileName);
 			}
+
+			$this->em->persist($category);
+			$this->em->flush();
+
+			return $this->redirectToRoute('admin_category_index');
 		}
 
 		return $this->render('admin/dashboard/category/create.html.twig', [
@@ -150,10 +172,53 @@ class CategoryController extends BaseController implements CrudInterface
      * @param Request $request
      * @return Response
      */
-	#[Route("/update/{id}", name: "update")]
+	#[Route("/update/{id}", name: "update", methods: ['GET', 'POST'])]
     public function update(int $id, Request $request): Response
     {
-		return $this->render('admin/dashboard/category/update.html.twig');
+		$category = $this->em->getRepository(Category::class)->find($id);;
+
+
+		$form = $this->createForm(CategoriesType::class, $category, [
+			'data' => $this->em->getRepository(Category::class)->findAll(),
+			'cancel_url' => $this->generateUrl('admin_category_index'),
+
+		]);
+
+		$form->handleRequest($request);
+		if ($form->isSubmitted() && $form->isValid())
+		{
+			if (!$this->em->getRepository(Category::class)->isSlugUnique($form->get('slug')->getData()) && $form->get('slug')->getData() != $category->getSlug())
+				return $this->redirectToRoute('admin_category_update', ['id'=>$id]);
+// need to update this
+			$category->setName($form->get('name')->getData());
+			$category->setSlug($form->get('slug')->getData());
+			$category->setDescription($form->get('description')->getData());
+			$category->setParent($form->get('parent')->getData());
+			$category->setStatus($form->get('status')->getData());
+
+			/** @var UploadedFile $imageFile */
+			$imageFile = $form->get('image')->getData();
+			if ($imageFile)
+			{
+				$imageFileName = $this->fileUploader->upload($imageFile);
+				$category->setImage($imageFileName);
+			}
+			try {
+				$this->em->flush();
+
+				$this->addFlash('success', 'Cập nhật thành công!');
+				return $this->redirectToRoute('admin_category_index');
+			} catch (Exception $e) {
+				$this->addFlash('error', 'Cập nhật thất bại!');
+
+				$this->addFlash('error', $e->getMessage());
+				return $this->redirectToRoute('admin_category_index');
+			}
+		}
+
+		return $this->render('admin/dashboard/category/update.html.twig', [
+			'form' => $form
+		]);
     }
 
     /**
@@ -165,9 +230,20 @@ class CategoryController extends BaseController implements CrudInterface
      * @param Request $request
      * @return Response
      */
-	#[Route("/delete/{id}", name: "delete")]
+	#[Route("/delete/{id}", name: "delete", methods: ['POST'])]
     public function delete(int $id, Request $request): Response
     {
-        // TODO: Implement delete() method.
+		$task = $this->em->getRepository(Category::class)->find($id);
+
+		if ($task) {
+			$this->em->remove($task);
+			$this->em->flush();
+
+			$this->addFlash('success', 'Xóa thành công!');
+		} else {
+			$this->addFlash('error', 'Xóa thất bại!');
+		}
+
+		return $this->redirectToRoute('admin_category_index');
     }
 }
