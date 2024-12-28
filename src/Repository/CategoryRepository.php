@@ -15,8 +15,8 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
-    public function isSlugUnique($slug)
-    {
+    public function isSlugUnique($slug): bool
+	{
         $count = $this->createQueryBuilder('e')
             ->select('COUNT(e.id)')
             ->where('e.slug = :slug')
@@ -26,4 +26,13 @@ class CategoryRepository extends ServiceEntityRepository
 
         return $count == 0;
     }
+	public function countChildren($parent): int
+	{
+		return $this->createQueryBuilder('e')
+			->select('COUNT(e.id)')
+			->where('e.parent = :parent')
+			->setParameter('parent', $parent)
+			->getQuery()
+			->getSingleScalarResult();
+	}
 }

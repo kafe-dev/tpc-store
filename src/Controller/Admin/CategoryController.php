@@ -73,10 +73,11 @@ class CategoryController extends BaseController implements CrudInterface
     {
         $categories = $this->em->getRepository(Category::class)->findAll();
         $data = [];
-
         if (!empty($categories)) {
             foreach ($categories as $key => $category) {
+
                 $data[] = [
+					'childrens' => $this->em->getRepository(Category::class)->countChildren($category),
                     'slug' => $category->getSlug(),
                     'name' => $category->getName(),
                     'parent' => is_null($category->getParent()) ? '-' : $category->getParent()->getName(),

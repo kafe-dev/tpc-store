@@ -22,6 +22,7 @@
                         <th>Tên danh mục</th>
                         <th>Thư Mục Cha</th>
                         <th>Trạng Thái</th>
+                        <th>Số DM Con</th>
                         <th>Ảnh</th>
                         <th>Mô tả</th>
                         <th></th>
@@ -34,6 +35,7 @@
                         <th>Tên danh mục</th>
                         <th>Thư Mục Cha</th>
                         <th>Trạng Thái</th>
+                        <th>Số DM Con</th>
                         <th>Ảnh</th>
                         <th>Mô tả</th>
                         <th></th>
@@ -70,6 +72,7 @@
                             '<td>' + item.name + '</td>' +
                             '<td>' + (item.parent !== "-" ? item.parent : 'Khong Co') + '</td>' +
                             '<td>' + (item.status === 0 ? 'INACTIVE' : (item.status === 1 ? 'ACTIVE' : 'DRAFT')) + '</td>' +
+                            '<td>' + item.childrens + '</td>' +
                             '<td>' + item.image + '</td>' +
                             '<td>' + item.description + '</td>' +
                             '<td>' +
@@ -84,15 +87,16 @@
                         lengthChange: !1,
                         buttons: ["copy", "excel", "pdf"],
                         columnDefs: [
-                            {orderable: false, targets: 4},
-                            {searchable: false, targets: 4},
+                            {orderable: false, targets: 5},
+                            {searchable: false, targets: 5},
                             {width: '5%', targets: 0},
                             {width: '15%', targets: 1},
                             {width: '15%', targets: 2},
                             {width: '14%', targets: 3},
                             {width: '14%', targets: 4},
                             {width: '14%', targets: 5},
-                            {width: '5%', targets: 6},
+                            {width: '15%', targets: 6},
+                            {width: '5%', targets: 7},
                         ],
                         initComplete:
                             function () {
@@ -101,7 +105,7 @@
                                     .every(function () {
                                         let column = this;
 
-                                        if (column.index() === 6) {
+                                        if (column.index() === 7 ) {
                                             return;
                                         }
 
