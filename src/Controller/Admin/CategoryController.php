@@ -92,7 +92,7 @@ class CategoryController extends BaseController implements CrudInterface
             }
         }
 
-        return new JsonResponse(['data' => $data]);
+        return new JsonResponse($data);
     }
 
     /**

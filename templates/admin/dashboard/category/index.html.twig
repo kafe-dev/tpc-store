@@ -27,7 +27,7 @@
                         <th></th>
                     </tr>
                     </thead>
-                    <tbody></tbody>
+                        <tbody></tbody>
                     <tfoot>
                     <tr>
                         <th>Mã Danh mục</th>
@@ -53,111 +53,96 @@
     {{ parent() }}
     <script type="module">
         $(document).ready(function () {
-            $("#category-datatable-buttons").DataTable({
-                lengthChange: false,
-                buttons: ["copy", "excel", "pdf"],
-                order: [[0, 'desc']],
-                ajax: '{{ url('admin_category_list') }}',
-                columns: [
-                    {data: 'slug'},
-                    {data: 'name'},
-                    {
-                        data: 'parent',
-                        render: function (data) {
-                            if (data === '-') {
-                                return 'Không có';
+            let table = $('#category-datatable-buttons tbody')
+
+            $.ajax({
+                url: '{{ url('admin_category_list') }}',
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (data) {
+                    table.empty();
+
+                    console.log(data);
+
+                    $.each(data, function (index, item) {
+                        table.append('<tr>' +
+                            '<td>' + item.slug + '</td>' +
+                            '<td>' + item.name + '</td>' +
+                            '<td>' + (item.parent !== "-" ? item.parent : 'Khong Co') + '</td>' +
+                            '<td>' + (item.status === 0 ? 'INACTIVE' : (item.status === 1 ? 'ACTIVE' : 'DRAFT')) + '</td>' +
+                            '<td>' + item.image + '</td>' +
+                            '<td>' + item.description + '</td>' +
+                            '<td>' +
+                            '<a style="margin-right: 7px" href="'+ item.actions.detail +'"><i class="fa fa-info-circle"></i></a>' +
+                            '<a style="margin-right: 7px" href="'+ item.actions.update +'"><i class="fa fa-edit"></i></a>' +
+                            '<a href="#"><i class="fa fa-trash"></i></a>' +
+                            '</td>' +
+                            '</tr>'
+                        );
+                    });
+                    const a = $("#category-datatable-buttons").DataTable({
+                        lengthChange: !1,
+                        buttons: ["copy", "excel", "pdf"],
+                        columnDefs: [
+                            {orderable: false, targets: 3},
+                            {searchable: false, targets: 3},
+                            {width: '5%', targets: 0},
+                            {width: '15%', targets: 1},
+                            {width: '15%', targets: 2},
+                            {width: '14%', targets: 3},
+                            {width: '14%', targets: 4},
+                            {width: '14%', targets: 5},
+                            {width: '5%', targets: 6},
+                        ],
+                        initComplete:
+                            function () {
+                                this.api()
+                                    .columns()
+                                    .every(function () {
+                                        let column = this;
+
+                                        if (column.index() === 6) {
+                                            return;
+                                        }
+
+                                        let input = document.createElement('input');
+                                        input.type = 'text';
+                                        input.style.width = '100%';
+                                        input.placeholder = 'Search...';
+                                        column.footer().replaceChildren(input);
+
+                                        input.addEventListener('input', function () {
+                                            column
+                                                .search(input.value, {exact: false})
+                                                .draw();
+                                        });
+                                    });
                             }
-                            return data;
-                        }
-                    },
-                    {
-                        data: 'status', render: function (data) {
-                            if (data === 1) {
-                                return 'Kích Hoạt';
-                            } else if (data === 0) return 'Không Kích Hoạt';
-                            else return 'Draft';
-                        }
-                    },
-                    {
-                        data: 'image', render: function (data) {
-                            if (data === null) {
-                                return 'Không có';
-                            } else return data;
-                        }
-                    },
-                    {
-                        data: 'description', render: function (data) {
-                            if (data === null) {
-                                return 'Không có';
-                            } else return data;
-                        }
-                    },
-                    {
-                        data: 'actions', render: function (data) {
-                            return '' +
-                                '<a href="'+ data.detail +'" style="padding-right: 7px"><i class="fa fa-info-circle"></i></a>' +
-                                '<a href="'+ data.update +'" style="padding-right: 7px"><i class="fa fa-edit"></i></a>' +
-                                '<a href="#" class="btn-delete" data-url="'+ data.delete +'"><i class="fa fa-trash" ></i></a>';
-                        }
-                    }
-                ],
-                columnDefs: [
-                    {orderable: false, targets: 3},
-                    {searchable: false, targets: 3},
-                    { width:  '5%', targets: 0 },
-                    { width: '15%', targets: 1 },
-                    { width: '15%', targets: 2 },
-                    { width: '14%', targets: 3 },
-                    { width: '14%', targets: 4 },
-                    { width: '14%', targets: 5 },
-                    { width: '5%', targets: 6 },
-                ],
-                initComplete: function () {
-                    this.api()
-                        .columns()
-                        .every(function () {
-                            let column = this;
-
-                            if (column.index() === 6) {
-                                return;
-                            }
-
-                            let input = document.createElement('input');
-                            input.type = 'text';
-                            input.style.width = '100%';
-                            input.placeholder = 'Search...';
-                            column.footer().replaceChildren(input);
-
-                            input.addEventListener('input', function () {
-                                column
-                                    .search(input.value, { exact: false })
-                                    .draw();
-                            });
-                        });
+                    });
+                    a.buttons().container().appendTo("#category-datatable-buttons_wrapper .col-md-6:eq(0)")
                 }
             });
-            a.buttons().container().appendTo("#category-datatable-buttons_wrapper .col-md-6:eq(0)");
-        });
 
-        $(document).on('click', '.btn-delete', function () {
-            let deleteUrl = $(this).data('url');
+            $(document).on('click', '.btn-delete', function () {
+                let deleteUrl = $(this).data('url');
 
-            if (confirm('Bạn có chắc chắn muốn xóa?')) {
-                $.ajax({
-                    url: deleteUrl,
-                    type: 'POST',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    success: function () {
-                        alert('Xóa thành công!');
-                        location.reload();
-                    },
-                    error: function () {
-                        alert('Có lỗi xảy ra khi xóa!');
-                    }
-                });
-            }
+                if (confirm('Bạn có chắc chắn muốn xóa?')) {
+                    $.ajax({
+                        url: deleteUrl,
+                        type: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        success: function () {
+                            alert('Xóa thành công!');
+                            location.reload();
+                        },
+                        error: function () {
+                            alert('Có lỗi xảy ra khi xóa!');
+                        }
+                    });
+                }
+            });
         });
     </script>
 
