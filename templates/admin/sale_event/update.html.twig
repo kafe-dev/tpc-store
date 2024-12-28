@@ -1,0 +1,36 @@
+{% extends '_layouts/admin/main.html.twig' %}
+
+{% block page %}{{ page_title }}{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div>
+                <h5 class="font-14">Cập nhật sự kiện sale</h5>
+                <p class="sub-header">
+                    Đây là trang cập nhât sự kiện sale. Vui lòng điền đầy đủ thông tin vào các trường bên dưới.
+                    (<span style="color: red">*</span>) là trường bắt buộc.
+                </p>
+
+                {% for type, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-icon alert-{{ type }} text-{{ type }} alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>{{ type | upper }}</strong> {{ message }}.
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
+                {{ form_start(form) }}
+                {% for field in form %}
+                    {{ form_row(field, {'errors': []}) }}
+                {% endfor %}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

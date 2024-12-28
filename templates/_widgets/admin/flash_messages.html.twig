@@ -1,0 +1,25 @@
+{# sweet-alert-2 #}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    let message = '';
+    {% for type, messages in app.flashes %}
+    {% for message in messages %}
+
+    message += '{{ message|escape('js') }}<br>';
+
+    {% endfor %}
+
+    Swal.fire({
+        icon: '{{ type }}',  // 'success', 'error', 'warning', 'info', 'question'
+        {% if type == "success" %}
+        title: 'Thành công!',
+        {% elseif type == 'error' %}
+        title: 'Có lỗi xảy ra!',
+        {% endif %}
+        html: message,
+        showConfirmButton: false,
+    });
+    {% endfor %}
+
+</script>

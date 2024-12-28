@@ -1,0 +1,22 @@
+{% extends '_layouts/admin/main.html.twig' %}
+
+{% block page %}{{ page_title }}{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-lg-7">
+            <h5 class="font-14"> Tạo một sự kiện sale mới </h5>
+            <p class="sub-header">
+                Đây là trang tạo mới sự kiện Sale. Vui lòng điền đầy đủ thông tin vào các trường bên dưới.
+                (<span style="color: red">*</span>) là trường bắt buộc.
+            </p>
+            {{ form_start(form) }}
+            {% for field in form %}
+                {{ form_row(field, {'errors': []}) }}
+            {% endfor %}
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}
