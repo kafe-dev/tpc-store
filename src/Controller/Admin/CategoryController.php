@@ -55,6 +55,7 @@ class CategoryController extends BaseController implements CrudInterface
         $this->serializer = $serializer;
         $this->fileUploader = $fileUploader;
     }
+
     #[Route("/", name: "index", methods: ['GET'])]
     public function index(): Response
     {
@@ -73,11 +74,16 @@ class CategoryController extends BaseController implements CrudInterface
     {
         $categories = $this->em->getRepository(Category::class)->findAll();
         $data = [];
-        if (!empty($categories)) {
+        if (! empty($categories)) {
             foreach ($categories as $key => $category) {
 
                 $data[] = [
-					'childrens' => $this->em->getRepository(Category::class)->countChildren($category),
+                    'id' => $category->getId(),
+                    'children' => $this->em->getRepository(Category::class)->countChildren($category),
+                    'slug' => $category->getSlug(),
+                    'name' => $category->getName(),
+                    'parent' => is_null($category->getParent()) ? '-' : $category->getParent()->getName(),
+                    'childrens' => $this->em->getRepository(Category::class)->countChildren($category),
                     'slug' => $category->getSlug(),
                     'name' => $category->getName(),
                     'parent' => is_null($category->getParent()) ? '-' : $category->getParent()->getName(),
@@ -123,7 +129,7 @@ class CategoryController extends BaseController implements CrudInterface
      * @param Request $request
      * @return Response
      */
-    #[Route("/create", name: "create", methods: ['GET','POST'])]
+    #[Route("/create", name: "create", methods: ['GET', 'POST'])]
     public function create(Request $request): Response
     {
         $category = new Category();
@@ -135,7 +141,7 @@ class CategoryController extends BaseController implements CrudInterface
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if (!$this->em->getRepository(Category::class)->isSlugUnique($form->get('slug')->getData())) {
+            if (! $this->em->getRepository(Category::class)->isSlugUnique($form->get('slug')->getData())) {
                 return $this->redirectToRoute('admin_category_create');
             }
             // need to update this
@@ -187,7 +193,7 @@ class CategoryController extends BaseController implements CrudInterface
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if (!$this->em->getRepository(Category::class)->isSlugUnique($form->get('slug')->getData()) && $form->get('slug')->getData() != $category->getSlug()) {
+            if (! $this->em->getRepository(Category::class)->isSlugUnique($form->get('slug')->getData()) && $form->get('slug')->getData() != $category->getSlug()) {
                 return $this->redirectToRoute('admin_category_update', ['id' => $id]);
             }
             // need to update this
@@ -243,6 +249,38 @@ class CategoryController extends BaseController implements CrudInterface
         } else {
             $this->addFlash('error', 'Xóa thất bại!');
         }
+
+        return $this->redirectToRoute('admin_category_index');
+    }
+
+    /**
+     * Action Bulk Delete
+     *
+     * This action for delete list categories
+     *
+     * @param Request $request
+     * @return Response
+     * @throws Exception
+     */
+    #[Route("/bulkDelete", name: "bulk_delete", methods: ['POST'])]
+    public function bulkDelete(Request $request): Response
+    {
+        $ids = $request->request->all('ids');
+
+        if (empty($ids)) {
+            throw new \Exception('No IDs provided for deletion.');
+        }
+
+        $repository = $this->em->getRepository(Category::class);
+
+        foreach ($ids as $id) {
+            $entity = $repository->find($id);
+            $this->em->remove($entity);
+        }
+
+        $this->em->flush();
+
+        $this->addFlash('success', 'Xóa thành công!');
 
         return $this->redirectToRoute('admin_category_index');
     }

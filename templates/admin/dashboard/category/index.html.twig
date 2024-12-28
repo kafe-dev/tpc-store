@@ -18,6 +18,7 @@
                        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                     <thead>
                     <tr>
+                        <th><input type="checkbox" class="category-select-all"></th>
                         <th>Mã Danh mục</th>
                         <th>Tên danh mục</th>
                         <th>Thư Mục Cha</th>
@@ -31,6 +32,7 @@
                         <tbody></tbody>
                     <tfoot>
                     <tr>
+                        <th><input type="checkbox" class="category-select-all"></th>
                         <th>Mã Danh mục</th>
                         <th>Tên danh mục</th>
                         <th>Thư Mục Cha</th>
@@ -42,7 +44,7 @@
                     </tr>
                     </tfoot>
                 </table>
-
+                <button type="button" class="col-1 category-bulk-delete-btn btn btn-lg btn-danger btn-block waves-effect waves-light">Xoá</button>
             </div>
         </div>
         <!-- end col -->
@@ -56,7 +58,7 @@
     <script type="module">
         $(document).ready(function () {
             let table = $('#category-datatable-buttons tbody')
-
+            // get list categories
             $.ajax({
                 url: '{{ url('admin_category_list') }}',
                 type: 'GET',
@@ -68,6 +70,7 @@
 
                     $.each(data, function (index, item) {
                         table.append('<tr>' +
+                            '<td><input type="checkbox" class="row-category-checkbox" value="'+ item.id +'" "></td>' +
                             '<td>' + item.slug + '</td>' +
                             '<td>' + item.name + '</td>' +
                             '<td>' + (item.parent !== "-" ? item.parent : 'Khong Co') + '</td>' +
@@ -83,20 +86,22 @@
                             '</tr>'
                         );
                     });
+                    // Create datatable
                     const a = $("#category-datatable-buttons").DataTable({
                         lengthChange: !1,
                         buttons: ["copy", "excel", "pdf"],
                         columnDefs: [
-                            {orderable: false, targets: 5},
-                            {searchable: false, targets: 5},
-                            {width: '5%', targets: 0},
-                            {width: '15%', targets: 1},
+                            {orderable: false, targets: 6},
+                            {searchable: false, targets: 6},
+                            {width: '1%', targets: 0},
+                            {width: '5%', targets: 1},
                             {width: '15%', targets: 2},
-                            {width: '14%', targets: 3},
+                            {width: '15%', targets: 3},
                             {width: '14%', targets: 4},
                             {width: '14%', targets: 5},
-                            {width: '15%', targets: 6},
-                            {width: '5%', targets: 7},
+                            {width: '14%', targets: 6},
+                            {width: '15%', targets: 7},
+                            {width: '5%', targets: 8},
                         ],
                         initComplete:
                             function () {
@@ -105,7 +110,7 @@
                                     .every(function () {
                                         let column = this;
 
-                                        if (column.index() === 7 ) {
+                                        if (column.index() === 7 || column.index() === 0) {
                                             return;
                                         }
 
@@ -126,7 +131,7 @@
                     a.buttons().container().appendTo("#category-datatable-buttons_wrapper .col-md-6:eq(0)")
                 }
             });
-
+            // Delete category
             $(document).on('click', '.btn-delete', function () {
                 let deleteUrl = $(this).data('url');
 
@@ -149,5 +154,49 @@
             });
         });
     </script>
+    <script >
+        // Handle "Select All" checkbox
+        $('.category-select-all').on('click', function () {
+            $('.row-category-checkbox').prop('checked', this.checked);
+            $('.category-select-all').prop('checked', this.checked);
+        });
 
+        // Collect id has checked
+        function getSelectedIds() {
+            var selected = [];
+            $('.row-category-checkbox:checked').each(function () {
+                selected.push($(this).val());
+            });
+            return selected;
+        }
+    </script>
+    <script>
+        //Handle bulk delete
+        $('.category-bulk-delete-btn').on('click', function () {
+            var ids = getSelectedIds();
+            if (ids.length === 0) {
+                alert('Không có ô nào đươc chọn');
+                return;
+            }
+            console.log(ids);
+
+            if (confirm('Bạn có muốn xoá các danh mục này?')) {
+                $.ajax({
+                    url: '{{ path('admin_category_bulk_delete') }}',
+                    type: 'POST',
+                    data: { 'ids': ids },
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function () {
+                        alert('Xóa thành công!');
+                        location.reload();
+                    },
+                    error: function () {
+                        alert('Có lỗi xảy ra khi xóa!');
+                    }
+                });
+            }
+        });
+    </script>
 {% endblock %}
