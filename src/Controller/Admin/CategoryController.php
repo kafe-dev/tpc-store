@@ -13,7 +13,10 @@ namespace App\Controller\Admin;
 use App\Contract\Crud\CrudInterface;
 use App\Controller\BaseController;
 use App\Entity\Category;
+use App\Form\Type\CategoriesType;
+use App\Utils\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,16 +36,23 @@ class CategoryController extends BaseController implements CrudInterface
      */
     protected SerializerInterface $serializer;
 
-    /**
-     * Override the default
-     *
-     * @param EntityManagerInterface $em
-     * @param SerializerInterface $serializer
-     */
-    public function __construct(EntityManagerInterface $em, SerializerInterface $serializer)
+	/**
+	 * @var FileUploader UploaderInterface
+	 */
+	private FileUploader $fileUploader;
+
+	/**
+	 * Override the default
+	 *
+	 * @param EntityManagerInterface $em
+	 * @param SerializerInterface $serializer
+	 * @param FileUploader $fileUploader
+	 */
+    public function __construct(EntityManagerInterface $em, SerializerInterface $serializer, FileUploader $fileUploader)
     {
         parent::__construct($em);
         $this->serializer = $serializer;
+		$this->fileUploader = $fileUploader;
     }
     #[Route("/", name: "index")]
     public function index(): Response
@@ -109,7 +119,26 @@ class CategoryController extends BaseController implements CrudInterface
 	#[Route("/create", name: "create")]
     public function create(Request $request): Response
     {
-        return $this->render('admin/dashboard/category/create.html.twig');
+		$category = new Category();
+
+		$form = $this->createForm(CategoriesType::class, $category, [
+			'data' => $this->em->getRepository(Category::class)->findAll(),
+		]);
+
+		if ($form->isSubmitted() && $form->isValid())
+		{
+			/** @var UploadedFile $imageFile */
+			$imageFile = $form->get('image')->getData();
+			if ($imageFile)
+			{
+				$imageFileName = $this->fileUploader->upload($imageFile);
+				$category->setImage($imageFileName);
+			}
+		}
+
+		return $this->render('admin/dashboard/category/create.html.twig', [
+			'form' => $form
+		]);
     }
 
     /**
@@ -124,7 +153,7 @@ class CategoryController extends BaseController implements CrudInterface
 	#[Route("/update/{id}", name: "update")]
     public function update(int $id, Request $request): Response
     {
-        // TODO: Implement update() method.
+		return $this->render('admin/dashboard/category/update.html.twig');
     }
 
     /**
