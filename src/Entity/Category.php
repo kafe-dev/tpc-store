@@ -31,9 +31,9 @@ class Category
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'children', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: self::class, cascade: ['persist', 'remove'], inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
-    private Collection $parent;
+    private ?self $parent = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -55,8 +55,8 @@ class Category
 
     #[ORM\Column(options: ["default" => self::STATUS_INACTIVE])]
     private ?int $status = null;
-    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'parent')]
-    private ?self $children = null;
+    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'parent')]
+    private Collection $children;
 
     /**
      * @var Collection<int, ProductCategory>
@@ -66,7 +66,7 @@ class Category
 
     public function __construct()
     {
-        $this->parent = new ArrayCollection();
+        $this->children = new ArrayCollection();
         $this->productsCategories = new ArrayCollection();
     }
     public function getId(): ?int
@@ -164,14 +164,14 @@ class Category
 
         return $this;
     }
-    public function getChildren(): ?self
+    public function getParent(): ?self
     {
-        return $this->children;
+        return $this->parent;
     }
 
-    public function setChildren(?self $children): static
+    public function setParent(?self $parent): static
     {
-        $this->children = $children;
+        $this->parent = $parent;
 
         return $this;
     }
@@ -179,27 +179,27 @@ class Category
     /**
      * @return Collection<int, self>
      */
-    public function getParent(): Collection
+    public function getChildren(): Collection
     {
-        return $this->parent;
+        return $this->children;
     }
 
-    public function addParent(self $parent): static
+    public function addChildren(self $children): static
     {
-        if (!$this->parent->contains($parent)) {
-            $this->parent->add($parent);
-            $parent->setChildren($this);
+        if (!$this->children->contains($children)) {
+            $this->children->add($children);
+            $children->setParent($this);
         }
 
         return $this;
     }
 
-    public function removeParent(self $parent): static
+    public function removeChildren(self $children): static
     {
-        if ($this->parent->removeElement($parent)) {
+        if ($this->children->removeElement($children)) {
             // set the owning side to null (unless already changed)
-            if ($parent->getChildren() === $this) {
-                $parent->setChildren(null);
+            if ($children->getChildren() === $this) {
+                $children->setParent(null);
             }
         }
 
