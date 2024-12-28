@@ -8,21 +8,22 @@ use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-class CategoryRepository extends ServiceEntityRepository {
-	public function __construct(ManagerRegistry $registry)
-	{
-		parent::__construct($registry, Category::class);
-	}
+class CategoryRepository extends ServiceEntityRepository
+{
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Category::class);
+    }
 
-	public function isSlugUnique($slug)
-	{
-		$count = $this->createQueryBuilder('e')
-			->select('COUNT(e.id)')
-			->where('e.slug = :slug')
-			->setParameter('slug', $slug)
-			->getQuery()
-			->getSingleScalarResult();
+    public function isSlugUnique($slug)
+    {
+        $count = $this->createQueryBuilder('e')
+            ->select('COUNT(e.id)')
+            ->where('e.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getSingleScalarResult();
 
-		return $count == 0;
-	}
+        return $count == 0;
+    }
 }

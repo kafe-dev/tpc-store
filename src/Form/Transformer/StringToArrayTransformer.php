@@ -6,7 +6,6 @@ use Symfony\Component\Form\DataTransformerInterface;
 
 class StringToArrayTransformer implements DataTransformerInterface
 {
-
     /**
      * @inheritDoc
      */
