@@ -8,11 +8,13 @@
  * @time 9:30 PM
  */
 
+declare(strict_types=1);
+
 namespace App\Controller\Admin;
 
 use App\Contract\Crud\CrudInterface;
 use App\Controller\BaseController;
-use App\Entity\Category;
+use App\Entity\Category as CategoryEntity;
 use App\Form\Type\CategoriesType;
 use App\Utils\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,7 +32,7 @@ use Symfony\Component\Serializer\SerializerInterface;
  * This is a controller used to manage the categories.
  */
 #[Route("/admin/category", name: "admin_category_")]
-class CategoryController extends BaseController implements CrudInterface
+class Category extends BaseController implements CrudInterface
 {
     /**
      * @var SerializerInterface SerializerInterface
@@ -59,7 +61,7 @@ class CategoryController extends BaseController implements CrudInterface
     #[Route("/", name: "index", methods: ['GET'])]
     public function index(): Response
     {
-        return $this->render('admin/dashboard/category/index.html.twig');
+        return $this->render('admin/category/index.html.twig');
     }
 
     /**
@@ -72,18 +74,18 @@ class CategoryController extends BaseController implements CrudInterface
     #[Route("/list", name: "list", methods: ['GET'])]
     public function list(): JsonResponse
     {
-        $categories = $this->em->getRepository(Category::class)->findAll();
+        $categories = $this->em->getRepository(CategoryEntity::class)->findAll();
         $data = [];
         if (! empty($categories)) {
             foreach ($categories as $key => $category) {
 
                 $data[] = [
                     'id' => $category->getId(),
-                    'children' => $this->em->getRepository(Category::class)->countChildren($category),
+                    'children' => $this->em->getRepository(CategoryEntity::class)->countChildren($category),
                     'slug' => $category->getSlug(),
                     'name' => $category->getName(),
                     'parent' => is_null($category->getParent()) ? '-' : $category->getParent()->getName(),
-                    'childrens' => $this->em->getRepository(Category::class)->countChildren($category),
+                    'childrens' => $this->em->getRepository(CategoryEntity::class)->countChildren($category),
                     'slug' => $category->getSlug(),
                     'name' => $category->getName(),
                     'parent' => is_null($category->getParent()) ? '-' : $category->getParent()->getName(),
@@ -113,9 +115,9 @@ class CategoryController extends BaseController implements CrudInterface
     #[Route("/detail/{id}", name: "detail", methods: ['GET'])]
     public function detail(int $id): Response
     {
-        $task = $this->em->getRepository(Category::class)->find($id);
+        $task = $this->em->getRepository(CategoryEntity::class)->find($id);
 
-        return $this->render('admin/dashboard/category/detail.html.twig', [
+        return $this->render('admin/category/detail.html.twig', [
             'page_title' => 'Chi Tiết Danh Mục',
             'category' => $task,
         ]);
@@ -132,16 +134,16 @@ class CategoryController extends BaseController implements CrudInterface
     #[Route("/create", name: "create", methods: ['GET', 'POST'])]
     public function create(Request $request): Response
     {
-        $category = new Category();
+        $category = new CategoryEntity();
 
         $form = $this->createForm(CategoriesType::class, $category, [
-            'data' => $this->em->getRepository(Category::class)->findAll(),
+            'data' => $this->em->getRepository(CategoryEntity::class)->findAll(),
             'cancel_url' => $this->generateUrl('admin_category_index'),
         ]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if (! $this->em->getRepository(Category::class)->isSlugUnique($form->get('slug')->getData())) {
+            if (! $this->em->getRepository(CategoryEntity::class)->isSlugUnique($form->get('slug')->getData())) {
                 return $this->redirectToRoute('admin_category_create');
             }
             // need to update this
@@ -164,7 +166,7 @@ class CategoryController extends BaseController implements CrudInterface
             return $this->redirectToRoute('admin_category_index');
         }
 
-        return $this->render('admin/dashboard/category/create.html.twig', [
+        return $this->render('admin/category/create.html.twig', [
             'form' => $form
         ]);
     }
@@ -181,19 +183,19 @@ class CategoryController extends BaseController implements CrudInterface
     #[Route("/update/{id}", name: "update", methods: ['GET', 'POST'])]
     public function update(int $id, Request $request): Response
     {
-        $category = $this->em->getRepository(Category::class)->find($id);
+        $category = $this->em->getRepository(CategoryEntity::class)->find($id);
         ;
 
 
         $form = $this->createForm(CategoriesType::class, $category, [
-            'data' => $this->em->getRepository(Category::class)->findAll(),
+            'data' => $this->em->getRepository(CategoryEntity::class)->findAll(),
             'cancel_url' => $this->generateUrl('admin_category_index'),
 
         ]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if (! $this->em->getRepository(Category::class)->isSlugUnique($form->get('slug')->getData()) && $form->get('slug')->getData() != $category->getSlug()) {
+            if (! $this->em->getRepository(CategoryEntity::class)->isSlugUnique($form->get('slug')->getData()) && $form->get('slug')->getData() != $category->getSlug()) {
                 return $this->redirectToRoute('admin_category_update', ['id' => $id]);
             }
             // need to update this
@@ -222,7 +224,7 @@ class CategoryController extends BaseController implements CrudInterface
             }
         }
 
-        return $this->render('admin/dashboard/category/update.html.twig', [
+        return $this->render('admin/category/update.html.twig', [
             'form' => $form
         ]);
     }
@@ -239,7 +241,7 @@ class CategoryController extends BaseController implements CrudInterface
     #[Route("/delete/{id}", name: "delete", methods: ['POST'])]
     public function delete(int $id, Request $request): Response
     {
-        $task = $this->em->getRepository(Category::class)->find($id);
+        $task = $this->em->getRepository(CategoryEntity::class)->find($id);
 
         if ($task) {
             $this->em->remove($task);
@@ -271,7 +273,7 @@ class CategoryController extends BaseController implements CrudInterface
             throw new \Exception('No IDs provided for deletion.');
         }
 
-        $repository = $this->em->getRepository(Category::class);
+        $repository = $this->em->getRepository(CategoryEntity::class);
 
         foreach ($ids as $id) {
             $entity = $repository->find($id);
