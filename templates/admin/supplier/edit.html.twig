@@ -1,0 +1,13 @@
+{% extends '_layouts/admin/main.html.twig' %}
+
+{% block title %}Edit Supplier{% endblock %}
+
+{% block content %}
+    <h1>Sửa nhà cung cấp</h1>
+
+    {{ include('admin/supplier/_form.html.twig', {'button_label': 'Update'}) }}
+<div class="mt-2 ml-0">
+
+    {{ include('admin/supplier/_delete_form.html.twig') }}
+</div>
+{% endblock %}
