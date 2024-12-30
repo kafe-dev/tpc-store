@@ -29,7 +29,7 @@ class ProductVariant
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Product::class, cascade: ['persist', 'remove'], inversedBy: 'productVariants')]
+    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productVariants')]
     #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Product $product = null;
 
