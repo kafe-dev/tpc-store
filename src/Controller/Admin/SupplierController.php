@@ -6,6 +6,7 @@ use App\Controller\BaseController;
 use App\Entity\Supplier;
 use App\Entity\SupplierMeta;
 use App\Form\Type\SupplierType;
+use App\Repository\ProductRepository;
 use App\Repository\SupplierRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -83,10 +84,13 @@ final class SupplierController extends BaseController
      * @return Response
      */
     #[Route('/{id}', name: 'show', methods: ['GET'])]
-    public function show(Supplier $supplier): Response
+    public function show(Supplier $supplier, ProductRepository $productRepository): Response
     {
+        $products = $productRepository->findBy(['supplier' => $supplier->getId()]);
+
         return $this->render('admin/supplier/show.html.twig', [
             'supplier' => $supplier,
+            'products' => $products,
         ]);
     }
 

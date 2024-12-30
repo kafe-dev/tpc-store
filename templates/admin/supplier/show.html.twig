@@ -1,37 +1,155 @@
 {% extends '_layouts/admin/main.html.twig' %}
 
 {% block title %}Supplier{% endblock %}
-
+{% block stylesheets %}
+    <link href="{{ asset('resources/admin/libs/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{{ asset('resources/admin/libs/datatables/buttons.bootstrap4.css') }}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{{ asset('resources/admin/libs/datatables/responsive.bootstrap4.css') }}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{{ asset('resources/admin/libs/datatables/select.bootstrap4.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock %}
 {% block content %}
-    <h1>Supplier</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ supplier.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ supplier.name }}</td>
-            </tr>
-            {% if supplier.supplierMetas|length > 0 %}
-                {% for meta in supplier.supplierMetas %}
+<h1>{{ supplier.name }}</h1>
+<table class="table table-striped">
+    <tbody>
+    {% if supplier.supplierMetas|length > 0 %}
+        {% for meta in supplier.supplierMetas %}
             <tr>
                 <th>{{ meta.getMetaKey() }}</th>
                 <td>
                     {{ meta.getMetaValue()|join(' | ') }}
                 </td>
             </tr>
-                {% endfor %}
-            {% endif %}
-        </tbody>
-    </table>
+        {% endfor %}
+    {% endif %}
+    </tbody>
+</table>
 <div class="d-flex justify-content-start align-items-center">
     <a class="btn btn-primary mr-2" href="{{ path('admin_supplier_index') }}">Danh sách</a>
-
     <a class="btn btn-info btn-bordered-info" href="{{ path('admin_supplier_edit', {'id': supplier.id}) }}">Sửa</a>
-
+</div>
+<div class="mt-2">
     {{ include('admin/supplier/_delete_form.html.twig') }}
 </div>
+<hr>
+<h3>Danh sách sản phẩm</h3>
+<table class="table table-bordered table-responsive table-hover w-100" id="productsTable"
+       style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+    <thead class="thead-light">
+    <tr>
+        <th>Sản phẩm</th>
+        <th>SKU</th>
+        <th>Giá</th>
+        <th>Tồn kho</th>
+        <th>Ngày tạo</th>
+        <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if products %}
+    {% for product in products %}
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.sku }}</td>
+            <td>{{ product.original_price }}</td>
+            <td>{{ product.status }}</td>
+            <td>{{ product.created_at }}</td>
+            <td>
+                <div class="d-flex justify-content-start align-items-center">
+                    <a href="{{ path('admin_supplier_show', {'id': supplier.id}) }}"><i
+                                class="mdi mdi-eye-circle-outline mdi-24px"></i></a>
+                    <a href="{{ path('admin_supplier_edit', {'id': supplier.id}) }}"><i
+                                class="mdi mdi-circle-edit-outline mdi-24px"></i></a>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="6">Không tìm thấy sản phẩm</td>
+        </tr>
+    {% endif %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <th>Sản phẩm</th>
+        <th>SKU</th>
+        <th>Giá</th>
+        <th>Tồn kho</th>
+        <th>Ngày tạo</th>
+        <th>Hành động</th>
+    </tr>
+    </tfoot>
+</table>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('resources/admin/libs/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/dataTables.keyTable.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/dataTables.select.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/buttons.print.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#productsTable').DataTable({
+                autoWidth: false,
+                columnDefs: [
+                    {
+                        targets: [5], // The column index you want to disable sorting on
+                        orderable: false, // Disable sorting (and aria-sort)
+                        class: 'text-wrap'
+                    }
+
+                ],
+                initComplete: function () {
+                    this.api()
+                        .columns()
+                        .every(function (index) {
+                            var column = this;
+                            // Define columns to use a dropdown filter
+                            var dropdownColumns = [3];
+                            var nonSearchColumns = [6];
+
+                            if (dropdownColumns.includes(index)) {
+                                // Create a select element and add options
+                                var select = $('<select class="rounded-1 p-1"><option value="">Tất cả</option></select>')
+                                    .appendTo($(column.footer()).empty())
+                                    .on('change', function () {
+                                        column
+                                            .search($(this).val() || '', {exact: true})
+                                            .draw();
+                                    });
+                                column
+                                    .data()
+                                    .unique()
+                                    .sort()
+                                    .each(function (d) {
+                                        select.append('<option  value="' + d + '">' + d + '</option>');
+                                    });
+                            } else {
+                                if (nonSearchColumns.includes(index)) {
+                                } else {
+                                    // Create an input element for text search
+                                    $('<input class="rounded-1 p-1" type="text" placeholder="Search" />')
+                                        .appendTo($(column.footer()).empty())
+                                        .on('keyup change clear', function () {
+                                            if (column.search() !== this.value) {
+                                                column.search(this.value).draw();
+                                            }
+                                        });
+                                }
+
+                            }
+                        });
+                }
+            });
+        });
+    </script>
 {% endblock %}
