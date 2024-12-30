@@ -11,10 +11,20 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-
+/**
+ * Class Supplier.
+ *
+ * This controller handles all the actions for the admin supplier.
+ */
 #[Route('/admin/supplier',name: 'admin_supplier_')]
 final class SupplierController extends BaseController
 {
+    /**
+     * Action index.
+     *
+     * @param SupplierRepository $supplierRepository
+     * @return Response
+     */
     #[Route(name: 'index', methods: ['GET'])]
     public function index(SupplierRepository $supplierRepository): Response
     {
@@ -23,6 +33,13 @@ final class SupplierController extends BaseController
         ]);
     }
 
+    /**
+     * Action new.
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -59,6 +76,12 @@ final class SupplierController extends BaseController
         ]);
     }
 
+    /**
+     * Action show.
+     *
+     * @param Supplier $supplier
+     * @return Response
+     */
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Supplier $supplier): Response
     {
@@ -67,6 +90,14 @@ final class SupplierController extends BaseController
         ]);
     }
 
+    /**
+     * Action edit.
+     *
+     * @param Request $request
+     * @param Supplier $supplier
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Supplier $supplier, EntityManagerInterface $entityManager): Response
     {
@@ -106,7 +137,14 @@ final class SupplierController extends BaseController
             'metaData' => $metaData,
         ]);
     }
-
+    /**
+     * Action delete.
+     *
+     * @param Request $request
+     * @param Supplier $supplier
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, Supplier $supplier, EntityManagerInterface $entityManager): Response
     {

@@ -22,7 +22,7 @@
             <th>Địa chỉ</th>
             <th>Thông tin</th>
             <th>Liên hệ</th>
-            <th>Hotline</th>
+            <th>Email</th>
             <th>Hành động</th>
         </tr>
         </thead>
@@ -56,7 +56,7 @@
             <th>Địa chỉ</th>
             <th>Thông tin</th>
             <th>Liên hệ</th>
-            <th>Hotline</th>
+            <th>Email</th>
             <th>Hành động</th>
         </tr>
         </tfoot>
@@ -76,6 +76,7 @@
     <script>
         $(document).ready(function () {
             $('#suppliersTable').DataTable({
+                autoWidth: false,
                 columnDefs: [
                     {
                         targets: [1, 2, 3, 4, 5], // The column index you want to disable sorting on
