@@ -30,11 +30,3 @@
 ###> php-cs-fixer ###
 .php-cs-fixer.cache
 ###< php-cs-fixer ###
-
-###> docker ###
-/apache.conf
-/ssl.key
-/ssl.pem
-/Dockerfile
-/docker-compose.override.yml
-###< docker ###
