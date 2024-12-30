@@ -17,12 +17,12 @@ class ProductTag
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Product::class, cascade: ['persist', 'remove'], inversedBy: 'productsTags')]
+    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productsTags')]
     #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Product $product = null;
 
-    #[ORM\ManyToOne(targetEntity: Tag::class, cascade: ['persist', 'remove'], inversedBy: 'productsTags')]
-    #[ORM\JoinColumn(name: 'tag_id', referencedColumnName: 'id', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Tag::class, inversedBy: 'productsTags')]
+    #[ORM\JoinColumn(name: 'tag_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Tag $tag = null;
 
     public function getId(): ?int

@@ -26,7 +26,7 @@ class ProductComboItem
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Product::class, cascade: ['persist', 'remove'], inversedBy: 'productComboItems')]
+    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productComboItems')]
     #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Product $parent = null;
 

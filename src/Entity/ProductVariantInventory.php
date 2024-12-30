@@ -17,11 +17,11 @@ class ProductVariantInventory
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Inventory::class, cascade: ['persist', 'remove'], inversedBy: 'productVariantInventories')]
+    #[ORM\ManyToOne(targetEntity: Inventory::class, inversedBy: 'productVariantInventories')]
     #[ORM\JoinColumn(name: 'inventory_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Inventory $inventory = null;
 
-    #[ORM\ManyToOne(targetEntity: ProductVariant::class, cascade: ['persist', 'remove'], inversedBy: 'productVariantInventories')]
+    #[ORM\ManyToOne(targetEntity: ProductVariant::class, inversedBy: 'productVariantInventories')]
     #[ORM\JoinColumn(name: 'product_variant_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?ProductVariant $product_variant = null;
 
