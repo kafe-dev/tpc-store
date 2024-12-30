@@ -18,8 +18,7 @@ class ProductTag
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: Product::class, cascade: ['persist', 'remove'], inversedBy: 'productsTags')]
-    #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    private ?Product $product = null;
+     private ?Product $product = null;
 
     #[ORM\ManyToOne(targetEntity: Tag::class, cascade: ['persist', 'remove'], inversedBy: 'productsTags')]
     #[ORM\JoinColumn(name: 'tag_id', referencedColumnName: 'id', nullable: false)]

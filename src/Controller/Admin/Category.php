@@ -16,9 +16,11 @@ use App\Contract\Crud\CrudInterface;
 use App\Controller\BaseController;
 use App\Entity\Category as CategoryEntity;
 use App\Form\Type\CategoriesType;
+use App\Repository\CategoryRepository;
 use App\Utils\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,14 +37,16 @@ use Symfony\Component\Serializer\SerializerInterface;
 class Category extends BaseController implements CrudInterface
 {
     /**
-     * @var SerializerInterface SerializerInterface
-     */
-    protected SerializerInterface $serializer;
-
-    /**
-     * @var FileUploader UploaderInterface
+     * @var FileUploader $fileUploader File Uploader
      */
     private FileUploader $fileUploader;
+
+    /**
+     * Category Repository
+     *
+     * @var CategoryRepository $categoryRepository
+     */
+    private CategoryRepository $categoryRepository;
 
     /**
      * Override the default
@@ -53,9 +57,10 @@ class Category extends BaseController implements CrudInterface
      */
     public function __construct(EntityManagerInterface $em, SerializerInterface $serializer, FileUploader $fileUploader)
     {
-        parent::__construct($em);
-        $this->serializer = $serializer;
+        parent::__construct($em, $serializer);
+
         $this->fileUploader = $fileUploader;
+        $this->categoryRepository = $this->em->getRepository(CategoryEntity::class);
     }
 
     #[Route("/", name: "index", methods: ['GET'])]
@@ -74,33 +79,28 @@ class Category extends BaseController implements CrudInterface
     #[Route("/list", name: "list", methods: ['GET'])]
     public function list(): JsonResponse
     {
-        $categories = $this->em->getRepository(CategoryEntity::class)->findAll();
+        $categories = $this->categoryRepository->findAll();
         $data = [];
-        if (! empty($categories)) {
-            foreach ($categories as $key => $category) {
+        $json = $this->serializer->serialize($categories, 'json', [
+            'circular_reference_handler' => function ($object) {
+                return $object->getName();
+            },
+        ]);
+        $categories = json_decode($json, true);
 
-                $data[] = [
-                    'id' => $category->getId(),
-                    'children' => $this->em->getRepository(CategoryEntity::class)->countChildren($category),
-                    'slug' => $category->getSlug(),
-                    'name' => $category->getName(),
-                    'parent' => is_null($category->getParent()) ? '-' : $category->getParent()->getName(),
-                    'childrens' => $this->em->getRepository(CategoryEntity::class)->countChildren($category),
-                    'slug' => $category->getSlug(),
-                    'name' => $category->getName(),
-                    'parent' => is_null($category->getParent()) ? '-' : $category->getParent()->getName(),
-                    'status' => $category->getStatus(),
-                    'image' => $category->getImage(),
-                    'description' => $category->getDescription(),
-                    'actions' => [
-                        'detail' => $this->generateUrl('admin_category_detail', ['id' => $category->getId()]),
-                        'update' => $this->generateUrl('admin_category_update', ['id' => $category->getId()]),
-                        'delete' => $this->generateUrl('admin_category_delete', ['id' => $category->getId()]),
-                    ]
+        if (! empty($categories)) {
+            foreach ($categories as $category) {
+                $categoryEntity = $this->categoryRepository->find($category['id']);
+                $category['childrens'] = $this->categoryRepository->countChildren($categoryEntity);
+                $category['actions'] = [
+                    'detail' => $this->generateUrl('admin_category_detail', ['id' => $categoryEntity->getId()]),
+                    'update' => $this->generateUrl('admin_category_update', ['id' => $categoryEntity->getId()]),
+                    'delete' => $this->generateUrl('admin_category_delete', ['id' => $categoryEntity->getId()]),
                 ];
+                $category['parent_name'] = is_null($categoryEntity->getParent()) ? '-' : $categoryEntity->getParent()->getName();
+                $data[] = $category;
             }
         }
-
         return new JsonResponse($data);
     }
 
@@ -115,7 +115,7 @@ class Category extends BaseController implements CrudInterface
     #[Route("/detail/{id}", name: "detail", methods: ['GET'])]
     public function detail(int $id): Response
     {
-        $task = $this->em->getRepository(CategoryEntity::class)->find($id);
+        $task = $this->categoryRepository->find($id);
 
         return $this->render('admin/category/detail.html.twig', [
             'page_title' => 'Chi Tiết Danh Mục',
@@ -136,31 +136,16 @@ class Category extends BaseController implements CrudInterface
     {
         $category = new CategoryEntity();
 
-        $form = $this->createForm(CategoriesType::class, $category, [
-            'data' => $this->em->getRepository(CategoryEntity::class)->findAll(),
-            'cancel_url' => $this->generateUrl('admin_category_index'),
-        ]);
+        $form = $this->getForm($category);
 
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            if (! $this->em->getRepository(CategoryEntity::class)->isSlugUnique($form->get('slug')->getData())) {
+            if (! $this->categoryRepository->isSlugUnique($form->get('slug')->getData())) {
                 return $this->redirectToRoute('admin_category_create');
             }
-            // need to update this
-            $category->setName($form->get('name')->getData());
-            $category->setSlug($form->get('slug')->getData());
-            $category->setDescription($form->get('description')->getData());
-            $category->setParent($form->get('parent')->getData());
-            $category->setStatus($form->get('status')->getData());
 
-            /** @var UploadedFile $imageFile */
-            $imageFile = $form->get('image')->getData();
-            if ($imageFile) {
-                $imageFileName = $this->fileUploader->upload($imageFile);
-                $category->setImage($imageFileName);
-            }
-
-            $this->em->persist($category);
+            $this->persistData($category, $form, true);
             $this->em->flush();
 
             return $this->redirectToRoute('admin_category_index');
@@ -183,43 +168,29 @@ class Category extends BaseController implements CrudInterface
     #[Route("/update/{id}", name: "update", methods: ['GET', 'POST'])]
     public function update(int $id, Request $request): Response
     {
-        $category = $this->em->getRepository(CategoryEntity::class)->find($id);
-        ;
+        $category = $this->categoryRepository->find($id);
 
-
-        $form = $this->createForm(CategoriesType::class, $category, [
-            'data' => $this->em->getRepository(CategoryEntity::class)->findAll(),
-            'cancel_url' => $this->generateUrl('admin_category_index'),
-
-        ]);
+        $form = $this->getForm($category);
 
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            if (! $this->em->getRepository(CategoryEntity::class)->isSlugUnique($form->get('slug')->getData()) && $form->get('slug')->getData() != $category->getSlug()) {
+            if (! $this->categoryRepository->isSlugUnique($form->get('slug')->getData()) && $form->get('slug')->getData() != $category->getSlug()) {
                 return $this->redirectToRoute('admin_category_update', ['id' => $id]);
             }
-            // need to update this
-            $category->setName($form->get('name')->getData());
-            $category->setSlug($form->get('slug')->getData());
-            $category->setDescription($form->get('description')->getData());
-            $category->setParent($form->get('parent')->getData());
-            $category->setStatus($form->get('status')->getData());
 
-            /** @var UploadedFile $imageFile */
-            $imageFile = $form->get('image')->getData();
-            if ($imageFile) {
-                $imageFileName = $this->fileUploader->upload($imageFile);
-                $category->setImage($imageFileName);
-            }
+            $this->persistData($category, $form);
+
             try {
                 $this->em->flush();
 
                 $this->addFlash('success', 'Cập nhật thành công!');
+
                 return $this->redirectToRoute('admin_category_index');
             } catch (Exception $e) {
                 $this->addFlash('error', 'Cập nhật thất bại!');
-
                 $this->addFlash('error', $e->getMessage());
+
                 return $this->redirectToRoute('admin_category_index');
             }
         }
@@ -241,12 +212,11 @@ class Category extends BaseController implements CrudInterface
     #[Route("/delete/{id}", name: "delete", methods: ['POST'])]
     public function delete(int $id, Request $request): Response
     {
-        $task = $this->em->getRepository(CategoryEntity::class)->find($id);
+        $task = $this->categoryRepository->find($id);
 
         if ($task) {
             $this->em->remove($task);
             $this->em->flush();
-
             $this->addFlash('success', 'Xóa thành công!');
         } else {
             $this->addFlash('error', 'Xóa thất bại!');
@@ -270,20 +240,60 @@ class Category extends BaseController implements CrudInterface
         $ids = $request->request->all('ids');
 
         if (empty($ids)) {
-            throw new \Exception('No IDs provided for deletion.');
+            throw new Exception('No IDs provided for deletion.');
         }
 
-        $repository = $this->em->getRepository(CategoryEntity::class);
-
         foreach ($ids as $id) {
-            $entity = $repository->find($id);
+            $entity = $this->categoryRepository->find($id);
             $this->em->remove($entity);
         }
 
         $this->em->flush();
-
         $this->addFlash('success', 'Xóa thành công!');
 
         return $this->redirectToRoute('admin_category_index');
+    }
+
+    /**
+     * Persist Data before flushing.
+     *
+     * @param CategoryEntity $category
+     * @param $form
+     * @param bool $needPersist
+     * @return void
+     */
+    private function persistData(CategoryEntity $category, $form, bool $needPersist = false): void
+    {
+        $category->setName($form->get('name')->getData());
+        $category->setSlug($form->get('slug')->getData());
+        $category->setDescription($form->get('description')->getData());
+        $category->setParent($form->get('parent')->getData());
+        $category->setStatus($form->get('status')->getData());
+
+        /** @var UploadedFile $imageFile */
+        $imageFile = $form->get('image')->getData();
+
+        if ($imageFile) {
+            $imageFileName = $this->fileUploader->upload($imageFile);
+            $category->setImage($imageFileName);
+        }
+
+        if ($needPersist === true) {
+            $this->em->persist($category);
+        }
+    }
+
+    /**
+     * Get Form Builder.
+     *
+     * @param CategoryEntity $category
+     * @return FormInterface
+     */
+    private function getForm(CategoryEntity $category): FormInterface
+    {
+        return $this->createForm(CategoriesType::class, $category, [
+            'data' => $this->categoryRepository->findAll(),
+            'cancel_url' => $this->generateUrl('admin_category_index'),
+        ]);
     }
 }

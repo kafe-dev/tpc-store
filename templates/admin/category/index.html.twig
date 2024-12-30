@@ -1,4 +1,4 @@
-{% extends '../../_layouts/admin/main.html.twig' %}
+{% extends '_layouts/admin/main.html.twig' %}
 
 {% block page %}Quản Lý Danh Mục{% endblock %}
 
@@ -7,10 +7,14 @@
     <div class="row">
         <div class="col-xl-12">
             <div>
-                <div class="col-xl-3 mb-3">
+                <div class="pl-0 mb-3">
                     <a href="{{ path('admin_category_create') }}"
-                       class="btn btn-lg btn-primary btn-block waves-effect waves-light ">
+                       class="btn btn-primary waves-effect waves-light ">
                         <i class="fa fa-plus mr-1"></i> Thêm Danh Mục
+                    </a>
+                    <a href="" data-toggle="modal" data-target="#category-bulk-actions"
+                       class="btn btn-warning waves-effect waves-light ml-1">
+                        <i class="fa fa-pen mr-1"></i> Thao tác
                     </a>
                 </div>
                 <table id="category-datatable-buttons"
@@ -49,6 +53,27 @@
         </div>
         <!-- end col -->
     </div>
+    <!-- Modal Add Category -->
+    <div class="modal fade none-border" id="category-bulk-actions">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0">Bulk Action</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-4">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary waves-effect"
+                            data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END MODAL -->
 
 
 {% endblock %}
@@ -73,7 +98,7 @@
                             '<td><input type="checkbox" class="row-category-checkbox" value="'+ item.id +'" "></td>' +
                             '<td>' + item.slug + '</td>' +
                             '<td>' + item.name + '</td>' +
-                            '<td>' + (item.parent !== "-" ? item.parent : 'Khong Co') + '</td>' +
+                            '<td>' + (item.parent_name !== "-" ? item.parent_name : 'Khong Co') + '</td>' +
                             '<td>' + (item.status === 0 ? 'INACTIVE' : (item.status === 1 ? 'ACTIVE' : 'DRAFT')) + '</td>' +
                             '<td>' + item.childrens + '</td>' +
                             '<td>' + item.image + '</td>' +
