@@ -1,15 +1,7 @@
 {% extends '_layouts/admin/main.html.twig' %}
 
 {% block title %}Supplier{% endblock %}
-{% block stylesheets %}
-    <link href="{{ asset('resources/admin/libs/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet"
-          type="text/css"/>
-    <link href="{{ asset('resources/admin/libs/datatables/buttons.bootstrap4.css') }}" rel="stylesheet"
-          type="text/css"/>
-    <link href="{{ asset('resources/admin/libs/datatables/responsive.bootstrap4.css') }}" rel="stylesheet"
-          type="text/css"/>
-    <link href="{{ asset('resources/admin/libs/datatables/select.bootstrap4.css') }}" rel="stylesheet" type="text/css"/>
-{% endblock %}
+
 {% block content %}
 <h1>{{ supplier.name }}</h1>
 <table class="table table-striped">
@@ -28,14 +20,14 @@
 </table>
 <div class="d-flex justify-content-start align-items-center">
     <a class="btn btn-primary mr-2" href="{{ path('admin_supplier_index') }}">Danh sách</a>
-    <a class="btn btn-info btn-bordered-info" href="{{ path('admin_supplier_edit', {'id': supplier.id}) }}">Sửa</a>
+    <a class="btn btn-info btn-bordered-info" href="{{ path('admin_supplier_update', {'id': supplier.id}) }}">Sửa</a>
 </div>
 <div class="mt-2">
     {{ include('admin/supplier/_delete_form.html.twig') }}
 </div>
 <hr>
 <h3>Danh sách sản phẩm</h3>
-<table class="table table-bordered table-responsive table-hover w-100" id="productsTable"
+<table class="table table-bordered table-hover dt-responsive nowrap" id="productsTable"
        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
     <thead class="thead-light">
     <tr>
@@ -53,16 +45,11 @@
         <tr>
             <td>{{ product.name }}</td>
             <td>{{ product.sku }}</td>
-            <td>{{ product.original_price }}</td>
+            <td>{{ product.originalPrice }}</td>
             <td>{{ product.status }}</td>
-            <td>{{ product.created_at }}</td>
+            <td>{{ product.createdAt }}</td>
             <td>
-                <div class="d-flex justify-content-start align-items-center">
-                    <a href="{{ path('admin_supplier_show', {'id': supplier.id}) }}"><i
-                                class="mdi mdi-eye-circle-outline mdi-24px"></i></a>
-                    <a href="{{ path('admin_supplier_edit', {'id': supplier.id}) }}"><i
-                                class="mdi mdi-circle-edit-outline mdi-24px"></i></a>
-                </div>
+
             </td>
         </tr>
     {% endfor %}
@@ -87,18 +74,9 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('resources/admin/libs/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('resources/admin/libs/datatables/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('resources/admin/libs/datatables/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('resources/admin/libs/datatables/dataTables.keyTable.min.js') }}"></script>
-    <script src="{{ asset('resources/admin/libs/datatables/dataTables.select.min.js') }}"></script>
-    <script src="{{ asset('resources/admin/libs/datatables/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('resources/admin/libs/datatables/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('resources/admin/libs/datatables/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('resources/admin/libs/datatables/buttons.print.min.js') }}"></script>
     <script>
         $(document).ready(function () {
-            $('#productsTable').DataTable({
+            $('#productsTable').dataTable({
                 autoWidth: false,
                 columnDefs: [
                     {
@@ -149,6 +127,55 @@
                             }
                         });
                 }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Attach SweetAlert to the delete button
+            $('button[id^="delete-btn"]').on('click', function() {
+                var supplierId = $(this).attr('id').split('-')[2];
+                var form = $('#delete-form-' + supplierId);
+                var token = form.find('input[name="_token"]').val();
+                Swal.fire({
+                    title: 'Bạn chắc chắn muốn xóa?',
+                    text: "Dữ liệu đã xóa không thể lấy lại!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No'
+                }).then((result) => {
+                    if (result.value) {
+                        var deleteUrl = '{{ path('admin_supplier_delete', {'id': '__supplierId__'}) }}'.replace('__supplierId__', supplierId);
+                        $.ajax({
+                            url: deleteUrl,
+                            type: 'POST',
+                            data: {
+                                _token: token,
+                            },
+                            success: function(response) {
+                                Swal.fire(
+                                    'Xóa thành công!',
+                                    'Xóa nhà cung cấp thành công',
+                                    'success'
+                                ).then(() => {
+                                    window.location.href = '{{ path('admin_supplier_index') }}';
+                                });
+                            },
+                            error: function() {
+                                Swal.fire(
+                                    'Lỗi!',
+                                    'Lỗi khi xóa nhà cung cấp',
+                                    'error'
+                                );
+                            }
+                        });
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        Swal.close();
+                    }
+                });
             });
         });
     </script>

@@ -1,21 +1,16 @@
 {% extends '_layouts/admin/main.html.twig' %}
 
 {% block title %}Supplier index{% endblock %}
-{% block stylesheets %}
-    <link href="{{ asset('resources/admin/libs/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet"
-          type="text/css"/>
-    <link href="{{ asset('resources/admin/libs/datatables/buttons.bootstrap4.css') }}" rel="stylesheet"
-          type="text/css"/>
-    <link href="{{ asset('resources/admin/libs/datatables/responsive.bootstrap4.css') }}" rel="stylesheet"
-          type="text/css"/>
-    <link href="{{ asset('resources/admin/libs/datatables/select.bootstrap4.css') }}" rel="stylesheet" type="text/css"/>
-{% endblock %}
+
 {% block content %}
     <div class="d-flex flex-row justify-content-between align-items-center">
         <h1>Danh sách nhà cung cấp</h1>
-        <a class="btn btn-success btn-bordered-success" href="{{ path('admin_supplier_new') }}">Thêm mới</a>
+        <a class="btn btn-success btn-bordered-success" href="{{ path('admin_supplier_create') }}">Thêm mới</a>
     </div>
-    <table class="table table-bordered table-responsive table-hover" id="suppliersTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+    <table class="table table-bordered dt-responsive nowrap" id="suppliersTable"
+           style="border-collapse: collapse; border-spacing: 0; width: 100%;"
+           data-turbolinks="false"
+    >
         <thead class="thead-light">
         <tr>
             <th>Nhà cung cấp</th>
@@ -27,28 +22,7 @@
         </tr>
         </thead>
         <tbody>
-        {% for supplier in suppliers %}
-            <tr>
-                <td>{{ supplier.name }}</td>
-                {% if supplier.supplierMetas|length > 0 %}
-                    {% for meta in supplier.supplierMetas %}
-                        <td> {{ meta.getMetaValue()|join(' | ') }}</td>
-                    {% endfor %}
-                {% endif %}
-                <td>
-                    <div class="d-flex justify-content-start align-items-center">
-                        <a href="{{ path('admin_supplier_show', {'id': supplier.id}) }}"><i
-                                    class="mdi mdi-eye-circle-outline mdi-24px"></i></a>
-                        <a href="{{ path('admin_supplier_edit', {'id': supplier.id}) }}"><i
-                                    class="mdi mdi-circle-edit-outline mdi-24px"></i></a>
-                    </div>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">Không tìm thấy kết quả</td>
-            </tr>
-        {% endfor %}
+
         </tbody>
         <tfoot>
         <tr>
@@ -64,57 +38,46 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('resources/admin/libs/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('resources/admin/libs/datatables/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('resources/admin/libs/datatables/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('resources/admin/libs/datatables/dataTables.keyTable.min.js') }}"></script>
-    <script src="{{ asset('resources/admin/libs/datatables/dataTables.select.min.js') }}"></script>
-    <script src="{{ asset('resources/admin/libs/datatables/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('resources/admin/libs/datatables/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('resources/admin/libs/datatables/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('resources/admin/libs/datatables/buttons.print.min.js') }}"></script>
-    <script>
+    <script type="module">
         $(document).ready(function () {
-            $('#suppliersTable').DataTable({
-                autoWidth: false,
-                columnDefs: [
-                    {
-                        targets: [1, 2, 3, 4, 5], // The column index you want to disable sorting on
-                        orderable: false, // Disable sorting (and aria-sort)
-                        class: 'text-wrap'
-                    }
-
-                ],
-                initComplete: function () {
-                    this.api()
-                        .columns()
-                        .every(function (index) {
-                            var column = this;
-                            // Define columns to use a dropdown filter
-                            var dropdownColumns = [1];
-                            var nonSearchColumns = [6];
-
-                            if (dropdownColumns.includes(index)) {
-                                // Create a select element and add options
-                                var select = $('<select class="rounded-1 p-1"><option value="">Tất cả</option></select>')
-                                    .appendTo($(column.footer()).empty())
-                                    .on('change', function () {
-                                        column
-                                            .search($(this).val() || '', {exact: true})
-                                            .draw();
-                                    });
-                                column
-                                    .data()
-                                    .unique()
-                                    .sort()
-                                    .each(function (d) {
-                                        select.append('<option  value="' + d + '">' + d + '</option>');
-                                    });
-                            } else {
-                                if (nonSearchColumns.includes(index)) {
-                                } else {
-                                    // Create an input element for text search
-                                    $('<input class="rounded-1 p-1" type="text" placeholder="Search" />')
+            function initializeTable() {
+                if ($('#suppliersTable_wrapper').length > 0) {
+                    return;
+                }
+                $('#suppliersTable').dataTable({
+                    lengthChange: false,
+                    columnDefs: [
+                        { orderable: false, targets: [1, 2, 3, 4, 5] },
+                        { searchable: false, targets: 5 },
+                        { width: '15%', targets: 0 },
+                        { width: '25%', targets: 1 },
+                        { width: '15%', targets: 2 },
+                        { width: '15%', targets: 3 },
+                        { width: '15%', targets: 4 },
+                        { width: '15%', targets: 5 },
+                    ],
+                    initComplete: function () {
+                        this.api()
+                            .columns()
+                            .every(function (index) {
+                                const column = this;
+                                const dropdownColumns = [0];
+                                const nonSearchColumns = [5];
+                                if (dropdownColumns.includes(index)) {
+                                    const select = $('<select class="w-100 rounded-1 p-1"><option value="">Tất cả</option></select>')
+                                        .appendTo($(column.footer()).empty())
+                                        .on('change', function () {
+                                            column.search($(this).val() || '', { exact: true }).draw();
+                                        });
+                                    column
+                                        .data()
+                                        .unique()
+                                        .sort()
+                                        .each(function (d) {
+                                            select.append('<option value="' + d + '">' + d + '</option>');
+                                        });
+                                } else if (!nonSearchColumns.includes(index)) {
+                                    $('<input class="w-100 rounded-1 p-1" type="text" placeholder="Search" />')
                                         .appendTo($(column.footer()).empty())
                                         .on('keyup change clear', function () {
                                             if (column.search() !== this.value) {
@@ -122,11 +85,59 @@
                                             }
                                         });
                                 }
+                            });
+                    },
+                });
+            }
+            function fetchSuppliers() {
+                $.ajax({
+                    url: '{{ url('admin_supplier_list') }}',
+                    type: 'GET',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        const tableBody = $('#suppliersTable tbody');
+                        tableBody.empty();
+                        if (data.length === 0) {
+                            tableBody.append(`
+                            <tr>
+                                <td colspan="6">Không tìm thấy kết quả</td>
+                            </tr>
+                        `);
+                        } else {
+                            const metaOrder = ['Address', 'Description', 'Phone', 'Email'];
+                            data.forEach(function (supplier) {
+                                const actions = `
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <a href="${supplier.actions.detail}"><i class="mdi mdi-eye-circle-outline mdi-24px"></i></a>
+                                    <a href="${supplier.actions.update}"><i class="mdi mdi-circle-edit-outline mdi-24px"></i></a>
+                                </div>
+                            `;
+                                const metaMap = {};
+                                supplier.supplierMetas.forEach(function (meta) {
+                                    metaMap[meta.metaKey] = meta.metaValue;
+                                });
+                                const metaColumns = metaOrder.map(function (key) {
+                                    return `<td>${metaMap[key] || 'No Meta Value'}</td>`;
+                                }).join('');
 
-                            }
-                        });
-                }
-            });
+                                tableBody.append(`
+                                <tr>
+                                    <td>${supplier.name}</td>
+                                    ${metaColumns}
+                                    <td>${actions}</td>
+                                </tr>
+                            `);
+                            });
+                        }
+                        initializeTable(); // Initialize DataTable after fetching data
+                    },
+                    error: function () {
+                        console.error('Error fetching supplier data.');
+                    },
+                });
+            }
+            // Fetch suppliers when page loads
+            fetchSuppliers();
         });
     </script>
 {% endblock %}
