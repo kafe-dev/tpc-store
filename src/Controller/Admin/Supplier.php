@@ -90,6 +90,7 @@ class Supplier extends BaseController implements CrudInterface
             },
         ]);
         $suppliers = json_decode($json, true);
+        
         if (! empty($suppliers)) {
             foreach ($suppliers as $supplier) {
                 $supplier['actions'] = [
@@ -100,6 +101,7 @@ class Supplier extends BaseController implements CrudInterface
                 $data[] = $supplier;
             }
         }
+        
         return new JsonResponse($data);
 
     }
@@ -121,16 +123,20 @@ class Supplier extends BaseController implements CrudInterface
             if (! $this->supplierRepository->isNameUnique($form->get('name')->getData())) {
                 return $this->redirectToRoute('admin_supplier_create');
             }
+            
             $this->persistData($supplier, $form, true);
             $this->em->flush();
+            
             $metaData = [
                 'Address' => $form->get('address')->getData(),
                 'Description' => $form->get('description')->getData(),
                 'Phone' => $form->get('phone')->getData(),
                 'Email' => $form->get('email')->getData(),
             ];
+          
             $this->persistMetaData($supplier, $metaData, true);
             $this->em->flush();
+            
             return $this->redirectToRoute('admin_supplier_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -177,14 +183,17 @@ class Supplier extends BaseController implements CrudInterface
         foreach ($supplierMetas as $meta) {
             $metaData[$meta->getMetaKey()] = implode(', ', $meta->getMetaValue());
         }
+        
         $form = $this->createForm(SupplierType::class, $supplier);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->persistData($supplier, $form);
             $updatedMetaData = [];
+            
             foreach ($metaData as $key => $value) {
                 $newValue = $form->get(strtolower($key))->getData();
+                
                 if ($newValue !== $value) {
                     $updatedMetaData[$key] = $newValue;
                 }
@@ -193,9 +202,7 @@ class Supplier extends BaseController implements CrudInterface
             $this->persistMetaData($supplier, $updatedMetaData);
             $this->em->flush();
 
-
             return $this->redirectToRoute('admin_supplier_index', [], Response::HTTP_SEE_OTHER);
-
         }
 
         return $this->render('admin/supplier/update.html.twig', [
@@ -253,6 +260,7 @@ class Supplier extends BaseController implements CrudInterface
     {
         $existingSupplierMeta = $this->supplierMetaRepository->findBy(['supplier' => $supplier->getId()]);
         $metaMap = [];
+        
         foreach ($existingSupplierMeta as $meta) {
             $metaMap[$meta->getMetaKey()] = $meta;
         }
@@ -267,6 +275,7 @@ class Supplier extends BaseController implements CrudInterface
                 $newMeta->setSupplier($supplier);
                 $newMeta->setMetaKey($key);
                 $newMeta->setMetaValue([$value]);
+                
                 if ($needPersist === true) {
                     $this->em->persist($newMeta);
                 }
