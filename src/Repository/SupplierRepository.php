@@ -34,4 +34,15 @@ class SupplierRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function isNameUnique($name): bool
+    {
+        $count = $this->createQueryBuilder('e')
+            ->select('COUNT(e.id)')
+            ->where('e.name = :name')
+            ->setParameter('name', $name)
+            ->getQuery()
+            ->getSingleScalarResult();
+        return $count == 0;
+    }
 }
