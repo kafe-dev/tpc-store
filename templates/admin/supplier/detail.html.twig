@@ -1,0 +1,182 @@
+{% extends '_layouts/admin/main.html.twig' %}
+
+{% block title %}Supplier{% endblock %}
+
+{% block content %}
+<h1>{{ supplier.name }}</h1>
+<table class="table table-striped">
+    <tbody>
+    {% if supplier.supplierMetas|length > 0 %}
+        {% for meta in supplier.supplierMetas %}
+            <tr>
+                <th>{{ meta.getMetaKey() }}</th>
+                <td>
+                    {{ meta.getMetaValue()|join(' | ') }}
+                </td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+    </tbody>
+</table>
+<div class="d-flex justify-content-start align-items-center">
+    <a class="btn btn-primary mr-2" href="{{ path('admin_supplier_index') }}">Danh sách</a>
+    <a class="btn btn-info btn-bordered-info" href="{{ path('admin_supplier_update', {'id': supplier.id}) }}">Sửa</a>
+</div>
+<div class="mt-2">
+    {{ include('admin/supplier/_delete_form.html.twig') }}
+</div>
+<hr>
+<h3>Danh sách sản phẩm</h3>
+<table class="table table-bordered table-hover dt-responsive nowrap" id="productsTable"
+       style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+    <thead class="thead-light">
+    <tr>
+        <th>Sản phẩm</th>
+        <th>SKU</th>
+        <th>Giá</th>
+        <th>Tồn kho</th>
+        <th>Ngày tạo</th>
+        <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if products %}
+    {% for product in products %}
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.sku }}</td>
+            <td>{{ product.originalPrice }}</td>
+            <td>{{ product.status }}</td>
+            <td>{{ product.createdAt }}</td>
+            <td>
+
+            </td>
+        </tr>
+    {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="6">Không tìm thấy sản phẩm</td>
+        </tr>
+    {% endif %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <th>Sản phẩm</th>
+        <th>SKU</th>
+        <th>Giá</th>
+        <th>Tồn kho</th>
+        <th>Ngày tạo</th>
+        <th>Hành động</th>
+    </tr>
+    </tfoot>
+</table>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('#productsTable').dataTable({
+                autoWidth: false,
+                columnDefs: [
+                    {
+                        targets: [5], // The column index you want to disable sorting on
+                        orderable: false, // Disable sorting (and aria-sort)
+                        class: 'text-wrap'
+                    }
+
+                ],
+                initComplete: function () {
+                    this.api()
+                        .columns()
+                        .every(function (index) {
+                            var column = this;
+                            // Define columns to use a dropdown filter
+                            var dropdownColumns = [3];
+                            var nonSearchColumns = [6];
+
+                            if (dropdownColumns.includes(index)) {
+                                // Create a select element and add options
+                                var select = $('<select class="rounded-1 p-1"><option value="">Tất cả</option></select>')
+                                    .appendTo($(column.footer()).empty())
+                                    .on('change', function () {
+                                        column
+                                            .search($(this).val() || '', {exact: true})
+                                            .draw();
+                                    });
+                                column
+                                    .data()
+                                    .unique()
+                                    .sort()
+                                    .each(function (d) {
+                                        select.append('<option  value="' + d + '">' + d + '</option>');
+                                    });
+                            } else {
+                                if (nonSearchColumns.includes(index)) {
+                                } else {
+                                    // Create an input element for text search
+                                    $('<input class="rounded-1 p-1" type="text" placeholder="Search" />')
+                                        .appendTo($(column.footer()).empty())
+                                        .on('keyup change clear', function () {
+                                            if (column.search() !== this.value) {
+                                                column.search(this.value).draw();
+                                            }
+                                        });
+                                }
+
+                            }
+                        });
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Attach SweetAlert to the delete button
+            $('button[id^="delete-btn"]').on('click', function() {
+                var supplierId = $(this).attr('id').split('-')[2];
+                var form = $('#delete-form-' + supplierId);
+                var token = form.find('input[name="_token"]').val();
+                Swal.fire({
+                    title: 'Bạn chắc chắn muốn xóa?',
+                    text: "Dữ liệu đã xóa không thể lấy lại!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No'
+                }).then((result) => {
+                    if (result.value) {
+                        var deleteUrl = '{{ path('admin_supplier_delete', {'id': '__supplierId__'}) }}'.replace('__supplierId__', supplierId);
+                        $.ajax({
+                            url: deleteUrl,
+                            type: 'POST',
+                            data: {
+                                _token: token,
+                            },
+                            success: function(response) {
+                                Swal.fire(
+                                    'Xóa thành công!',
+                                    'Xóa nhà cung cấp thành công',
+                                    'success'
+                                ).then(() => {
+                                    window.location.href = '{{ path('admin_supplier_index') }}';
+                                });
+                            },
+                            error: function() {
+                                Swal.fire(
+                                    'Lỗi!',
+                                    'Lỗi khi xóa nhà cung cấp',
+                                    'error'
+                                );
+                            }
+                        });
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        Swal.close();
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
