@@ -29,11 +29,11 @@ class UserAddress
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist', 'remove'], inversedBy: 'userAddresses')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'userAddresses')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?User $user = null;
 
-    #[ORM\OneToOne(targetEntity: Commune::class, inversedBy: 'userAddresses', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: Commune::class, inversedBy: 'userAddresses')]
     #[ORM\JoinColumn(name: 'commune_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Commune $commune = null;
 

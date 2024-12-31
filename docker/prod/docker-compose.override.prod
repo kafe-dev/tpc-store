@@ -1,7 +1,0 @@
-services:
-    tpc-store:
-        volumes:
-            - ./:/var/www/html/tpc-store
-            - ~/.composer-docker/cache:/root/.composer/cache:delegated
-        ports:
-            - ${WEB_PORT}:443

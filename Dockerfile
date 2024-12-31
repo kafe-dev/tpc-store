@@ -26,15 +26,16 @@ RUN docker-php-ext-install \
     pdo_mysql \
     mysqli
 
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
+
+RUN install-php-extensions zip
+RUN install-php-extensions gd
+
 RUN docker-php-ext-enable mysqli
 
-RUN mkdir /etc/apache2/ssl
-
-COPY ssl.key /etc/apache2/ssl/ssl.key
-COPY ssl.pem /etc/apache2/ssl/ssl.pem
 COPY apache.conf /etc/apache2/sites-available/apache.conf
 
-RUN a2enmod rewrite headers ssl
+RUN a2enmod rewrite headers
 
 RUN a2dissite 000-default.conf
 RUN a2ensite apache.conf
@@ -52,4 +53,5 @@ RUN useradd -G www-data,root -u 1000 -d /home/devuser devuser
 RUN mkdir -p /home/devuser/.composer && \
     chown -R devuser:devuser /home/devuser
 
-EXPOSE 443
+EXPOSE 80
+EXPOSE 3306

@@ -17,11 +17,11 @@ class UserGroup
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist', 'remove'], inversedBy: 'usersGroups')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'usersGroups')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(targetEntity: Group::class, cascade: ['persist', 'remove'], inversedBy: 'usersGroups')]
+    #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: 'usersGroups')]
     #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Group $group_ref = null;
 

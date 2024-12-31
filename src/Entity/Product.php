@@ -42,7 +42,7 @@ class Product
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Supplier::class, cascade: ['persist', 'remove'], inversedBy: 'products')]
+    #[ORM\ManyToOne(targetEntity: Supplier::class, inversedBy: 'products')]
     #[ORM\JoinColumn(name: 'supplier_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Supplier $supplier = null;
 

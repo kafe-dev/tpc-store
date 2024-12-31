@@ -19,7 +19,7 @@ class Analytic
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: AnalyticCategory::class, cascade: ['persist', 'remove'], inversedBy: 'analytics')]
+    #[ORM\ManyToOne(targetEntity: AnalyticCategory::class, inversedBy: 'analytics')]
     #[ORM\JoinColumn(name: 'analytic_category_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?AnalyticCategory $analytic_category = null;
 

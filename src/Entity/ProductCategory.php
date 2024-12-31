@@ -17,11 +17,11 @@ class ProductCategory
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Category::class, cascade: ['persist', 'remove'], inversedBy: 'productsCategories')]
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'productsCategories')]
     #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Category $category = null;
 
-    #[ORM\ManyToOne(targetEntity: Product::class, cascade: ['persist', 'remove'], inversedBy: 'productsCategories')]
+    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productsCategories')]
     #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Product $product = null;
 
