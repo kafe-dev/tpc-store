@@ -162,9 +162,8 @@ class Supplier extends BaseController implements CrudInterface
     /**
      * Action edit.
      *
+     * @param int $id
      * @param Request $request
-     * @param Supplier $supplier
-     * @param EntityManagerInterface $entityManager
      * @return Response
      */
     #[Route('/update/{id}', name: 'update', methods: ['GET', 'POST'])]
