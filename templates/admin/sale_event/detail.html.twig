@@ -21,27 +21,27 @@
                     </tr>
                     <tr>
                         <td>Lượng giảm giá<span style="color: red">*</span>:</td>
-                        <td>{{ sale_event.discount_amount }}</td>
+                        <td>{{ sale_event.discountAmount }}</td>
                     </tr>
                     <tr>
                         <td>Kiểu giảm giá<span style="color: red">*</span>:</td>
-                        <td>{{ sale_event.discount_type }}</td>
+                        <td>{{ sale_event.discountType }}</td>
                     </tr>
                     <tr>
                         <td>Bắt đầu vào<span style="color: red">*</span>:</td>
-                        <td>{{ sale_event.start_at }}</td>
+                        <td>{{ sale_event.startAt |date('Y-m-d H:i:s') }}</td>
                     </tr>
                     <tr>
                         <td>Kết Thúc Vào<span style="color: red">*</span>:</td>
-                        <td>{{ sale_event.end_at }}</td>
+                        <td>{{ sale_event.endAt |date('Y-m-d H:i:s')}}</td>
                     </tr>
                     <tr>
                         <td>Tạo Vào<span style="color: red">*</span>:</td>
-                        <td>{{ sale_event.created_at }}</td>
+                        <td>{{ sale_event.createdAt |date('Y-m-d H:i:s')}}</td>
                     </tr>
                     <tr>
                         <td>Cập Nhật Vào<span style="color: red">*</span>:</td>
-                        <td>{{ sale_event.updated_at }}</td>
+                        <td>{{ sale_event.updatedAt |date('Y-m-d H:i:s')}}</td>
                     </tr>
 
                     </tbody>
@@ -55,7 +55,7 @@
                 </style>
 
                 <div class="button-list d-flex justify-content-center">
-                    <a href="{{ path('admin_sale-evnt_update', {'id': sale_event.id}) }}" class="btn btn-primary waves-effect waves-light">Chỉnh sửa</a>
+                    <a href="{{ path('admin_sale-event_update', {'id': sale_event.id}) }}" class="btn btn-primary waves-effect waves-light">Chỉnh sửa</a>
                     <button class="btn btn-danger waves-effect waves-light" data-id="{{ sale_event.id }}">Xóa</button>
                     <a href="{{ path('admin_sale-event_index') }}" class="btn btn-secondary waves-effect waves-light">Quay lại</a>
 

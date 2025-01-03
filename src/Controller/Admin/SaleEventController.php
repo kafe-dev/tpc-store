@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @project tpc-store
  * @author Tanh
@@ -18,6 +21,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Flasher\Prime\FlasherInterface;
 
 /**
  * Class SaleEventController.
@@ -28,7 +32,6 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route(path: '/admin/sale_event', name: 'admin_sale-event_')]
 class SaleEventController extends BaseController implements CrudInterface
 {
-
     /**
      * Return list of settings in json format.
      *
@@ -54,7 +57,7 @@ class SaleEventController extends BaseController implements CrudInterface
         $discountTypes = SaleEvent::DISCOUNT_TYPES;
 
         $data = [
-            'page_title' => 'Quản lý địa điểm',
+            'page_title' => 'Quản lý sự kiện sale',
             'discount_types' => json_encode($discountTypes),
         ];
         return $this->render('admin/sale_event/index.html.twig', $data);
@@ -103,9 +106,10 @@ class SaleEventController extends BaseController implements CrudInterface
                 $this->em->persist($data);
                 $this->em->flush();
 
-                $this->addFlash('success', 'Create Sale Event success!');
+                flash()->success('Tạo sự kiện sale thành công!');
                 return $this->redirectToRoute('admin_sale-event_index');
-
+            } else {
+                flash()->error('Tạo mới sự kiện sale thất bại!');
             }
         }
         return $this->render('admin/sale_event/create.html.twig', [
@@ -140,15 +144,15 @@ class SaleEventController extends BaseController implements CrudInterface
                 try {
                     $this->em->flush();
 
-                    $this->addFlash('success', 'Cập nhật sự kiện Sale thành công!');
+                    flash()->success('Cập nhật sự kiện Sale thành công!');
                     return $this->redirectToRoute('admin_sale-event_index');
                 } catch (Exception $e) {
-                    $this->addFlash('error', 'Cập nhật sự kiện Sale thất bại!');
+                    flash()->error('Cập nhật sự kiện Sale thất bại!');
 
-                    $this->addFlash('error', $e->getMessage());
+                    flash()->error($e->getMessage());
                 }
             } else {
-                $this->addFlash('error', 'Cập nhật sự kiện Sale thất bại!');
+                flash()->error('Cập nhật sự kiện Sale thất bại!');
 
                 foreach ($form->getErrors(true) as $error) {
                     $this->addFlash('error', $error->getMessage());
@@ -177,9 +181,9 @@ class SaleEventController extends BaseController implements CrudInterface
             $this->em->remove($task);
             $this->em->flush();
 
-            $this->addFlash('success', 'Xóa sự kiện Sale thành công!');
+            flash()->success('Xóa sự kiện Sale thành công!');
         } else {
-            $this->addFlash('error', 'Xóa sự kiện Sale thất bại!');
+            flash()->error('Xóa sự kiện Sale thất bại!');
         }
 
         return $this->redirectToRoute('admin_sale-event_index');

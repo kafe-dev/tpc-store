@@ -2,17 +2,21 @@
 
 {% block page %}{{ page_title }}{% endblock %}
 
-{% block content %}
+{% block stylesheets%}
+    {{ parent() }}
 
-    {% if app.flashes('success') %}
-        <div class="alert alert-icon alert-success text-success alert-dismissible fade show" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            <i class="mdi mdi-check-all mr-2"></i>
-            <strong>Success!</strong> {{ app.flashes('success').first }}.
-        </div>
-    {% endif %}
+    <!-- Datatable css -->
+    <link href="{{ asset('resources/admin/libs/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('resources/admin/libs/datatables/buttons.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('resources/admin/libs/datatables/responsive.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('resources/admin/libs/datatables/select.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
+    <!-- App css -->
+    <link href="{{ asset('resources/admin/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" id="bootstrap-stylesheet" />
+    <link href="{{ asset('resources/admin/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('resources/admin/css/app.min.css') }}" rel="stylesheet" type="text/css" id="app-stylesheet" />
+{% endblock %}
+
+{% block content %}
 
     <div class="row">
         <div class="col-12">
@@ -23,7 +27,7 @@
             <div class="table-responsive mb-3">
                 <a href="{{ path('admin_sale-event_create') }}" class="btn btn-primary">Tạo mới</a>
             </div>
-            <table id="sale-event-datatable" class="table table-bordered table-striped dt-responsive nowrap"
+            <table id="sale-event-datatable" class="table table-bordered table-striped dt-responsive nowrap font-12 "
                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                 <thead>
                 <tr>
@@ -112,8 +116,8 @@
                         table.append('<tr>' +
                             '<td>' + item.id + '</td>' +
                             '<td>' + item.name + '</td>' +
+                            '<td>' + item.discountAmount + '</td>' +
                             '<td>' + discountTypes[item.discountType] + '</td>' +
-                            '<td>' + item.discountType + '</td>' +
                             '<td>' + formatDateTime(item.startAt) + '</td>' +
                             '<td>' + formatDateTime(item.endAt) + '</td>' +
                             '<td>' + formatDateTime(item.createdAt) + '</td>' +
@@ -134,10 +138,10 @@
                             { width: '15%', targets: 1 },
                             { width: '15%', targets: 2 },
                             { width: '14%', targets: 3 },
-                            { width: '14%', targets: 4 },
-                            { width: '14%', targets: 5 },
-                            { width: '14%', targets: 6 },
-                            { width: '14%', targets: 7 },
+                            { width: '12%', targets: 4 },
+                            { width: '12%', targets: 5 },
+                            { width: '12%', targets: 6 },
+                            { width: '12%', targets: 7 },
                             { width: '12%', targets: 8 },
                         ],
 
