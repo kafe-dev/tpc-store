@@ -4,7 +4,9 @@
     {{ form_label(form.name, null, {'label_attr': {'class': 'col-md-2 col-form-label'}}) }}
     <div class="col-md-10">
         {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
-        {{ form_errors(form.name) }}
+        {% for error in form.name.vars.errors %}
+            <div class="text-danger mt-2">{{ error.message }}</div>
+        {% endfor %}
     </div>
 </div>
 
@@ -12,7 +14,9 @@
     {{ form_label(form.address, null, {'label_attr': {'class': 'col-md-2 col-form-label'}}) }}
     <div class="col-md-10">
         {{ form_widget(form.address, {'attr': {'class': 'form-control', 'value' :  metaData['Address']|default('') }}) }}
-        {{ form_errors(form.address) }}
+        {% for error in form.address.vars.errors %}
+            <div class="text-danger mt-2">{{ error.message }}</div>
+        {% endfor %}
     </div>
 </div>
 
@@ -23,7 +27,9 @@
             'attr': {'class': 'form-control', 'rows': 3},
             'value': metaData['Description']|default('')
         }) }}
-        {{ form_errors(form.description) }}
+        {% for error in form.description.vars.errors %}
+            <div class="text-danger mt-2">{{ error.message }}</div>
+        {% endfor %}
     </div>
 </div>
 
@@ -31,7 +37,9 @@
     {{ form_label(form.phone, null, {'label_attr': {'class': 'col-md-2 col-form-label'}}) }}
     <div class="col-md-10">
         {{ form_widget(form.phone, {'attr': {'class': 'form-control', 'value' :  metaData['Phone']|default('')}}) }}
-        {{ form_errors(form.phone) }}
+        {% for error in form.phone.vars.errors %}
+            <div class="text-danger mt-2">{{ error.message }}</div>
+        {% endfor %}
     </div>
 </div>
 
@@ -39,7 +47,9 @@
     {{ form_label(form.email, null, {'label_attr': {'class': 'col-md-2 col-form-label'}}) }}
     <div class="col-md-10">
         {{ form_widget(form.email, {'attr': {'class': 'form-control', 'value' :  metaData['Email']|default('')}}) }}
-        {{ form_errors(form.email) }}
+        {% for error in form.email.vars.errors %}
+            <div class="text-danger mt-2">{{ error.message }}</div>
+        {% endfor %}
     </div>
 </div>
 <div class="d-flex justify-content-start align-items-center">
