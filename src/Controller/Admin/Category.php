@@ -88,7 +88,7 @@ class Category extends BaseController implements CrudInterface
         ]);
         $categories = json_decode($json, true);
 
-        if (! empty($categories)) {
+        if (!empty($categories)) {
             foreach ($categories as $category) {
                 $categoryEntity = $this->categoryRepository->find($category['id']);
                 $category['childrens'] = $this->categoryRepository->countChildren($categoryEntity);
@@ -140,17 +140,20 @@ class Category extends BaseController implements CrudInterface
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            if (! $this->categoryRepository->isSlugUnique($form->get('slug')->getData())) {
-                return $this->redirectToRoute('admin_category_create');
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                if (!$this->categoryRepository->isSlugUnique($form->get('slug')->getData())) {
+                    flash()->error('Slug đã tồn tại!', [], 'Thất Bại');
+                    return $this->redirectToRoute('admin_category_create');
+                }
+
+                $this->persistData($category, $form, true);
+                $this->em->flush();
+                flash()->success('Tạo Danh Mục Thành Công', [], 'Thành Công');
+
+                return $this->redirectToRoute('admin_category_index');
             }
-
-            $this->persistData($category, $form, true);
-            $this->em->flush();
-
-            return $this->redirectToRoute('admin_category_index');
         }
-
         return $this->render('admin/category/create.html.twig', [
             'form' => $form
         ]);
@@ -175,7 +178,7 @@ class Category extends BaseController implements CrudInterface
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (! $this->categoryRepository->isSlugUnique($form->get('slug')->getData()) && $form->get('slug')->getData() != $category->getSlug()) {
+            if (!$this->categoryRepository->isSlugUnique($form->get('slug')->getData()) && $form->get('slug')->getData() != $category->getSlug()) {
                 return $this->redirectToRoute('admin_category_update', ['id' => $id]);
             }
 
@@ -209,7 +212,7 @@ class Category extends BaseController implements CrudInterface
      * @param Request $request
      * @return Response
      */
-    #[Route("/delete/{id}", name: "delete", methods: ['POST'])]
+    #[Route("/delete/{id}", name: "delete", methods: ['POST', 'GET'])]
     public function delete(int $id, Request $request): Response
     {
         $task = $this->categoryRepository->find($id);

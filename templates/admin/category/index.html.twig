@@ -2,6 +2,10 @@
 
 {% block page %}Quản Lý Danh Mục{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
 {% block content %}
 
     <div class="row">
@@ -33,7 +37,7 @@
                         <th></th>
                     </tr>
                     </thead>
-                        <tbody></tbody>
+                    <tbody></tbody>
                     <tfoot>
                     <tr>
                         <th><input type="checkbox" class="category-select-all"></th>
@@ -48,7 +52,6 @@
                     </tr>
                     </tfoot>
                 </table>
-                <button type="button" class="col-1 category-bulk-delete-btn btn btn-lg btn-danger btn-block waves-effect waves-light">Xoá</button>
             </div>
         </div>
         <!-- end col -->
@@ -64,11 +67,15 @@
                     </button>
                 </div>
                 <div class="modal-body p-4">
-
+                    <button type="button"
+                            class="category-bulk-delete-btn btn btn-danger waves-effect waves-light">
+                        Xoá Hàng Loạt
+                    </button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary waves-effect"
-                            data-dismiss="modal">Close</button>
+                            data-dismiss="modal">Close
+                    </button>
                 </div>
             </div>
         </div>
@@ -80,6 +87,14 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            window.onpopstate = function () {
+                window.location.reload(true);
+            };
+        });
+        q
+    </script>
     <script type="module">
         $(document).ready(function () {
             let table = $('#category-datatable-buttons tbody')
@@ -87,15 +102,17 @@
             $.ajax({
                 url: '{{ url('admin_category_list') }}',
                 type: 'GET',
+                cache: false,
+                headers: {'Cache-Control': 'no-cache'},
                 contentType: 'application/json',
                 success: function (data) {
-                    table.empty();
+                    // table.empty();
 
                     console.log(data);
 
                     $.each(data, function (index, item) {
                         table.append('<tr>' +
-                            '<td><input type="checkbox" class="row-category-checkbox" value="'+ item.id +'" "></td>' +
+                            '<td><input type="checkbox" class="row-category-checkbox" value="' + item.id + '" "></td>' +
                             '<td>' + item.slug + '</td>' +
                             '<td>' + item.name + '</td>' +
                             '<td>' + (item.parent_name !== "-" ? item.parent_name : 'Khong Co') + '</td>' +
@@ -104,15 +121,15 @@
                             '<td>' + item.image + '</td>' +
                             '<td>' + item.description + '</td>' +
                             '<td>' +
-                            '<a style="margin-right: 7px" href="'+ item.actions.detail +'"><i class="fa fa-info-circle"></i></a>' +
-                            '<a style="margin-right: 7px" href="'+ item.actions.update +'"><i class="fa fa-edit"></i></a>' +
-                            '<a data-url="'+ item.actions.delete +'" class="btn-delete" href="#"><i class="fa fa-trash"></i></a>' +
+                            '<a class="btn btn-outline-info btn-sm btn-detail mr-2 mb-1" href="' + item.actions.detail + '"><i class="fa fa-eye"></i></a>' +
+                            '<a class="btn btn-outline-warning btn-sm btn-edit mr-2 mb-1" href="' + item.actions.update + '"><i class="fa fa-edit"></i></a>' +
+                            '<a class="btn btn-outline-danger btn-sm btn-delete mb-1" data-url="' + item.actions.delete + '" class="btn-delete" href=""><i class="fa fa-trash"></i></a>' +
                             '</td>' +
                             '</tr>'
                         );
                     });
                     // Create datatable
-                    const a = $("#category-datatable-buttons").DataTable({
+                    let a = $("#category-datatable-buttons").DataTable({
                         lengthChange: !1,
                         buttons: ["copy", "excel", "pdf"],
                         columnDefs: [
@@ -153,33 +170,33 @@
                                     });
                             }
                     });
-                    a.buttons().container().appendTo("#category-datatable-buttons_wrapper .col-md-6:eq(0)")
+                    a.buttons().container().appendTo("#category-datatable-buttons_wrapper .col-md-6:eq(0)");
                 }
             });
+        });
+    </script>
+    <script type="module">
+        $(document).ready(function () {
             // Delete category
             $(document).on('click', '.btn-delete', function () {
                 let deleteUrl = $(this).data('url');
-
                 if (confirm('Bạn có chắc chắn muốn xóa?')) {
                     $.ajax({
                         url: deleteUrl,
-                        type: 'POST',
+                        type: 'GET',
+                        cache: false,
                         headers: {
                             'X-Requested-With': 'XMLHttpRequest'
                         },
                         success: function () {
-                            alert('Xóa thành công!');
                             location.reload();
-                        },
-                        error: function () {
-                            alert('Có lỗi xảy ra khi xóa!');
                         }
                     });
                 }
             });
         });
     </script>
-    <script >
+    <script>
         // Handle "Select All" checkbox
         $('.category-select-all').on('click', function () {
             $('.row-category-checkbox').prop('checked', this.checked);
@@ -209,16 +226,13 @@
                 $.ajax({
                     url: '{{ path('admin_category_bulk_delete') }}',
                     type: 'POST',
-                    data: { 'ids': ids },
+                    cache: false,
+                    data: {'ids': ids},
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest'
                     },
                     success: function () {
-                        alert('Xóa thành công!');
                         location.reload();
-                    },
-                    error: function () {
-                        alert('Có lỗi xảy ra khi xóa!');
                     }
                 });
             }
