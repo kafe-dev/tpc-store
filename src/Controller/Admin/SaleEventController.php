@@ -29,7 +29,7 @@ use Flasher\Prime\FlasherInterface;
  * This controller used to manage the sale event.
  */
 
-#[Route(path: '/admin/sale_event', name: 'admin_sale-event_')]
+#[Route(path: '/admin/sale_event', name: 'admin_sale_event_')]
 class SaleEventController extends BaseController implements CrudInterface
 {
     /**
@@ -91,27 +91,31 @@ class SaleEventController extends BaseController implements CrudInterface
     {
         $sale_event = new SaleEvent();
         $form = $this->createForm(SaleEventType::class, $sale_event, [
-            'action' => $this->generateUrl('admin_sale-event_create'),
+            'action' => $this->generateUrl('admin_sale_event_create'),
             'attr' => [
                 'class' => 'form-horizontal',
             ],
-            'cancel_url' => $this->generateUrl('admin_sale-event_index'),
+            'cancel_url' => $this->generateUrl('admin_sale_event_index'),
         ]);
+
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
-
             if ($form->isSubmitted() && $form->isValid()) {
                 $data = $form->getData();
-
-                $this->em->persist($data);
-                $this->em->flush();
-
-                flash()->success('Tạo sự kiện sale thành công!');
-                return $this->redirectToRoute('admin_sale-event_index');
+                try {
+                    $this->em->persist($data);
+                    $this->em->flush();
+                    flash()->success('Tạo sự kiện sale thành công!');
+                    return $this->redirectToRoute('admin_sale_event_index');
+                } catch (\Exception $e) {
+                    flash()->error('Tạo mới sự kiện sale thất bại! Error: ' . $e->getMessage());
+                }
+                return $this->redirectToRoute('admin_sale_event_create');
             } else {
                 flash()->error('Tạo mới sự kiện sale thất bại!');
             }
         }
+
         return $this->render('admin/sale_event/create.html.twig', [
             'page_title' => 'Tạo Sự Kiện Sale Mới',
             'form' => $form->createView(),
@@ -130,11 +134,11 @@ class SaleEventController extends BaseController implements CrudInterface
         $task = $this->em->getRepository(SaleEvent::class)->find($id);
 
         $form = $this->createForm(SaleEventType::class, $task, [
-            'action' => $this->generateUrl('admin_sale-event_update', ['id' => $id]),
+            'action' => $this->generateUrl('admin_sale_event_update', ['id' => $id]),
             'attr' => [
                 'class' => 'form-horizontal',
             ],
-            'cancel_url' => $this->generateUrl('admin_sale-event_index'),
+            'cancel_url' => $this->generateUrl('admin_sale_event_index'),
         ]);
 
         if ($request->isMethod('POST')) {
@@ -145,7 +149,7 @@ class SaleEventController extends BaseController implements CrudInterface
                     $this->em->flush();
 
                     flash()->success('Cập nhật sự kiện Sale thành công!');
-                    return $this->redirectToRoute('admin_sale-event_index');
+                    return $this->redirectToRoute('admin_sale_event_index');
                 } catch (Exception $e) {
                     flash()->error('Cập nhật sự kiện Sale thất bại!');
 
@@ -186,7 +190,7 @@ class SaleEventController extends BaseController implements CrudInterface
             flash()->error('Xóa sự kiện Sale thất bại!');
         }
 
-        return $this->redirectToRoute('admin_sale-event_index');
+        return $this->redirectToRoute('admin_sale_event_index');
     }
 
 }
