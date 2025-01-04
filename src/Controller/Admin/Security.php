@@ -8,7 +8,7 @@ use App\Controller\BaseController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-
+use Symfony\Bundle\SecurityBundle\Security as SecurityBundle;
 /**
  * Class Security.
  *
@@ -23,6 +23,7 @@ class Security extends BaseController
      * This action is used to handle the login request,
      * and displays the login page.
      *
+     * @param AuthenticationUtils $authenticationUtils
      * @return Response
      */
     #[Route('/login', name: 'login')]
@@ -69,7 +70,7 @@ class Security extends BaseController
      * and display the login page.
      */
     #[Route('/logout', name: 'logout')]
-    public function logout(\Symfony\Bundle\SecurityBundle\Security $security): Response
+    public function logout(SecurityBundle $security): Response
     {
         return $security->logout();
     }
