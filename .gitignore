@@ -3,10 +3,14 @@
 .vscode
 ###< code-editors ###
 
-###> symfony/framework-bundle ###
+###> environment ###
+/.env
 /.env.local
 /.env.local.php
 /.env.*.local
+###< environment ###
+
+###> symfony/framework-bundle ###
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
@@ -22,3 +26,7 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+###> php-cs-fixer ###
+.php-cs-fixer.cache
+###< php-cs-fixer ###

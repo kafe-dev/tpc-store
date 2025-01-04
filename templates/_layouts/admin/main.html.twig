@@ -1,5 +1,21 @@
 {% extends '_layouts/admin/blank.html.twig' %}
+{% block stylesheets %}
+    <!-- Datatable css -->
+    <link href="{{ asset('resources/admin/libs/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{{ asset('resources/admin/libs/datatables/buttons.bootstrap4.css') }}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{{ asset('resources/admin/libs/datatables/responsive.bootstrap4.css') }}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{{ asset('resources/admin/libs/datatables/select.bootstrap4.css') }}" rel="stylesheet" type="text/css"/>
+    <!-- App css -->
+    <link href="{{ asset('resources/admin/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"
+          id="bootstrap-stylesheet"/>
+    <link href="{{ asset('resources/admin/css/icons.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('resources/admin/css/app.min.css') }}" rel="stylesheet" type="text/css" id="app-stylesheet"/>
+    <link href="{{ asset('resources/admin/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css"/>
 
+{% endblock %}
 {% block body %}
     <div id="wrapper" data-controller="admin--dashboard">
         {% include '_partials/admin/header.html.twig' %}
@@ -10,23 +26,7 @@
             <div class="content">
                 <div class="container-fluid">
 
-                    <div class="row">
-                        <div class="col-12">
-                            <div>
-                                <div class="d-flex justify-content-between">
-                                    <h4>{% block page %}{% endblock %}</h4>
-                                    <div id="x-breadcrumb">
-                                        <p class="breadcrumb-label">
-                                            <a href="{{ url('admin_dashboard_index') }}"><i class="fa fa-home"></i></a>
-                                            <span class="text-muted"><i class="fas fa-angle-right"></i></span>
-                                            <span class="text-muted">Here</span>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="header-title mb-3"></div>
-                            </div>
-                        </div>
-                    </div>
+                    {% include '_widgets/admin/_breadcrumb.html.twig' %}
 
                     {% block content %}{% endblock %}
 
@@ -40,8 +40,31 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <!-- Vendor js -->
+    <script src="{{ asset('resources/admin/js/vendor.min.js') }}"></script>
 
     <script src="{{ asset('resources/admin/libs/morris-js/morris.min.js') }}"></script>
     <script src="{{ asset('resources/admin/libs/raphael/raphael.min.js') }}"></script>
     <script src="{{ asset('resources/admin/js/dashboard.init.js') }}"></script>
+
+    <!-- Required datatable js -->
+    <script src="{{ asset('resources/admin/libs/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Buttons Datatable -->
+    <script src="{{ asset('resources/admin/libs/datatables/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/dataTables.keyTable.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/dataTables.select.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/buttons.print.min.js') }}"></script>
+
+    <!-- App js -->
+    <script src="{{ asset('resources/admin/js/app.min.js') }}"></script>
+
+    <!-- SweetAlert js -->
+    <script src="{{ asset('resources/admin/libs/sweetalert2/sweetalert2.min.js') }}"></script>
 {% endblock %}

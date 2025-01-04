@@ -17,11 +17,11 @@ class LoyaltyCoupon
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Loyalty::class, cascade: ['persist', 'remove'], inversedBy: 'loyaltyCoupons')]
+    #[ORM\ManyToOne(targetEntity: Loyalty::class, inversedBy: 'loyaltyCoupons')]
     #[ORM\JoinColumn(name: 'loyalty_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Loyalty $loyalty = null;
 
-    #[ORM\ManyToOne(targetEntity: Coupon::class, cascade: ['persist', 'remove'], inversedBy: 'loyaltyCoupons')]
+    #[ORM\ManyToOne(targetEntity: Coupon::class, inversedBy: 'loyaltyCoupons')]
     #[ORM\JoinColumn(name: 'coupon_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Coupon $coupon = null;
 
