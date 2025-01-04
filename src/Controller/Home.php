@@ -23,7 +23,10 @@ class Home extends BaseController
     #[Route(name: 'index')]
     public function index(): Response
     {
-        return $this->render('home/index.html.twig');
+        $title = "Trang chủ";
+        return $this->render('home/index.html.twig',[
+            'title' => $title
+        ]);
     }
 
 }
