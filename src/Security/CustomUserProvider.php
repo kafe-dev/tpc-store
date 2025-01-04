@@ -20,10 +20,10 @@ class CustomUserProvider implements UserProviderInterface
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
 
-        $user = $this->userRepository->findOneBy(['email' => $identifier]);
+        $user = $this->userRepository->findOneBy(['username' => $identifier]);
 
         if (!$user) {
-            throw new BadCredentialsException('Email không tồn tại trong hệ thống!');
+            throw new BadCredentialsException('Tên đăng nhập không tồn tại trong hệ thống!');
         }
 
         return $user;

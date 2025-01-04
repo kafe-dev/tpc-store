@@ -14,13 +14,13 @@ security:
             lazy: true
             provider: app_user_provider
             form_login:
-                login_path: app_security_login
-                check_path: app_security_login
+                login_path: admin_security_login
+                check_path: admin_security_login
                 default_target_path: admin_dashboard_index
                 enable_csrf: true
             logout:
                 path: /security/logout
-                target: app_security_login
+                target: admin_security_login
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800
@@ -40,7 +40,7 @@ security:
         - { path: '^/admin/security/login', roles: PUBLIC_ACCESS }
         - { path: '^/admin/users', roles: ROLE_ADMIN }
         - { path: '^/admin', roles: [ROLE_MANAGER, ROLE_ADMIN] }
-        - { path: '^/profile', roles: ROLE_CUSTOMER }
+        - { path: '^/profile', roles: ROLE_USER }
 
 when@test:
     security:

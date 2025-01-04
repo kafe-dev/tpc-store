@@ -33,8 +33,8 @@ class Security extends BaseController
 
         if ($error) {
             $errorMessage = $error->getMessage();
-            if($errorMessage == 'Email không tồn tại trong hệ thống!'){
-                $customErrorMessage = 'Email không tồn tại trong hệ thống!';
+            if($errorMessage == 'Tên đăng nhập không tồn tại trong hệ thống!'){
+                $customErrorMessage = 'Tên đăng nhập không tồn tại trong hệ thống!';
             }else{
                 // Check the type of error
                 $customErrorMessage = match (get_class($error)) {
