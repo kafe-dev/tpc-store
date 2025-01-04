@@ -8,19 +8,37 @@ security:
             id: App\Security\CustomUserProvider
     firewalls:
         dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            pattern: ^/(_(profiler|wdt)|css|img|js)/
             security: false
-        main:
+        admin:
             lazy: true
             provider: app_user_provider
+            pattern: ^/admin
             form_login:
                 login_path: admin_security_login
                 check_path: admin_security_login
-                default_target_path: admin_dashboard_index
                 enable_csrf: true
             logout:
                 path: /security/logout
                 target: admin_security_login
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+            user_checker: App\Security\UserChecker
+            login_throttling:
+                max_attempts: 5
+                interval: '5 minutes'
+        main:
+            lazy: true
+            provider: app_user_provider
+            pattern: ^/
+            form_login:
+                login_path: app_security_login
+                check_path: app_security_login
+                enable_csrf: true
+            logout:
+                path: /security/logout
+                target: app_security_login
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800
