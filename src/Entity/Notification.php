@@ -19,11 +19,11 @@ class Notification
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist', 'remove'], inversedBy: 'senderNotis')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'senderNotis')]
     #[ORM\JoinColumn(name: 'sender_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?User $sender = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist', 'remove'], inversedBy: 'receiverNotis')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'receiverNotis')]
     #[ORM\JoinColumn(name: 'receiver_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?User $receiver = null;
 

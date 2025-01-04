@@ -17,7 +17,7 @@ class SupplierMeta
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Supplier::class, cascade: ['persist', 'remove'], inversedBy: 'supplierMetas')]
+    #[ORM\ManyToOne(targetEntity: Supplier::class, inversedBy: 'supplierMetas')]
     #[ORM\JoinColumn(name: 'supplier_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Supplier $supplier = null;
 
@@ -67,5 +67,6 @@ class SupplierMeta
 
         return $this;
     }
+
 
 }

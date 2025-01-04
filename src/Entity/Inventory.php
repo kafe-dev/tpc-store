@@ -36,7 +36,7 @@ class Inventory
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(targetEntity: Commune::class, cascade: ['persist', 'remove'], inversedBy: 'inventories')]
+    #[ORM\ManyToOne(targetEntity: Commune::class, inversedBy: 'inventories')]
     #[ORM\JoinColumn(name: 'commune_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Commune $commune = null;
 
