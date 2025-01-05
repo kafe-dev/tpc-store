@@ -3,19 +3,24 @@
 {% block page %}Đăng Nhập{% endblock %}
 
 {% block content %}
+    {% if error %}
+        <div class="alert alert-danger text-danger alert-dismissible fade show" role="alert">
+            <strong>Lỗi!</strong> {{ error }}
+        </div>
+    {% endif %}
     <form action="{{ url('admin_security_login') }}" method="post" class="p-2">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
         <div class="form-group">
             <label for="username">Tài Khoản <span class="text-danger">*</span></label>
-            <input class="form-control" type="text" id="username" placeholder="Nhập tài khoản" required>
+            <input class="form-control" type="text" id="username" name="_username" placeholder="Nhập tài khoản" required>
         </div>
         <div class="form-group">
             <label for="password">Mật Khẩu <span class="text-danger">*</span></label>
-            <input class="form-control" type="password" id="password" placeholder="Nhập mật khẩu" required>
+            <input class="form-control" type="password" id="password" name="_password" placeholder="Nhập mật khẩu" required>
         </div>
         <div class="form-group mb-4 pb-3">
             <div class="custom-control custom-checkbox checkbox-primary">
-                <input type="checkbox" class="custom-control-input" id="checkbox-signin">
+                <input type="checkbox" class="custom-control-input" id="checkbox-signin" name="_remember_me">
                 <label class="custom-control-label" for="checkbox-signin">Nhớ mật khẩu</label>
             </div>
         </div>

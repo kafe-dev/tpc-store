@@ -1,5 +1,2181 @@
 {% extends '_layouts/main.html.twig' %}
 
+{% block title %}{{ title }}  | {{ app_name }}{% endblock title %}
+
 {% block content %}
-    <h1>Homepage</h1>
+
+    <!-- Slider Area Start -->
+    <div class="slider-area slider-style-two pt-40 pb-30">
+        <!-- Slider Area Start Here -->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7 col-md-7 mb-sm-30">
+                    <div class="slider-activation owl-carousel text-center">
+                        <!-- Start Single Slide -->
+                        <div class="slide align-center-left animation-style-01 bg-image-2">
+                            <div class="slider-content">
+                                <h6>New Collection</h6>
+                                <h1>Best Product <br> for your profession</h1>
+                            </div>
+                        </div>
+                        <!-- End Single Slide -->
+                        <!-- Start Single Slide -->
+                        <div class="slide align-center-left animation-style-02 bg-image-3">
+                            <div class="slider-content">
+                                <h6>Collection 2018</h6>
+                                <h1>Best Product for <br> your profession</h1>
+                            </div>
+                        </div>
+                        <!-- End Single Slide -->
+                    </div>
+                    <!-- Slider Area End Here -->
+                </div>
+                <div class="col-lg-5 col-md-5">
+                    <div class="dual-banner">
+                        <div class="single-banner zoom mb-30">
+                            <a href="{{ path('app_home_shop') }}"><img src="{{ asset('resources/img/banner/b7.jpg') }}" alt="banner-img"></a>
+                        </div>
+                        <div class="single-banner zoom">
+                            <a href="{{ path('app_home_shop') }}"><img src="{{ asset('resources/img/banner/b8.jpg') }}" alt="banner-img"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Slider Area End -->
+    <!-- Banner Area Start Here -->
+    <div class="banner-area">
+        <div class="container">
+            <div class="row">
+                <!-- Single Banner Start Here -->
+                <div class="col-lg-4 col-md-4 mb-sm-30">
+                    <div class="single-banner zoom">
+                        <a href="#"><img src="{{ asset('resources/img/banner/b11.jpg') }}" alt="banner-img"></a>
+                    </div>
+                </div>
+                <!-- Single Banner End Here -->
+                <!-- Single Banner Start Here -->
+                <div class="col-lg-4 col-md-4 mb-sm-30">
+                    <div class="single-banner zoom">
+                        <a href="#"><img src="{{ asset('resources/img/banner/b10.jpg') }}" alt="banner-img"></a>
+                    </div>
+                </div>
+                <!-- Single Banner End Here -->
+                <!-- Single Banner Start Here -->
+                <div class="col-lg-4 col-md-4">
+                    <div class="single-banner zoom">
+                        <a href="#"><img src="{{ asset('resources/img/banner/b9.jpg') }}" alt="banner-img"></a>
+                    </div>
+                </div>
+                <!-- Single Banner End Here -->
+            </div>
+        </div>
+    </div>
+    <!-- Banner Area End Here -->
+    <!-- Featured Product Start Here -->
+    <div class="featured-pro ptb-80">
+        <div class="container">
+            <div class="main-product-tab-area">
+                <!-- Nav tabs -->
+                <ul class="nav tabs-area pro-tabs-area" role="tablist">
+                    <li class="nav-item">
+                        <a class="active" data-toggle="tab" href="#best-deal">Best deal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a data-toggle="tab" href="#new-pro">New Product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a data-toggle="tab" href="#featured">Featured</a>
+                    </li>
+                </ul>
+                <!-- Tab Contetn Start -->
+                <div class="tab-content">
+                    <div id="best-deal" class="tab-pane fade show active">
+                        <!-- Best Deal Product Activation Start Here -->
+                        <div class="feature-pro-active owl-carousel">
+                            <!-- Single Product Start -->
+                            <div class="single-ponno-product">
+                                <!-- Product Image Start -->
+                                <div class="pro-img">
+                                    <a href="{{ path('app_home_product_details') }}">
+                                        <img class="primary-img" src="{{ asset('resources/img/products/p2.jpg') }}" alt="single-product">
+                                        <img class="secondary-img" src="{{ asset('resources/img/products/p1.jpg') }}" alt="single-product">
+                                    </a>
+                                    <div class="pro-actions-link">
+                                        <a href="{{ path('app_home_product_compare') }}" title="Compare"><span
+                                                    class="icon icon-MusicMixer"></span></a>
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal" title="Quick View">
+                                            <span class="icon icon-Eye"></span>
+                                        </a>
+                                    </div>
+                                    <a class="sticker-new " href="{{ path('app_home_wishlist') }}"><span class="ti-heart"></span></a>
+                                    <span class="sticker-sale">new</span>
+                                </div>
+                                <!-- Product Image End -->
+                                <!-- Product Content Start -->
+                                <div class="pro-content">
+                                    <div class="pro-info">
+                                        <h4><a href="{{ path('app_home_product_details') }}">Ponno Real Box</a></h4>
+                                        <p><span class="special-price">$140.00</span></p>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <span class="quantity-pro">(200+)</span>
+                                        </div>
+                                    </div>
+                                    <div class="pro-add-cart">
+                                        <a href="{{ path('app_home_cart') }}" title="Add to Cart">Add To Cart</a>
+                                    </div>
+                                </div>
+                                <!-- Product Content End -->
+                            </div>
+                            <!-- Single Product End -->
+                            <!-- Single Product Start -->
+                            <div class="single-ponno-product">
+                                <!-- Product Image Start -->
+                                <div class="pro-img">
+                                    <a href="{{ path('app_home_product_details') }}">
+                                        <img class="primary-img" src="{{ asset('resources/img/products/p3.jpg') }}" alt="single-product">
+                                        <img class="secondary-img" src="{{ asset('resources/img/products/p4.jpg') }}" alt="single-product">
+                                    </a>
+                                    <div class="pro-actions-link">
+                                        <a href="{{ path('app_home_product_compare') }}" title="Compare"><span
+                                                    class="icon icon-MusicMixer"></span></a>
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal" title="Quick View">
+                                            <span class="icon icon-Eye"></span>
+                                        </a>
+                                    </div>
+                                    <a class="sticker-new " href="{{ path('app_home_wishlist') }}"><span class="ti-heart"></span></a>
+                                    <span class="sticker-sale">new</span>
+                                </div>
+                                <!-- Product Image End -->
+                                <!-- Product Content Start -->
+                                <div class="pro-content">
+                                    <div class="pro-info">
+                                        <h4><a href="{{ path('app_home_product_details') }}">xer jenon dslr</a></h4>
+                                        <p><span class="special-price">$140.00</span></p>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span class="quantity-pro">(200+)</span>
+                                        </div>
+                                    </div>
+                                    <div class="pro-add-cart">
+                                        <a href="{{ path('app_home_cart') }}" title="Add to Cart">Add To Cart</a>
+                                    </div>
+                                </div>
+                                <!-- Product Content End -->
+                            </div>
+                            <!-- Single Product End -->
+                            <!-- Single Product Start -->
+                            <div class="single-ponno-product">
+                                <!-- Product Image Start -->
+                                <div class="pro-img">
+                                    <a href="{{ path('app_home_product_details') }}">
+                                        <img class="primary-img" src="{{ asset('resources/img/products/p4.jpg') }}" alt="single-product">
+                                        <img class="secondary-img" src="{{ asset('resources/img/products/p5.jpg') }}" alt="single-product">
+                                    </a>
+                                    <div class="pro-actions-link">
+                                        <a href="{{ path('app_home_product_compare') }}" title="Compare"><span
+                                                    class="icon icon-MusicMixer"></span></a>
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal" title="Quick View">
+                                            <span class="icon icon-Eye"></span>
+                                        </a>
+                                    </div>
+                                    <a class="sticker-new " href="{{ path('app_home_wishlist') }}"><span class="ti-heart"></span></a>
+                                    <span class="sticker-sale">new</span>
+                                </div>
+                                <!-- Product Image End -->
+                                <!-- Product Content Start -->
+                                <div class="pro-content">
+                                    <div class="pro-info">
+                                        <h4><a href="{{ path('app_home_product_details') }}">jibon mouse pad</a></h4>
+                                        <p><span class="special-price">$140.00</span></p>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span class="quantity-pro">(200+)</span>
+                                        </div>
+                                    </div>
+                                    <div class="pro-add-cart">
+                                        <a href="{{ path('app_home_cart') }}" title="Add to Cart">Add To Cart</a>
+                                    </div>
+                                </div>
+                                <!-- Product Content End -->
+                            </div>
+                            <!-- Single Product End -->
+                            <!-- Single Product Start -->
+                            <div class="single-ponno-product">
+                                <!-- Product Image Start -->
+                                <div class="pro-img">
+                                    <a href="{{ path('app_home_product_details') }}">
+                                        <img class="primary-img" src="{{ asset('resources/img/products/p3.jpg') }}" alt="single-product">
+                                        <img class="secondary-img" src="{{ asset('resources/img/products/p1.jpg') }}" alt="single-product">
+                                    </a>
+                                    <div class="pro-actions-link">
+                                        <a href="{{ path('app_home_product_compare') }}" title="Compare"><span
+                                                    class="icon icon-MusicMixer"></span></a>
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal" title="Quick View">
+                                            <span class="icon icon-Eye"></span>
+                                        </a>
+                                    </div>
+                                    <a class="sticker-new " href="{{ path('app_home_wishlist') }}"><span class="ti-heart"></span></a>
+                                    <span class="sticker-sale">new</span>
+                                </div>
+                                <!-- Product Image End -->
+                                <!-- Product Content Start -->
+                                <div class="pro-content">
+                                    <div class="pro-info">
+                                        <h4><a href="{{ path('app_home_product_details') }}">olian selfie cam</a></h4>
+                                        <p><span class="special-price">$140.00</span></p>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <span class="quantity-pro">(200+)</span>
+                                        </div>
+                                    </div>
+                                    <div class="pro-add-cart">
+                                        <a href="{{ path('app_home_cart') }}" title="Add to Cart">Add To Cart</a>
+                                    </div>
+                                </div>
+                                <!-- Product Content End -->
+                            </div>
+                            <!-- Single Product End -->
+                            <!-- Single Product Start -->
+                            <div class="single-ponno-product">
+                                <!-- Product Image Start -->
+                                <div class="pro-img">
+                                    <a href="{{ path('app_home_product_details') }}">
+                                        <img class="primary-img" src="{{ asset('resources/img/products/p2.jpg') }}" alt="single-product">
+                                        <img class="secondary-img" src="{{ asset('resources/img/products/p3.jpg') }}" alt="single-product">
+                                    </a>
+                                    <div class="pro-actions-link">
+                                        <a href="{{ path('app_home_product_compare') }}" title="Compare"><span
+                                                    class="icon icon-MusicMixer"></span></a>
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal" title="Quick View">
+                                            <span class="icon icon-Eye"></span>
+                                        </a>
+                                    </div>
+                                    <a class="sticker-new " href="{{ path('app_home_wishlist') }}"><span class="ti-heart"></span></a>
+                                    <span class="sticker-sale">new</span>
+                                </div>
+                                <!-- Product Image End -->
+                                <!-- Product Content Start -->
+                                <div class="pro-content">
+                                    <div class="pro-info">
+                                        <h4><a href="{{ path('app_home_product_details') }}">Ponno motion remote</a></h4>
+                                        <p><span class="special-price">$140.00</span></p>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span class="quantity-pro">(200+)</span>
+                                        </div>
+                                    </div>
+                                    <div class="pro-add-cart">
+                                        <a href="{{ path('app_home_cart') }}" title="Add to Cart">Add To Cart</a>
+                                    </div>
+                                </div>
+                                <!-- Product Content End -->
+                            </div>
+                            <!-- Single Product End -->
+                        </div>
+                        <!-- Best Deal Product Activation End Here -->
+                    </div>
+                    <!-- #best-deal End Here -->
+                    <div id="new-pro" class="tab-pane fade">
+                        <!-- New Product Activation Start Here -->
+                        <div class="feature-pro-active owl-carousel">
+                            <!-- Single Product Start -->
+                            <div class="single-ponno-product">
+                                <!-- Product Image Start -->
+                                <div class="pro-img">
+                                    <a href="{{ path('app_home_product_details') }}">
+                                        <img class="primary-img" src="{{ asset('resources/img/products/p1.jpg') }}" alt="single-product">
+                                        <img class="secondary-img" src="{{ asset('resources/img/products/p2.jpg') }}" alt="single-product">
+                                    </a>
+                                    <div class="pro-actions-link">
+                                        <a href="{{ path('app_home_product_compare') }}" title="Compare"><span
+                                                    class="icon icon-MusicMixer"></span></a>
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal" title="Quick View">
+                                            <span class="icon icon-Eye"></span>
+                                        </a>
+                                    </div>
+                                    <a class="sticker-new " href="{{ path('app_home_wishlist') }}"><span class="ti-heart"></span></a>
+                                    <span class="sticker-sale">new</span>
+                                </div>
+                                <!-- Product Image End -->
+                                <!-- Product Content Start -->
+                                <div class="pro-content">
+                                    <div class="pro-info">
+                                        <h4><a href="{{ path('app_home_product_details') }}">Ponno 360 Camera</a></h4>
+                                        <p><span class="special-price">$140.00</span></p>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span class="quantity-pro">(200+)</span>
+                                        </div>
+                                    </div>
+                                    <div class="pro-add-cart">
+                                        <a href="{{ path('app_home_cart') }}" title="Add to Cart">Add To Cart</a>
+                                    </div>
+                                </div>
+                                <!-- Product Content End -->
+                            </div>
+                            <!-- Single Product End -->
+                            <!-- Single Product Start -->
+                            <div class="single-ponno-product">
+                                <!-- Product Image Start -->
+                                <div class="pro-img">
+                                    <a href="{{ path('app_home_product_details') }}">
+                                        <img class="primary-img" src="{{ asset('resources/img/products/p1.jpg') }}" alt="single-product">
+                                        <img class="secondary-img" src="{{ asset('resources/img/products/p2.jpg') }}" alt="single-product">
+                                    </a>
+                                    <div class="pro-actions-link">
+                                        <a href="{{ path('app_home_product_compare') }}" title="Compare"><span
+                                                    class="icon icon-MusicMixer"></span></a>
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal" title="Quick View">
+                                            <span class="icon icon-Eye"></span>
+                                        </a>
+                                    </div>
+                                    <a class="sticker-new " href="{{ path('app_home_wishlist') }}"><span class="ti-heart"></span></a>
+                                    <span class="sticker-sale">new</span>
+                                </div>
+                                <!-- Product Image End -->
+                                <!-- Product Content Start -->
+                                <div class="pro-content">
+                                    <div class="pro-info">
+                                        <h4><a href="{{ path('app_home_product_details') }}">Ponno 360 Camera</a></h4>
+                                        <p><span class="special-price">$140.00</span></p>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span class="quantity-pro">(200+)</span>
+                                        </div>
+                                    </div>
+                                    <div class="pro-add-cart">
+                                        <a href="{{ path('app_home_cart') }}" title="Add to Cart">Add To Cart</a>
+                                    </div>
+                                </div>
+                                <!-- Product Content End -->
+                            </div>
+                            <!-- Single Product End -->
+                            <!-- Single Product Start -->
+                            <div class="single-ponno-product">
+                                <!-- Product Image Start -->
+                                <div class="pro-img">
+                                    <a href="{{ path('app_home_product_details') }}">
+                                        <img class="primary-img" src="{{ asset('resources/img/products/p1.jpg') }}" alt="single-product">
+                                        <img class="secondary-img" src="{{ asset('resources/img/products/p2.jpg') }}" alt="single-product">
+                                    </a>
+                                    <div class="pro-actions-link">
+                                        <a href="{{ path('app_home_product_compare') }}" title="Compare"><span
+                                                    class="icon icon-MusicMixer"></span></a>
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal" title="Quick View">
+                                            <span class="icon icon-Eye"></span>
+                                        </a>
+                                    </div>
+                                    <a class="sticker-new " href="{{ path('app_home_wishlist') }}"><span class="ti-heart"></span></a>
+                                    <span class="sticker-sale">new</span>
+                                </div>
+                                <!-- Product Image End -->
+                                <!-- Product Content Start -->
+                                <div class="pro-content">
+                                    <div class="pro-info">
+                                        <h4><a href="{{ path('app_home_product_details') }}">Ponno 360 Camera</a></h4>
+                                        <p><span class="special-price">$140.00</span></p>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span class="quantity-pro">(200+)</span>
+                                        </div>
+                                    </div>
+                                    <div class="pro-add-cart">
+                                        <a href="{{ path('app_home_cart') }}" title="Add to Cart">Add To Cart</a>
+                                    </div>
+                                </div>
+                                <!-- Product Content End -->
+                            </div>
+                            <!-- Single Product End -->
+                            <!-- Single Product Start -->
+                            <div class="single-ponno-product">
+                                <!-- Product Image Start -->
+                                <div class="pro-img">
+                                    <a href="{{ path('app_home_product_details') }}">
+                                        <img class="primary-img" src="{{ asset('resources/img/products/p1.jpg') }}" alt="single-product">
+                                        <img class="secondary-img" src="{{ asset('resources/img/products/p2.jpg') }}" alt="single-product">
+                                    </a>
+                                    <div class="pro-actions-link">
+                                        <a href="{{ path('app_home_product_compare') }}" title="Compare"><span
+                                                    class="icon icon-MusicMixer"></span></a>
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal" title="Quick View">
+                                            <span class="icon icon-Eye"></span>
+                                        </a>
+                                    </div>
+                                    <a class="sticker-new " href="{{ path('app_home_wishlist') }}"><span class="ti-heart"></span></a>
+                                    <span class="sticker-sale">new</span>
+                                </div>
+                                <!-- Product Image End -->
+                                <!-- Product Content Start -->
+                                <div class="pro-content">
+                                    <div class="pro-info">
+                                        <h4><a href="{{ path('app_home_product_details') }}">Ponno 360 Camera</a></h4>
+                                        <p><span class="special-price">$140.00</span></p>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span class="quantity-pro">(200+)</span>
+                                        </div>
+                                    </div>
+                                    <div class="pro-add-cart">
+                                        <a href="{{ path('app_home_cart') }}" title="Add to Cart">Add To Cart</a>
+                                    </div>
+                                </div>
+                                <!-- Product Content End -->
+                            </div>
+                            <!-- Single Product End -->
+                            <!-- Single Product Start -->
+                            <div class="single-ponno-product">
+                                <!-- Product Image Start -->
+                                <div class="pro-img">
+                                    <a href="{{ path('app_home_product_details') }}">
+                                        <img class="primary-img" src="{{ asset('resources/img/products/p1.jpg') }}" alt="single-product">
+                                        <img class="secondary-img" src="{{ asset('resources/img/products/p2.jpg') }}" alt="single-product">
+                                    </a>
+                                    <div class="pro-actions-link">
+                                        <a href="{{ path('app_home_product_compare') }}" title="Compare"><span
+                                                    class="icon icon-MusicMixer"></span></a>
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal" title="Quick View">
+                                            <span class="icon icon-Eye"></span>
+                                        </a>
+                                    </div>
+                                    <a class="sticker-new " href="{{ path('app_home_wishlist') }}"><span class="ti-heart"></span></a>
+                                    <span class="sticker-sale">new</span>
+                                </div>
+                                <!-- Product Image End -->
+                                <!-- Product Content Start -->
+                                <div class="pro-content">
+                                    <div class="pro-info">
+                                        <h4><a href="{{ path('app_home_product_details') }}">Ponno 360 Camera</a></h4>
+                                        <p><span class="special-price">$140.00</span></p>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span class="quantity-pro">(200+)</span>
+                                        </div>
+                                    </div>
+                                    <div class="pro-add-cart">
+                                        <a href="{{ path('app_home_cart') }}" title="Add to Cart">Add To Cart</a>
+                                    </div>
+                                </div>
+                                <!-- Product Content End -->
+                            </div>
+                            <!-- Single Product End -->
+                        </div>
+                        <!-- New Product Activation End Here -->
+                    </div>
+                    <!-- #new-pro End Here -->
+                    <div id="featured" class="tab-pane fade">
+                        <!-- Featured Product Activation Start Here -->
+                        <div class="feature-pro-active owl-carousel">
+                            <!-- Single Product Start -->
+                            <div class="single-ponno-product">
+                                <!-- Product Image Start -->
+                                <div class="pro-img">
+                                    <a href="{{ path('app_home_product_details') }}">
+                                        <img class="primary-img" src="{{ asset('resources/img/products/p1.jpg') }}" alt="single-product">
+                                        <img class="secondary-img" src="{{ asset('resources/img/products/p2.jpg') }}" alt="single-product">
+                                    </a>
+                                    <div class="pro-actions-link">
+                                        <a href="{{ path('app_home_product_compare') }}" title="Compare"><span
+                                                    class="icon icon-MusicMixer"></span></a>
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal" title="Quick View">
+                                            <span class="icon icon-Eye"></span>
+                                        </a>
+                                    </div>
+                                    <a class="sticker-new " href="{{ path('app_home_wishlist') }}"><span class="ti-heart"></span></a>
+                                    <span class="sticker-sale">new</span>
+                                </div>
+                                <!-- Product Image End -->
+                                <!-- Product Content Start -->
+                                <div class="pro-content">
+                                    <div class="pro-info">
+                                        <h4><a href="{{ path('app_home_product_details') }}">Ponno 360 Camera</a></h4>
+                                        <p><span class="special-price">$140.00</span></p>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span class="quantity-pro">(200+)</span>
+                                        </div>
+                                    </div>
+                                    <div class="pro-add-cart">
+                                        <a href="{{ path('app_home_cart') }}" title="Add to Cart">Add To Cart</a>
+                                    </div>
+                                </div>
+                                <!-- Product Content End -->
+                            </div>
+                            <!-- Single Product End -->
+                            <!-- Single Product Start -->
+                            <div class="single-ponno-product">
+                                <!-- Product Image Start -->
+                                <div class="pro-img">
+                                    <a href="{{ path('app_home_product_details') }}">
+                                        <img class="primary-img" src="{{ asset('resources/img/products/p1.jpg') }}" alt="single-product">
+                                        <img class="secondary-img" src="{{ asset('resources/img/products/p2.jpg') }}" alt="single-product">
+                                    </a>
+                                    <div class="pro-actions-link">
+                                        <a href="{{ path('app_home_product_compare') }}" title="Compare"><span
+                                                    class="icon icon-MusicMixer"></span></a>
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal" title="Quick View">
+                                            <span class="icon icon-Eye"></span>
+                                        </a>
+                                    </div>
+                                    <a class="sticker-new " href="{{ path('app_home_wishlist') }}"><span class="ti-heart"></span></a>
+                                    <span class="sticker-sale">new</span>
+                                </div>
+                                <!-- Product Image End -->
+                                <!-- Product Content Start -->
+                                <div class="pro-content">
+                                    <div class="pro-info">
+                                        <h4><a href="{{ path('app_home_product_details') }}">Ponno 360 Camera</a></h4>
+                                        <p><span class="special-price">$140.00</span></p>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span class="quantity-pro">(200+)</span>
+                                        </div>
+                                    </div>
+                                    <div class="pro-add-cart">
+                                        <a href="{{ path('app_home_cart') }}" title="Add to Cart">Add To Cart</a>
+                                    </div>
+                                </div>
+                                <!-- Product Content End -->
+                            </div>
+                            <!-- Single Product End -->
+                            <!-- Single Product Start -->
+                            <div class="single-ponno-product">
+                                <!-- Product Image Start -->
+                                <div class="pro-img">
+                                    <a href="{{ path('app_home_product_details') }}">
+                                        <img class="primary-img" src="{{ asset('resources/img/products/p1.jpg') }}" alt="single-product">
+                                        <img class="secondary-img" src="{{ asset('resources/img/products/p2.jpg') }}" alt="single-product">
+                                    </a>
+                                    <div class="pro-actions-link">
+                                        <a href="{{ path('app_home_product_compare') }}" title="Compare"><span
+                                                    class="icon icon-MusicMixer"></span></a>
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal" title="Quick View">
+                                            <span class="icon icon-Eye"></span>
+                                        </a>
+                                    </div>
+                                    <a class="sticker-new " href="{{ path('app_home_wishlist') }}"><span class="ti-heart"></span></a>
+                                    <span class="sticker-sale">new</span>
+                                </div>
+                                <!-- Product Image End -->
+                                <!-- Product Content Start -->
+                                <div class="pro-content">
+                                    <div class="pro-info">
+                                        <h4><a href="{{ path('app_home_product_details') }}">Ponno 360 Camera</a></h4>
+                                        <p><span class="special-price">$140.00</span></p>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span class="quantity-pro">(200+)</span>
+                                        </div>
+                                    </div>
+                                    <div class="pro-add-cart">
+                                        <a href="{{ path('app_home_cart') }}" title="Add to Cart">Add To Cart</a>
+                                    </div>
+                                </div>
+                                <!-- Product Content End -->
+                            </div>
+                            <!-- Single Product End -->
+                            <!-- Single Product Start -->
+                            <div class="single-ponno-product">
+                                <!-- Product Image Start -->
+                                <div class="pro-img">
+                                    <a href="{{ path('app_home_product_details') }}">
+                                        <img class="primary-img" src="{{ asset('resources/img/products/p1.jpg') }}" alt="single-product">
+                                        <img class="secondary-img" src="{{ asset('resources/img/products/p2.jpg') }}" alt="single-product">
+                                    </a>
+                                    <div class="pro-actions-link">
+                                        <a href="{{ path('app_home_product_compare') }}" title="Compare"><span
+                                                    class="icon icon-MusicMixer"></span></a>
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal" title="Quick View">
+                                            <span class="icon icon-Eye"></span>
+                                        </a>
+                                    </div>
+                                    <a class="sticker-new " href="{{ path('app_home_wishlist') }}"><span class="ti-heart"></span></a>
+                                    <span class="sticker-sale">new</span>
+                                </div>
+                                <!-- Product Image End -->
+                                <!-- Product Content Start -->
+                                <div class="pro-content">
+                                    <div class="pro-info">
+                                        <h4><a href="{{ path('app_home_product_details') }}">Ponno 360 Camera</a></h4>
+                                        <p><span class="special-price">$140.00</span></p>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span class="quantity-pro">(200+)</span>
+                                        </div>
+                                    </div>
+                                    <div class="pro-add-cart">
+                                        <a href="{{ path('app_home_cart') }}" title="Add to Cart">Add To Cart</a>
+                                    </div>
+                                </div>
+                                <!-- Product Content End -->
+                            </div>
+                            <!-- Single Product End -->
+                            <!-- Single Product Start -->
+                            <div class="single-ponno-product">
+                                <!-- Product Image Start -->
+                                <div class="pro-img">
+                                    <a href="{{ path('app_home_product_details') }}">
+                                        <img class="primary-img" src="{{ asset('resources/img/products/p1.jpg') }}" alt="single-product">
+                                        <img class="secondary-img" src="{{ asset('resources/img/products/p2.jpg') }}" alt="single-product">
+                                    </a>
+                                    <div class="pro-actions-link">
+                                        <a href="{{ path('app_home_product_compare') }}" title="Compare"><span
+                                                    class="icon icon-MusicMixer"></span></a>
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal" title="Quick View">
+                                            <span class="icon icon-Eye"></span>
+                                        </a>
+                                    </div>
+                                    <a class="sticker-new " href="{{ path('app_home_wishlist') }}"><span class="ti-heart"></span></a>
+                                    <span class="sticker-sale">new</span>
+                                </div>
+                                <!-- Product Image End -->
+                                <!-- Product Content Start -->
+                                <div class="pro-content">
+                                    <div class="pro-info">
+                                        <h4><a href="{{ path('app_home_product_details') }}">Ponno 360 Camera</a></h4>
+                                        <p><span class="special-price">$140.00</span></p>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span class="quantity-pro">(200+)</span>
+                                        </div>
+                                    </div>
+                                    <div class="pro-add-cart">
+                                        <a href="{{ path('app_home_cart') }}" title="Add to Cart">Add To Cart</a>
+                                    </div>
+                                </div>
+                                <!-- Product Content End -->
+                            </div>
+                            <!-- Single Product End -->
+                        </div>
+                        <!-- Featured Product Activation End Here -->
+                    </div>
+                    <!-- #featured End Here -->
+                </div>
+                <!-- Tab Content End -->
+            </div>
+            <!-- main-product-tab-area-->
+        </div>
+    </div>
+    <!-- Featured Product End Here -->
+    <!-- Dual Banner Start Here -->
+    <div class="dual-banner pb-80">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-sm-30">
+                    <!-- Single Bannner Start Here -->
+                    <div class="single-banner zoom">
+                        <a href="{{ path('app_home_shop') }}"><img src="{{ asset('resources/img/banner/b2.jpg') }}" alt="banner-img"></a>
+                    </div>
+                    <!-- Single Bannner End Here -->
+                </div>
+                <div class="col-md-6">
+                    <!-- Single Bannner Start Here -->
+                    <div class="single-banner zoom">
+                        <a href="{{ path('app_home_shop') }}"><img src="{{ asset('resources/img/banner/b3.jpg') }}" alt="banner-img"></a>
+                    </div>
+                    <!-- Single Bannner End Here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Dual Banner End Here -->
+    <!-- Business Edition Watch Start Here -->
+    <div class="business-aditon-watch pb-80">
+        <div class="container">
+            <div class="dark-white-bg main-watch-content">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="row align-items-center">
+                            <div class="col-lg-3 col-3 mb-all-40">
+                                <!-- Small Watch Image Start -->
+                                <div class="thumb_active">
+                                    <div class="small-img">
+                                        <img src="{{ asset('resources/img/pro-view/1.png') }}" alt="small-img">
+                                    </div>
+                                    <div class="small-img">
+                                        <img src="{{ asset('resources/img/pro-view/2.png') }}" alt="small-img">
+                                    </div>
+                                    <div class="small-img">
+                                        <img src="{{ asset('resources/img/pro-view/3.png') }}" alt="small-img">
+                                    </div>
+                                    <div class="small-img">
+                                        <img src="{{ asset('resources/img/pro-view/2.png') }}" alt="small-img">
+                                    </div>
+                                    <div class="small-img">
+                                        <img src="{{ asset('resources/img/pro-view/3.png') }}" alt="small-img">
+                                    </div>
+                                </div>
+                                <!-- Small Watch Image End -->
+                            </div>
+                            <div class="col-lg-9 col-9">
+                                <!-- Large Watch Image Start -->
+                                <div class="large-active text-center">
+                                    <div class="big-img">
+                                        <span><img src="{{ asset('resources/img/pro-view/1.png') }}" alt="large-img"></span>
+                                    </div>
+                                    <div class="big-img">
+                                        <span><img src="{{ asset('resources/img/pro-view/2.png') }}" alt="large-img"></span>
+                                    </div>
+                                    <div class="big-img">
+                                        <span><img src="{{ asset('resources/img/pro-view/3.png') }}" alt="large-img"></span>
+                                    </div>
+                                    <div class="big-img">
+                                        <span><img src="{{ asset('resources/img/pro-view/2.png') }}" alt="large-img"></span>
+                                    </div>
+                                    <div class="big-img">
+                                        <span><img src="{{ asset('resources/img/pro-view/3.png') }}" alt="large-img"></span>
+                                    </div>
+                                </div>
+                                <!-- Large Watch Image End -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="watch-content text-center">
+                            <h2>Aple Watch Business Edition</h2>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+                                has been the industry's standard dummy text</p>
+                            <div class="countdown" data-countdown="2020/12/1"></div>
+                            <div class="watch-pricing d-flex flex-wrap align-items-center justify-content-center">
+                                <p><span class="current-price">$220.00</span><span class="old-price">$300.00</span></p>
+                                <a class="buy-now" href="#">buy now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Business Edition Watch End Here -->
+    <!-- Laptop & Computer Products Start Here -->
+    <div class="lapto-computers pb-80">
+        <div class="container">
+            <div class="electronics-list-area d-flex flex-wrap align-items-center justify-content-between mb-40">
+                <h5 class="e-header mb-sm-15">Laptops & Computers</h5>
+                <div class="e-tabs-list">
+                    <!-- Nav tabs -->
+                    <ul class="nav tabs-area categorie-tabs-area" role="tablist">
+                        <li class="nav-item">
+                            <a class="active" data-toggle="tab" href="#computer">computer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-toggle="tab" href="#laptop">laptop</a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-toggle="tab" href="#camera">camera</a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-toggle="tab" href="#speaker">speaker</a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-toggle="tab" href="#others">others</a>
+                        </li>
+                    </ul>
+                    <!-- Tab Contetn Start -->
+                </div>
+            </div>
+            <!-- Categorie Tab Contetn Start Here -->
+            <div class="tab-content pro-style-changer">
+                <!-- Computer Product Start Here -->
+                <div id="computer" class="tab-pane fade show active">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-6 mb-lg-40">
+                            <!-- Tripple Product Start Here-->
+                            <div class="tripple-pro">
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p1.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">xer jenon dslr</a></h4>
+                                            <p><span class="special-price">$140.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(200+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p2.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">jibon mouse pad</a></h4>
+                                            <p><span class="special-price">$10.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <span class="quantity-pro">(200+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p3.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">olian selfie cam</a></h4>
+                                            <p><span class="special-price">$14.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(140+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                            </div>
+                            <!-- Tripple Product Start Here-->
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-md-6 mb-lg-40">
+                            <!-- Tripple Product Start Here-->
+                            <div class="tripple-pro">
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p4.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Ponno Dia remote</a></h4>
+                                            <p><span class="special-price">$32.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <span class="quantity-pro">(350+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p5.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Razra solo Pro</a></h4>
+                                            <p><span class="special-price">$30.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(100+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p6.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Diari keyboard</a></h4>
+                                            <p><span class="special-price">$140.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-sta-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <span class="quantity-pro">(50+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                            </div>
+                            <!-- Tripple Product Start Here-->
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-md-6">
+                            <!-- Tripple Product Start Here-->
+                            <div class="tripple-pro">
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p7.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">jenon Real Box</a></h4>
+                                            <p><span class="special-price">$140.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <span class="quantity-pro">(200+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p8.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Oliven Ip Cam</a></h4>
+                                            <p><span class="special-price">$140.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(10+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p9.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Ponno Real Box</a></h4>
+                                            <p><span class="special-price">$140.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(200+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                            </div>
+                            <!-- Tripple Product Start Here-->
+                        </div>
+                    </div>
+                </div>
+                <!-- Computer Product End Here -->
+                <!-- Laptop Product Start Here -->
+                <div id="laptop" class="tab-pane fade">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-6 mb-lg-40">
+                            <!-- Tripple Product Start Here-->
+                            <div class="tripple-pro">
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p10.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Razra solo Pro</a></h4>
+                                            <p><span class="special-price">$140.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <span class="quantity-pro">(35+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p11.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">camcoder Pro</a></h4>
+                                            <p><span class="special-price">$40.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(22+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p12.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Orango mousepad</a></h4>
+                                            <p><span class="special-price">$35.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-sta-o"></i>
+                                                <span class="quantity-pro">(20+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                            </div>
+                            <!-- Tripple Product Start Here-->
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-md-6 mb-lg-40">
+                            <!-- Tripple Product Start Here-->
+                            <div class="tripple-pro">
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p2.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Meajo scanner</a></h4>
+                                            <p><span class="special-price">$140.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <span class="quantity-pro">(20+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p13.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Ponno Real Box</a></h4>
+                                            <p><span class="special-price">$140.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <span class="quantity-pro">(36+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p14.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Sydney College</a></h4>
+                                            <p><span class="special-price">$30.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(20+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                            </div>
+                            <!-- Tripple Product Start Here-->
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-md-6">
+                            <!-- Tripple Product Start Here-->
+                            <div class="tripple-pro">
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p1.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Finibus Bonorum</a></h4>
+                                            <p><span class="special-price">$30.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-sta-o"></i>
+                                                <span class="quantity-pro">(70+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p3.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">predefined chunks</a></h4>
+                                            <p><span class="special-price">$20.90</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(40+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p4.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Ponno Real Box</a></h4>
+                                            <p><span class="special-price">$140.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(30+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                            </div>
+                            <!-- Tripple Product Start Here-->
+                        </div>
+                    </div>
+                </div>
+                <!-- Laptop Product End Here -->
+                <!-- Camera Product Start Here -->
+                <div id="camera" class="tab-pane fade">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-6 mb-lg-40">
+                            <!-- Tripple Product Start Here-->
+                            <div class="tripple-pro">
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p1.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">specimen book</a></h4>
+                                            <p><span class="special-price">$140.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(25+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p2.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">randomised words</a></h4>
+                                            <p><span class="special-price">$140.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <span class="quantity-pro">(37+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p3.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">lacinia habitasse</a></h4>
+                                            <p><span class="special-price">$37.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(15+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                            </div>
+                            <!-- Tripple Product Start Here-->
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-md-6 mb-lg-40">
+                            <!-- Tripple Product Start Here-->
+                            <div class="tripple-pro">
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p4.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">aliquam interdum</a></h4>
+                                            <p><span class="special-price">$60.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(24+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p5.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Ponno Real Box</a></h4>
+                                            <p><span class="special-price">$99.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(20+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p6.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">turpis aenean</a></h4>
+                                            <p><span class="special-price">$140.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(20+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                            </div>
+                            <!-- Tripple Product Start Here-->
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-md-6">
+                            <!-- Tripple Product Start Here-->
+                            <div class="tripple-pro">
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p7.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Ponno Real Box</a></h4>
+                                            <p><span class="special-price">$40.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(100+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p8.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Ponno Real Box</a></h4>
+                                            <p><span class="special-price">$140.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(200+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p9.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Euismod nunc</a></h4>
+                                            <p><span class="special-price">$10.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(20+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                            </div>
+                            <!-- Tripple Product Start Here-->
+                        </div>
+                    </div>
+                </div>
+                <!-- Camera Product End Here -->
+                <!-- Speaker Product Start Here -->
+                <div id="speaker" class="tab-pane fade">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-6 mb-lg-40">
+                            <!-- Tripple Product Start Here-->
+                            <div class="tripple-pro">
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p1.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">fermentum dolor</a></h4>
+                                            <p><span class="special-price">$10.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">90+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p2.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">accumsan massa</a></h4>
+                                            <p><span class="special-price">$30.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(40+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p3.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">RIO Real Box</a></h4>
+                                            <p><span class="special-price">$10.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <span class="quantity-pro">(20+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                            </div>
+                            <!-- Tripple Product Start Here-->
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-md-6 mb-lg-40">
+                            <!-- Tripple Product Start Here-->
+                            <div class="tripple-pro">
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p4.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">bibendum porta</a></h4>
+                                            <p><span class="special-price">$45.99</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <span class="quantity-pro">(99+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p5.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Ponno Real Box</a></h4>
+                                            <p><span class="special-price">$140.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(200+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p6.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Digni consequat</a></h4>
+                                            <p><span class="special-price">$50.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(50+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                            </div>
+                            <!-- Tripple Product Start Here-->
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-md-6">
+                            <!-- Tripple Product Start Here-->
+                            <div class="tripple-pro">
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p7.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Real Ponno Box</a></h4>
+                                            <p><span class="special-price">$10.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <span class="quantity-pro">(60+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p8.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">xer jenon dslr</a></h4>
+                                            <p><span class="special-price">$70.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <span class="quantity-pro">(70+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p9.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">olian selfie cam</a></h4>
+                                            <p><span class="special-price">$70.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(100+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                            </div>
+                            <!-- Tripple Product Start Here-->
+                        </div>
+                    </div>
+                </div>
+                <!-- Speaker Product End Here -->
+                <!-- Others Product Start Here -->
+                <div id="others" class="tab-pane fade">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-6 mb-lg-40">
+                            <!-- Tripple Product Start Here-->
+                            <div class="tripple-pro">
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p10.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Razra solo Pro</a></h4>
+                                            <p><span class="special-price">$140.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <span class="quantity-pro">(35+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p11.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">camcoder Pro</a></h4>
+                                            <p><span class="special-price">$40.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(22+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p12.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Orango mousepad</a></h4>
+                                            <p><span class="special-price">$35.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-sta-o"></i>
+                                                <span class="quantity-pro">(20+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                            </div>
+                            <!-- Tripple Product Start Here-->
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-md-6 mb-lg-40">
+                            <!-- Tripple Product Start Here-->
+                            <div class="tripple-pro">
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p2.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Meajo scanner</a></h4>
+                                            <p><span class="special-price">$140.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <span class="quantity-pro">(20+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p13.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Ponno Real Box</a></h4>
+                                            <p><span class="special-price">$140.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <span class="quantity-pro">(36+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p14.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Sydney College</a></h4>
+                                            <p><span class="special-price">$30.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(20+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                            </div>
+                            <!-- Tripple Product Start Here-->
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-md-6">
+                            <!-- Tripple Product Start Here-->
+                            <div class="tripple-pro">
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p1.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Finibus Bonorum</a></h4>
+                                            <p><span class="special-price">$30.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-sta-o"></i>
+                                                <span class="quantity-pro">(70+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p3.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">predefined chunks</a></h4>
+                                            <p><span class="special-price">$20.90</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(40+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                                <!-- Single Product Start -->
+                                <div class="single-ponno-product">
+                                    <!-- Product Image Start -->
+                                    <div class="pro-img">
+                                        <a href="{{ path('app_home_product_details') }}">
+                                            <img class="primary-img" src="{{ asset('resources/img/products/p4.jpg') }}" alt="single-product">
+                                        </a>
+                                    </div>
+                                    <!-- Product Image End -->
+                                    <!-- Product Content Start -->
+                                    <div class="pro-content">
+                                        <div class="pro-info">
+                                            <h4><a href="{{ path('app_home_product_details') }}">Ponno Real Box</a></h4>
+                                            <p><span class="special-price">$140.00</span></p>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span class="quantity-pro">(30+)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Content End -->
+                                </div>
+                                <!-- Single Product End -->
+                            </div>
+                            <!-- Tripple Product Start Here-->
+                        </div>
+                    </div>
+                </div>
+                <!-- Others Product End Here -->
+            </div>
+            <!-- Categorie Tab Contetn End Here -->
+        </div>
+    </div>
+    <!-- Laptop & Computer Products End Here -->
 {% endblock %}

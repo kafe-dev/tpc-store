@@ -1,11 +1,68 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ app_name }}{% endblock %}
-
-{% block stylesheets %}{% endblock %}
-
-{% block body %}
-    {% block content %}{% endblock %}
+{% block stylesheets %}
+    <link rel="shortcut icon" href="{{ asset('resources/img/favicon.ico') }}">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('resources/css/font-awesome.min.css') }}">
+    <!-- Animate css -->
+    <link rel="stylesheet" href="{{ asset('resources/css/animate.css') }}">
+    <!-- Material Design Iconic Font css -->
+    <link rel="stylesheet" href="{{ asset('resources/css/material-design-iconic-font.min.css') }}">
+    <!-- Themify Icon css -->
+    <link rel="stylesheet" href="{{ asset('resources/css/themify-icons.css') }}">
+    <!-- Stroke Gap Icon css -->
+    <link rel="stylesheet" href="{{ asset('resources/css/stroke-gap.css') }}">
+    <!-- Nice select css -->
+    <link rel="stylesheet" href="{{ asset('resources/css/nice-select.css') }}">
+    <!-- Jquery fancybox css -->
+    <link rel="stylesheet" href="{{ asset('resources/css/jquery.fancybox.css') }}">
+    <!-- Jquery ui price slider css -->
+    <link rel="stylesheet" href="{{ asset('resources/css/jquery-ui.min.css') }}">
+    <!-- Meanmenu css -->
+    <link rel="stylesheet" href="{{ asset('resources/css/meanmenu.min.css') }}">
+    <!-- Owl carousel css -->
+    <link rel="stylesheet" href="{{ asset('resources/css/owl.carousel.min.css') }}">
+    <!-- Slick Slider css -->
+    <link rel="stylesheet" href="{{ asset('resources/css/slick.css') }}">
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" href="{{ asset('resources/css/bootstrap.min.css') }}">
+    <!-- Custom css -->
+    <link rel="stylesheet" href="{{ asset('resources/css/default.css') }}">
+    <!-- Main css -->
+    <link rel="stylesheet" href="{{ asset('resources/css/style.css') }}">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="{{ asset('resources/css/responsive.css') }}">
 {% endblock %}
 
-{% block javascripts %}{% endblock %}
+
+
+ {% block body %}
+     {% if app.request.attributes.get('_route') == 'app_home_index' %}
+         {% include '_widgets/_newsletter.html.twig' %}
+     {% endif %}
+     {% include '_partials/header.html.twig' %}
+
+     {% block content %}
+     {% endblock %}
+
+
+     {% include '_partials/footer.html.twig' %}
+     {% include '_widgets/_quickview.html.twig' %}
+ {% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('resources/libs/modernizr-3.5.0.min.js') }}"></script>
+    <script src="{{ asset('resources/libs/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('resources/js/jquery.meanmenu.min.js') }}"></script>
+    <script src="{{ asset('resources/js/jquery.scrollUp.js') }}"></script>
+    <script src="{{ asset('resources/js/jquery.fancybox.min.js') }}"></script>
+    <script src="{{ asset('resources/js/jquery.countdown.min.js') }}"></script>
+    <script src="{{ asset('resources/js/jquery.nice-select.min.js') }}"></script>
+    <script src="{{ asset('resources/js/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('resources/js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('resources/js/slick.min.js') }}"></script>
+    <script src="{{ asset('resources/js/popper.min.js') }}"></script>
+    <script src="{{ asset('resources/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('resources/js/plugins.js') }}"></script>
+    <script src="{{ asset('resources/js/main.js') }}"></script>
+{% endblock %}
+
