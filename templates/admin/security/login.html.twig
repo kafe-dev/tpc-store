@@ -8,7 +8,7 @@
             <strong>Lỗi!</strong> {{ error }}
         </div>
     {% endif %}
-    <form action="{{ url('app_security_login') }}" method="post" class="p-2">
+    <form action="{{ url('admin_security_login') }}" method="post" class="p-2">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
         <div class="form-group">
             <label for="username">Tài Khoản <span class="text-danger">*</span></label>
