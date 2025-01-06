@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Class BaseController.
@@ -24,6 +25,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 abstract class BaseController extends AbstractController
 {
     /**
+     * @var SerializerInterface SerializerInterface
+     */
+    protected SerializerInterface $serializer;
+    /**
      * @var EntityManagerInterface $em EntityManagerInterface instance
      */
     protected EntityManagerInterface $em;
@@ -31,11 +36,14 @@ abstract class BaseController extends AbstractController
     /**
      * Constructor.
      *
-     * @param  EntityManagerInterface  $em
+     * @param EntityManagerInterface $em
+     * @param SerializerInterface $serializer
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, SerializerInterface $serializer)
     {
         $this->em = $em;
+        $this->serializer = $serializer;
     }
+
 
 }
