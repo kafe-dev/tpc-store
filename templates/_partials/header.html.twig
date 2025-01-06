@@ -1,0 +1,264 @@
+<!-- Header Area Start Here -->
+<header class="header-area">
+    <div class="header-top">
+        <div class="container">
+            <div class="row align-items-center text-center text-md-left">
+                <!-- Logo Start -->
+                <div class="col-md-3 col order-1 order-md-1 mb-sm-30">
+                    <div class="logo">
+                        <a href="#"><img src="{{ asset('resources/img/logo/logo.png') }}" alt="logo-img"></a>
+                    </div>
+                </div>
+                <!-- Logo End -->
+                <!-- Search Box Start Here -->
+                <div class="col-md-6  order-3 order-md-2">
+                    <div class=" categorie-search-box">
+                        <form action="#">
+                            <label>
+                                <input type="text" name="search" placeholder="Search your keyword">
+                            </label>
+                            <button>
+                                <span class="ti-search"></span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <!-- Search Box End Here -->
+                <!-- Cart Box Start Here -->
+                <div class="col-md-3 col order-2 order-md-3 mb-sm-30">
+                    <div class="cart-box float-md-right">
+                        <div class="drodown-show">
+                            <a href="#">
+                                <span class="total-pro">2 item <br><span>$160.00</span></span>
+                            </a>
+                            <ul class="dropdown cart-box-width">
+                                <li>
+                                    <!-- Cart Box Start -->
+                                    <div class="single-cart-box">
+                                        <div class="cart-img">
+                                            <a href="#">
+                                                <img src="{{ asset('resources/img/products/p1.jpg') }}" alt="cart-image">
+                                            </a>
+                                            <span class="pro-quantity">1X</span>
+                                        </div>
+                                        <div class="cart-content">
+                                            <h6>
+                                                <a href="#">Printed Summer Red </a>
+                                            </h6>
+                                            <span class="cart-price">27.45</span>
+                                            <span>Size: S</span>
+                                            <span>Color: Yellow</span>
+                                        </div>
+                                        <a class="del-icone" href="#">
+                                            <span class="ti-close"></span>
+                                        </a>
+                                    </div>
+                                    <!-- Cart Box End -->
+                                    <!-- Cart Box Start -->
+                                    <div class="single-cart-box">
+                                        <div class="cart-img">
+                                            <a href="#">
+                                                <img src="{{ asset('resources/img/products/p2.jpg') }}" alt="cart-image">
+                                            </a>
+                                            <span class="pro-quantity">1X</span>
+                                        </div>
+                                        <div class="cart-content">
+                                            <h6>
+                                                <a href="{{ path('app_home_product_details') }}">Printed Round Neck</a>
+                                            </h6>
+                                            <span class="cart-price">45.00</span>
+                                            <span>Size: XL</span>
+                                            <span>Color: Green</span>
+                                        </div>
+                                        <a class="del-icone" href="#">
+                                            <span class="ti-close"></span>
+                                        </a>
+                                    </div>
+                                    <!-- Cart Box End -->
+                                    <!-- Cart Footer Inner Start -->
+                                    <div class="cart-footer">
+                                        <ul class="price-content">
+                                            <li>Subtotal
+                                                <span>$57.95</span>
+                                            </li>
+                                            <li>Shipping
+                                                <span>$7.00</span>
+                                            </li>
+                                            <li>Taxes
+                                                <span>$0.00</span>
+                                            </li>
+                                            <li>Total
+                                                <span>$64.95</span>
+                                            </li>
+                                        </ul>
+                                        <div class="cart-actions text-center">
+                                            <a class="cart-checkout" href="{{ path('app_home_checkout') }}">Checkout</a>
+                                        </div>
+                                    </div>
+                                    <!-- Cart Footer Inner End -->
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Cart Box End Here -->
+            </div>
+        </div>
+    </div>
+    <div class="header-bottom blue-bg header-sticky">
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- Menu Area Start Here -->
+                <div class="col-lg-10 d-none d-lg-block">
+                    <nav>
+                        <ul class="header-menu-list">
+                            <li>
+                                <a href="{{ path('app_home_index') }}">home</a>
+                            </li>
+                            <li>
+                                <a class="drop-icon" href="#">pages</a>
+                                <!-- Home Version Dropdown Start -->
+                                <ul class="ht-dropdown">
+                                    <li>
+                                        <a href="{{ path('app_home_contact_us') }}">contact us</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('app_home_about_us') }}">about us</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('app_home_404') }}">404</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('app_home_forgot_password') }}">forgot password</a>
+                                    </li>
+                                </ul>
+                                <!-- Home Version Dropdown End -->
+                            </li>
+
+                            <li>
+                                <a class="drop-icon" href="#">shop</a>
+                                <!-- Home Version Dropdown Start -->
+                                <ul class="ht-dropdown">
+                                    <li>
+                                        <a href="{{ path('app_home_shop') }}">Shop</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('app_home_product_details') }}">product details</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('app_home_product_compare') }}">compare</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('app_home_cart') }}">cart</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('app_home_checkout') }}">checkout</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('app_home_wishlist') }}">wishlist</a>
+                                    </li>
+                                </ul>
+                                <!-- Home Version Dropdown End -->
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <!-- Menu Area End Here -->
+                <!-- Cart Box Start Here -->
+                <div class="col-lg-2">
+                    <div class="setting-box float-right">
+                        <ul>
+                            <li class="drodown-show"><a href="#"><span class="ti-settings"></span></a>
+                                <!-- Currency & Language Selection Start -->
+                                <ul class="dropdown cart-box-width currency-selector">
+                                    <li>
+                                        <h3>My Account </h3>
+                                        <ul>
+                                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                                <!-- Menu for Logged-in Users -->
+                                                <li><a href="{{ path('app_security_profile') }}">My Profile</a></li>
+                                                <li><a href="{{ path('app_security_logout') }}">Logout</a></li>
+                                            {% else %}
+                                                <!-- Menu for Guests -->
+                                                <li><a href="{{ path('app_security_register') }}">Register</a></li>
+                                                <li><a href="{{ path('app_security_login') }}">Login</a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <!-- Currency & Language Selection End -->
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Cart Box End Here -->
+            </div>
+            <!-- Row End -->
+            <!-- Mobile Menu Start Here -->
+            <div class="mobile-menu d-block d-lg-none" data-menu="Menu">
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="{{ path('app_home_index') }}">home</a>
+                        </li>
+                        <li>
+                            <a href="#">shop</a>
+                            <!-- Mobile Menu Dropdown Start -->
+                            <ul>
+                                <li>
+                                    <a href="{{ path('app_home_shop') }}">Shop</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('app_home_product_details') }}">product details</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('app_home_product_compare') }}">compare</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('app_home_cart') }}">cart</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('app_home_checkout') }}">checkout</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('app_home_wishlist') }}">wishlist</a>
+                                </li>
+                            </ul>
+                            <!-- Mobile Menu Dropdown End -->
+                        </li>
+
+                        <li>
+                            <a href="#">pages</a>
+                            <!-- Mobile Menu Dropdown Start -->
+                            <ul>
+                                <li>
+                                    <a href="{{ path('app_home_contact_us') }}">contact us</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('app_home_about_us') }}">about us</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('app_security_register') }}">register</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('app_security_login') }}">Login</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('app_home_404') }}">404</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('app_home_forgot_password') }}">forgot password</a>
+                                </li>
+                            </ul>
+                            <!-- Mobile Menu Dropdown End -->
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+            <!-- Mobile Menu End Here -->
+        </div>
+        <!-- Container End -->
+    </div>
+</header>
+<!-- Header Area End Here -->

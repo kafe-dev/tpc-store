@@ -1,0 +1,151 @@
+{% extends '_layouts/main.html.twig' %}
+
+{% block title %}{{ title }}  | {{ app_name }}{% endblock title %}
+
+{% block content %}
+    <!-- Breadcrumb Area Start Here -->
+    <div class="breadcrumb-area">
+        <div class="container">
+            <ol class="breadcrumb breadcrumb-list">
+                <li class="breadcrumb-item">
+                    <a href="{{ path('app_home_index') }}">Home</a>
+                </li>
+                <li class="breadcrumb-item active">Compare</li>
+            </ol>
+        </div>
+    </div>
+    <!-- Breadcrumb Area End Here -->
+    <!-- Compare Product Start Here -->
+    <div class="compare-product ptb-80">
+        <div class="container">
+            <div class="table-responsive">
+                <table class="table text-center compare-content">
+                    <tbody>
+                    <tr>
+                        <td class="product-title">Product</td>
+                        <td class="product-description">
+                            <div class="compare-details">
+                                <div class="compare-detail-img">
+                                    <a href="#"><img src="{{ asset('resources/img/products/p1.jpg') }}" alt="compare-product"></a>
+                                </div>
+                                <div class="compare-detail-content">
+                                    <span>electronicsxpaster</span>
+                                    <h4><a href="{{ path('app_home_product_details') }}">exclusive electronicsmarial</a></h4>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="product-description">
+                            <div class="compare-details">
+                                <div class="compare-detail-img">
+                                    <a href="#"><img src="{{ asset('resources/img/products/p10.jpg') }}" alt="compare-product"></a>
+                                </div>
+                                <div class="compare-detail-content">
+                                    <span>zipper murianlaian</span>
+                                    <h4><a href="{{ path('app_home_product_details') }}">Rockstar Clock Everyone</a></h4>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="product-description">
+                            <div class="compare-details">
+                                <div class="compare-detail-img">
+                                    <a href="#"><img src="{{ asset('resources/img/products/p9.jpg') }}" alt="compare-product"></a>
+                                </div>
+                                <div class="compare-detail-content">
+                                    <span>Sapper Delux Drone</span>
+                                    <h4><a href="{{ path('app_home_product_details') }}">Carbon diale ovimany</a></h4>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="product-title">Description</td>
+                        <td class="product-description">
+                            <p>Impressively thin and light, the HP EliteBook 840 empowers users to create, connect, and
+                                collaborate </p>
+                        </td>
+                        <td class="product-description">
+                            <p>Impressively thin and light, the HP EliteBook 840 empowers users to create, connect, and
+                                collaborate</p>
+                        </td>
+                        <td class="product-description">
+                            <p>Impressively thin and light, the HP EliteBook 840 empowers users to create, connect, and
+                                collaborate</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="product-title">Price</td>
+                        <td class="product-description">$235</td>
+                        <td class="product-description">$275</td>
+                        <td class="product-description">$190</td>
+                    </tr>
+                    <tr>
+                        <td class="product-title">Color</td>
+                        <td class="product-description">Black</td>
+                        <td class="product-description">Yellow</td>
+                        <td class="product-description">White</td>
+                    </tr>
+                    <tr>
+                        <td class="product-title">Stock</td>
+                        <td class="product-description">In Stock</td>
+                        <td class="product-description">Stock Out</td>
+                        <td class="product-description">In Stock</td>
+                    </tr>
+                    <tr>
+                        <td class="product-title">Add to cart</td>
+                        <td class="product-description">
+                            <a class="compare-cart text-uppercase" href="{{ path('app_home_cart') }}"><i class="fa fa-shopping-cart"></i>add
+                                to cart</a>
+                        </td>
+                        <td class="product-description">
+                            <a class="compare-cart text-uppercase" href="{{ path('app_home_cart') }}"><i class="fa fa-shopping-cart"></i>add
+                                to cart</a>
+                        </td>
+                        <td class="product-description">
+                            <a class="compare-cart text-uppercase" href="{{ path('app_home_cart') }}"><i class="fa fa-shopping-cart"></i>add
+                                to cart</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="product-title">Delete</td>
+                        <td class="product-description"><i class="fa fa-trash-o"></i></td>
+                        <td class="product-description"><i class="fa fa-trash-o"></i></td>
+                        <td class="product-description"><i class="fa fa-trash-o"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="product-title">Rating</td>
+                        <td class="product-description">
+                            <div class="product-rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+                        </td>
+                        <td class="product-description">
+                            <div class="product-rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                        </td>
+                        <td class="product-description">
+                            <div class="product-rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Compare Product End Here -->
+{% endblock %}
+
