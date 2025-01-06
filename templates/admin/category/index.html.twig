@@ -93,7 +93,6 @@
                 window.location.reload(true);
             };
         });
-        q
     </script>
     <script type="module">
         $(document).ready(function () {
@@ -106,7 +105,7 @@
                 headers: {'Cache-Control': 'no-cache'},
                 contentType: 'application/json',
                 success: function (data) {
-                    // table.empty();
+                    table.empty();
 
                     console.log(data);
 
@@ -123,7 +122,7 @@
                             '<td>' +
                             '<a class="btn btn-outline-info btn-sm btn-detail mr-2 mb-1" href="' + item.actions.detail + '"><i class="fa fa-eye"></i></a>' +
                             '<a class="btn btn-outline-warning btn-sm btn-edit mr-2 mb-1" href="' + item.actions.update + '"><i class="fa fa-edit"></i></a>' +
-                            '<a class="btn btn-outline-danger btn-sm btn-delete mb-1" data-url="' + item.actions.delete + '" class="btn-delete" href=""><i class="fa fa-trash"></i></a>' +
+                            '<a class="btn btn-outline-danger btn-sm btn-delete mb-1" class="btn-delete" href="' + item.actions.delete + '"><i class="fa fa-trash"></i></a>' +
                             '</td>' +
                             '</tr>'
                         );
@@ -171,27 +170,6 @@
                             }
                     });
                     a.buttons().container().appendTo("#category-datatable-buttons_wrapper .col-md-6:eq(0)");
-                }
-            });
-        });
-    </script>
-    <script type="module">
-        $(document).ready(function () {
-            // Delete category
-            $(document).on('click', '.btn-delete', function () {
-                let deleteUrl = $(this).data('url');
-                if (confirm('Bạn có chắc chắn muốn xóa?')) {
-                    $.ajax({
-                        url: deleteUrl,
-                        type: 'GET',
-                        cache: false,
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        },
-                        success: function () {
-                            location.reload();
-                        }
-                    });
                 }
             });
         });
