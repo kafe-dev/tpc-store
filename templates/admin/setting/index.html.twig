@@ -1,0 +1,136 @@
+{% extends '_layouts/admin/main.html.twig' %}
+
+{% block page %}Setting{% endblock %}
+
+{% block content %}
+    <div class="d-flex flex-row justify-content-between align-items-center">
+        <h1>Danh sách cài đặt</h1>
+        <a class="btn btn-success btn-bordered-success" href="">Thêm mới</a>
+    </div>
+    <table class="table table-bordered dt-responsive nowrap" id="settingTable"
+           style="border-collapse: collapse; border-spacing: 0; width: 100%;"
+           data-turbolinks="false"
+    >
+        <thead class="thead-light">
+        <tr>
+            <th>STT</th>
+            <th>Tên</th>
+            <th>Code</th>
+            <th>Giá trị</th>
+            <th>Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+        <tfoot>
+        <tr>
+            <th>STT</th>
+            <th>Tên</th>
+            <th>Code</th>
+            <th>Giá trị</th>
+            <th>Hành động</th>
+        </tr>
+        </tfoot>
+    </table>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module">
+        $(document).ready(function () {
+            function initializeTable() {
+                if ($('#settingTable_wrapper').length > 0) {
+                    return;
+                }
+                $('#settingTable').dataTable({
+                    lengthChange: false,
+                    columnDefs: [
+                        { orderable: false, targets: [2, 3, 4] },
+                        { searchable: false, targets: 4 },
+                        { width: '5%', targets: 0 },
+                        { width: '25%', targets: 1 },
+                        { width: '20%', targets: 2 },
+                        { width: '35%', targets: 3 },
+                        { width: '15%', targets: 4 },
+                    ],
+                    initComplete: function () {
+                        this.api()
+                            .columns()
+                            .every(function (index) {
+                                const column = this;
+                                const dropdownColumns = [1];
+                                const nonSearchColumns = [0, 4];
+                                if (dropdownColumns.includes(index)) {
+                                    const select = $('<select class="w-100 rounded-1 p-1"><option value="">Tất cả</option></select>')
+                                        .appendTo($(column.footer()).empty())
+                                        .on('change', function () {
+                                            column.search($(this).val() || '', { exact: true }).draw();
+                                        });
+                                    column
+                                        .data()
+                                        .unique()
+                                        .sort()
+                                        .each(function (d) {
+                                            select.append('<option value="' + d + '">' + d + '</option>');
+                                        });
+                                } else if (!nonSearchColumns.includes(index)) {
+                                    $('<input class="w-100 rounded-1 p-1" type="text" placeholder="Search" />')
+                                        .appendTo($(column.footer()).empty())
+                                        .on('keyup change clear', function () {
+                                            if (column.search() !== this.value) {
+                                                column.search(this.value).draw();
+                                            }
+                                        });
+                                }
+                            });
+                    },
+                });
+            }
+            function fetchData() {
+                $.ajax({
+                    url: '{{ url('admin_setting_list') }}',
+                    type: 'GET',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        const tableBody = $('#settingTable tbody');
+                        tableBody.empty();
+                        if (data.length === 0) {
+                            tableBody.append(`
+                            <tr>
+                                <td colspan="6">Không tìm thấy kết quả</td>
+                            </tr>
+                        `);
+                        } else {
+                            var loop = 1;
+                            data.forEach(function (setting) {
+                                const actions = `
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <a href="${setting.actions.detail}"><i class="mdi mdi-eye-circle-outline mdi-24px"></i></a>
+                                    <a href="${setting.actions.update}"><i class="mdi mdi-circle-edit-outline mdi-24px"></i></a>
+                                </div>
+                                `;
+
+                                tableBody.append(`
+                                <tr>
+                                    <td>${loop++}</td>
+                                    <td>${setting.name}</td>
+                                    <td>${setting.code}</td>
+                                    <td>${setting.data}</td>
+                                    <td>${actions}</td>
+                                </tr>
+                                `);
+                            });
+                        }
+                        initializeTable(); // Initialize DataTable after fetching data
+                    },
+                    error: function () {
+                        console.error('Error fetching supplier data.');
+                    },
+                });
+            }
+
+            // Fetch data when the page is loaded
+            fetchData();
+        });
+    </script>
+{% endblock %}
