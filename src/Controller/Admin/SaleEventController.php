@@ -41,7 +41,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 #[Route(path: '/admin/sale_event', name: 'admin_sale_event_')]
 class SaleEventController extends BaseController implements CrudInterface
 {
-
     /**
      * Sale Event Repository
      *
