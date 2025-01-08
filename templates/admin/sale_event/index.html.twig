@@ -90,10 +90,14 @@
 
     <script>
         $(document).ready(function () {
+            if ($('#sale-event-datatable_wrapper').length > 0) {
+                return;
+            }
+
             var table = $('#sale-event-datatable tbody')
 
             $.ajax({
-                url: '{{ path('admin_sale_event_get_list') }}',
+                url: '{{ path('admin_sale_event_list') }}',
                 type: 'GET',
                 contentType: 'application/json',
                 success: function (data) {

@@ -1,15 +1,15 @@
 {% extends '_layouts/admin/main.html.twig' %}
 
-{% block page %}{{ page_title }}{% endblock %}
+{% block title %}{{ page_title }}{% endblock %}
 
 {% block content %}
 
-    <div class="row">
+    <div class="row" style="display: grid;">
         <div class="col-lg-6">
             <div>
                 <h5 class="font-14">Chi tiết sự kiện sale</h5>
                 <p class="sub-header">
-                    Đây là trang chi tiết cài đặt. Vui lòng xem thông tin chi tiết của cài đặt bên dưới.
+                    Đây là trang chi tiết sự kiện sale. Vui lòng xem thông tin chi tiết của sự kiện bên dưới.
                     (<span style="color: red">*</span>) là trường bắt buộc.
                 </p>
 
@@ -55,40 +55,151 @@
                 </style>
 
                 <div class="button-list d-flex justify-content-center">
-                    <a href="{{ path('admin_sale-event_update', {'id': sale_event.id}) }}" class="btn btn-primary waves-effect waves-light">Chỉnh sửa</a>
-                    <button class="btn btn-danger waves-effect waves-light" data-id="{{ sale_event.id }}">Xóa</button>
-                    <a href="{{ path('admin_sale-event_index') }}" class="btn btn-secondary waves-effect waves-light">Quay lại</a>
-
-                    <script>
-                        $(document).ready(function() {
-                            $('.btn-danger').click(function() {
-                                let setting = $(this).data('id');
-
-                                if (confirm('Bạn có chắc chắn muốn xóa cài đặt này không?')) {
-                                    $.ajax({
-                                        url: '{{ path('admin_sale-event_delete', {'id': sale_event.id}) }}',
-                                        type: 'POST',
-                                        data: {
-                                            delete_id: setting
-                                        },
-                                        headers: {
-                                            'X-Requested-With': 'XMLHttpRequest'
-                                        },
-                                        success: function () {
-                                            alert('Xóa thành công!');
-                                            location.reload();
-                                        },
-                                        error: function () {
-                                            alert('Có lỗi xảy ra khi xóa!');
-                                        }
-                                    });
-                                }
-                            });
-                        });
-                    </script>
+                    <a href="{{ path('admin_sale_event_update', {'id': sale_event.id}) }}" class="btn btn-primary waves-effect waves-light">Chỉnh sửa</a>
+                    <a href="{{ path('admin_sale_event_index') }}" class="btn btn-secondary waves-effect waves-light">Quay lại</a>
                 </div>
             </div>
         </div>
+
+        <hr>
+        <div class="col-lg-6">
+            <h5>Thuộc tính bổ sung (Meta Data)</h5>
+            {% if meta_data is not empty %}
+                <ul>
+                    {% for meta in meta_data %}
+                        <li>{{ meta.meta_key }}: {{ meta.meta_value|join(', ') }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Không có thuộc tính bổ sung.</p>
+            {% endif %}
+        </div>
+
+        <hr>
+        <div class="col-lg-12">
+            <h5>Các biến thể sản phẩm liên quan</h5>
+            <table id="product-variant-table" class="table table-bordered table-striped dt-responsive nowrap font-12 "
+                   style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên Sản Phẩm</th>
+                    <th>Giá</th>
+                    <th>Tình trạng khuyến mãi</th>
+                    <th>Giá bán</th>
+                    <th>Ngày bắt đầu khuyến mãi</th>
+                    <th>Ngày kết thúc khuyến mãi</th>
+                    <th>Tồn kho</th>
+                    <th>Vị Trí</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if productVariants %}
+                    {% for productVariant in productVariants %}
+                            <tr>
+                                <td>{{ productVariant.id }}</td>
+                                <td>{{ productVariant.product.name }}</td>
+                                <td>{{ productVariant.price }}</td>
+                                <td>{{ productVariant.onSale }}</td>
+                                <td>{{ productVariant.salePrice }}</td>
+                                <td>{{ productVariant.saleStartAt |date('Y-m-d, H:i:s') }}</td>
+                                <td>{{ productVariant.saleEndAt |date('Y-m-d, H:i:s') }}</td>
+                                <td>{{ productVariant.stock }}</td>
+                                <td>{{ productVariant.position }}</td>
+                            </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="10">Không tìm thấy các biến thể sản phẩm liên quan</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên Sản Phẩm</th>
+                    <th>Giá</th>
+                    <th>Tình trạng khuyến mãi</th>
+                    <th>Giá bán</th>
+                    <th>Ngày bắt đầu khuyến mãi</th>
+                    <th>Ngày kết thúc khuyến mãi</th>
+                    <th>Tồn kho</th>
+                    <th>Vị Trí</th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+
     </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <!-- Required datatable js -->
+    <script src="{{ asset('resources/admin/libs/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Buttons examples -->
+    <script src="{{ asset('resources/admin/libs/datatables/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/dataTables.keyTable.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/dataTables.select.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/buttons.print.min.js') }}"></script>
+
+    <!-- Responsive examples -->
+    <script src="{{ asset('resources/admin/libs/datatables/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/responsive.bootstrap4.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            if ($('#product-variant-table_wrapper').length > 0) {
+                return;
+            }
+
+            $(document).ready(function () {
+                $('#product-variant-table').DataTable({
+                    autoWidth: false,
+                    columnDefs: [
+                        { width: '5%', targets: 0 },
+                        { width: '15%', targets: 1 },
+                        { width: '15%', targets: 2 },
+                        { width: '5%', targets: 3 },
+                        { width: '10%', targets: 4 },
+                        { width: '20%', targets: 5 },
+                        { width: '20%', targets: 6 },
+                        { width: '5%', targets: 7 },
+                        { width: '5%', targets: 8 },
+                        { orderable: false, targets: 8 },
+                        { searchable: false, targets: 8 },
+                    ],
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (column.index() === 9) {
+                                return;
+                            }
+                            var input = document.createElement('input');
+                            input.type = 'text';
+                            input.style.width = '100%';
+                            input.placeholder = 'Search...';
+                            column.footer().replaceChildren(input);
+
+                            input.addEventListener('input', function () {
+                                column.search(this.value).draw();
+                            });
+                        });
+                    }
+                });
+            });
+
+        });
+    </script>
 
 {% endblock %}
