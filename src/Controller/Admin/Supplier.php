@@ -48,7 +48,6 @@ class Supplier extends BaseController implements CrudInterface
      * @var SupplierMetaRepository $supplierMetaRepository
      */
     private SupplierMetaRepository $supplierMetaRepository;
-    private SerializerInterface $serializer;
 
     public function __construct(EntityManagerInterface $em, SerializerInterface $serializer)
     {

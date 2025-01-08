@@ -25,9 +25,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     final public const string ROLE_ADMIN = 'ROLE_ADMIN';
 
+    final public const string ROLE_MANAGER = 'ROLE_MANAGER';
+
     final public const array ROLES = [
         self::ROLE_USER  => 'User',
         self::ROLE_ADMIN => 'Administrator',
+        self::ROLE_MANAGER => 'Manager',
     ];
 
     final public const int STATUS_INACTIVE = 0;
