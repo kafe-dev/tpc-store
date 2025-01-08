@@ -41,6 +41,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 #[Route(path: '/admin/sale_event', name: 'admin_sale_event_')]
 class SaleEventController extends BaseController implements CrudInterface
 {
+
     /**
      * Sale Event Repository
      *
@@ -65,7 +66,7 @@ class SaleEventController extends BaseController implements CrudInterface
      * @var ProductVariantRepository $productVariantRepository
      */
     private ProductVariantRepository $productVariantRepository;
-    private SerializerInterface $serializer;
+
     public function __construct(EntityManagerInterface $em, SerializerInterface $serializer)
     {
         parent::__construct($em, $serializer);
@@ -255,58 +256,6 @@ class SaleEventController extends BaseController implements CrudInterface
         }
 
         return $this->redirectToRoute('admin_sale_event_index');
-    }
-
-    /**
-     * Persist Data before flushing.
-     *
-     * @param SaleEvent $saleEvent
-     * @param $form
-     * @param bool $needPersist
-     * @return void
-     */
-    private function persistData(SaleEvent $supplier, $form, bool $needPersist = false): void
-    {
-        $supplier->setName($form->get('name')->getData());
-
-        if ($needPersist === true) {
-            $this->em->persist($supplier);
-        }
-    }
-
-    /**
-     * Persist MetaData before flushing.
-     *
-     * @param SupplierEntity $supplier
-     * @param array $metaData
-     * @param bool $needPersist
-     * @return void
-     */
-    private function persistMetaData(SupplierEntity $supplier, array $metaData, bool $needPersist = false): void
-    {
-        $existingSupplierMeta = $this->supplierMetaRepository->findBy(['supplier' => $supplier->getId()]);
-        $metaMap = [];
-
-        foreach ($existingSupplierMeta as $meta) {
-            $metaMap[$meta->getMetaKey()] = $meta;
-        }
-
-        foreach ($metaData as $key => $value) {
-            if (isset($metaMap[$key])) {
-                // Update existing meta
-                $metaMap[$key]->setMetaValue([$value]);
-            } else {
-                // Create new meta if it doesn't exist
-                $newMeta = new SupplierMetaEntity();
-                $newMeta->setSupplier($supplier);
-                $newMeta->setMetaKey($key);
-                $newMeta->setMetaValue([$value]);
-
-                if ($needPersist === true) {
-                    $this->em->persist($newMeta);
-                }
-            }
-        }
     }
 
 }
