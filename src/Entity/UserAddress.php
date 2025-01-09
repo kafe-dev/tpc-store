@@ -34,7 +34,7 @@ class UserAddress
     private ?User $user = null;
 
     #[ORM\OneToOne(targetEntity: Commune::class, inversedBy: 'userAddresses')]
-    #[ORM\JoinColumn(name: 'commune_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(name: 'commune_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
     private ?Commune $commune = null;
 
     #[ORM\Column(length: 500)]

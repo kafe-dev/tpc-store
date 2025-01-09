@@ -34,13 +34,13 @@ class Commune
 
     #[ORM\Column(type: Types::DECIMAL, precision: 65, scale: 8)]
     private ?string $longitude = null;
-    #[ORM\OneToOne(targetEntity: UserAddress::class, mappedBy: 'commune', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: UserAddress::class, mappedBy: 'commune')]
     private ?UserAddress $userAddresses = null;
 
     /**
      * @var Collection<int, Inventory>
      */
-    #[ORM\OneToMany(targetEntity: Inventory::class, mappedBy: 'commune', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Inventory::class, mappedBy: 'commune')]
     private Collection $inventories;
 
     public function __construct()
