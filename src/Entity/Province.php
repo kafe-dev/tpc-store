@@ -34,7 +34,7 @@ class Province
     /**
      * @var Collection<int, District>
      */
-    #[ORM\OneToMany(targetEntity: District::class, mappedBy: 'province', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: District::class, mappedBy: 'province', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $districts;
 
     public function __construct()

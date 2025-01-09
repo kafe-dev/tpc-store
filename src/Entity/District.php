@@ -25,7 +25,7 @@ class District
     #[ORM\Column(length: 255)]
     private ?string $code = null;
 
-    #[ORM\ManyToOne(targetEntity: Province::class, cascade: ['persist', 'remove'], inversedBy: 'districts')]
+    #[ORM\ManyToOne(targetEntity: Province::class, inversedBy: 'districts')]
     #[ORM\JoinColumn(name: 'province_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Province $province = null;
 
@@ -38,7 +38,7 @@ class District
     /**
      * @var Collection<int, Commune>
      */
-    #[ORM\OneToMany(targetEntity: Commune::class, mappedBy: 'district', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Commune::class, mappedBy: 'district', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $communes;
 
     public function __construct()

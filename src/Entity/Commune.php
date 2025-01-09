@@ -25,7 +25,7 @@ class Commune
     #[ORM\Column(length: 255)]
     private ?string $code = null;
 
-    #[ORM\ManyToOne(targetEntity: District::class, cascade: ['persist', 'remove'], inversedBy: 'communes')]
+    #[ORM\ManyToOne(targetEntity: District::class, inversedBy: 'communes')]
     #[ORM\JoinColumn(name: 'district_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?District $district = null;
 
