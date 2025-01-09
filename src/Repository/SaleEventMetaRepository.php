@@ -15,4 +15,14 @@ class SaleEventMetaRepository extends ServiceEntityRepository
         parent::__construct($registry, SaleEventMeta::class);
     }
 
+    public function findMetaBySaleEventId(int $saleEventId): array
+    {
+        return $this->createQueryBuilder('m')
+            ->select('m.meta_key', 'm.meta_value')
+            ->where('m.sale_event = :saleEventId')
+            ->setParameter('saleEventId', $saleEventId)
+            ->getQuery()
+            ->getArrayResult();
+    }
+
 }

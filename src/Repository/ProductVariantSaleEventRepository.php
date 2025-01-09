@@ -15,4 +15,15 @@ class ProductVariantSaleEventRepository extends ServiceEntityRepository
         parent::__construct($registry, ProductVariantSaleEvent::class);
     }
 
+    public function findProductVariantsBySaleEventId(int $saleEventId): array
+    {
+        return $this->createQueryBuilder('pv')
+            ->leftJoin('pv.sale_event', 'se')
+            ->addSelect('se')
+            ->where('se.id = :saleEventId')
+            ->setParameter('saleEventId', $saleEventId)
+            ->getQuery()
+            ->getResult();
+    }
+
 }
