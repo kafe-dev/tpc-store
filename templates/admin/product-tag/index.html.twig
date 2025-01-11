@@ -1,0 +1,112 @@
+{% extends '_layouts/admin/main.html.twig' %}
+
+{% block page %}{{ pageTitle }}{% endblock %}
+{% block meta %}
+    <meta name="csrf-token" content="{{ csrf_token('delete_all_tag') }}">
+{% endblock%}
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <a href="{{ path('product_tag_new') }}">
+                <button type="button" class="btn btn-primary mb-3" title="Tạo mới"><i class="fa fa-plus" aria-hidden="true"> Tạo mới</i></button>
+            </a>
+            <table id="datatable-product-tag" class="table table-bordered dt-responsive nowrap"
+                   style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <thead>
+                <tr>
+                    <th>Số thứ tự</th>
+                    <th>Sản phẩm</th>
+                    <th>Tag</th>
+                    <th>Hành động</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        // Load data from the API when the page loads
+        $(document).ready(function () {
+            $.ajax({
+                url: "{{ path('product_tag_api') }}",
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    const table = $('#datatable-product-tag tbody');
+                    table.empty();
+                    let number = 1;
+
+                    // Loop through the data and append each product and its tags to the table
+                    for (const [productName, tags] of Object.entries(data)) {
+                        const row = `
+                        <tr>
+                            <td>${number}</td>
+                            <td>${productName}</td>
+                            <td>
+                                ${tags.map(tag => `<span class="badge bg-info">${tag.tag}</span>`).join(' ')} <!-- Display all tags -->
+                            </td>
+                            <td>
+                                <!-- View details button, navigates to the product's details page -->
+                                <button class="btn btn-icon btn-success" onclick="window.location.href='/product-tag/${tags[0].productId}/show'" title="View Details">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </button>
+                                <!-- Delete all tags button for the product -->
+                                <button class="btn btn-icon btn-danger" onclick="confirmDelete(${tags[0].productId})" title="Delete All">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                        table.append(row);
+                        number++;
+                    }
+
+                    // Initialize DataTable for the table
+                    $('#datatable-product-tag').DataTable({
+                        columnDefs: [
+                            { width: "50px", targets: 0 },
+                            { width: "200px", targets: 1 },
+                            { width: "300px", targets: 2 },
+                            { width: "150px", targets: 3 }
+                        ],
+                        autoWidth: false,
+                        responsive: true,
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error loading data:', error);
+                }
+            });
+        });
+    </script>
+
+    <script>
+        // Confirm and delete all tags for a product
+        function confirmDelete(productId) {
+            const confirmation = confirm('Are you sure you want to delete all tags for this product?');
+            if (confirmation) {
+                const csrfToken = $('meta[name="csrf-token"]').attr('content'); // Get the CSRF token
+
+                // Create a form to send the delete request
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/product-tag/${productId}/tags/delete-all`;
+
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = '_csrf_token';
+                csrfInput.value = csrfToken;
+                form.appendChild(csrfInput);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+    </script>
+{% endblock %}
+

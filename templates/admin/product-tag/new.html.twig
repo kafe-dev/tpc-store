@@ -1,0 +1,16 @@
+{% extends '_layouts/admin/main.html.twig' %}
+
+{% block page %}{{ pageTitle }}{% endblock %}
+
+{% block content %}
+    <!-- Start form rendering -->
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-primary">
+        <i class="fa fa-plus" aria-hidden="true"></i> {{ button_label|default(' Lưu') }}
+    </button>
+    {{ form_end(form) }}
+<br/>
+    <!-- Button to navigate back to the product tag index page -->
+    <button type="button" class="btn btn-lighten-info" onclick="window.location.href='{{ path('product_tag_index') }}'"><i class="fa fa-arrow-left" aria-hidden="true"></i> Quay lại</button>
+{% endblock %}

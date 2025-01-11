@@ -1,0 +1,121 @@
+{% extends '_layouts/admin/main.html.twig' %}
+
+{% block page %}{{ pageTitle }}{% endblock %}
+{% block meta %}
+    <meta name="csrf-token" content="{{ csrf_token('delete_tag') }}">
+
+{% endblock%}
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <h5>Chi tiết sản phẩm: </h5>
+            <p><strong>Tên sản phẩm:</strong> <span id="product-name"></span></p>
+            <p><strong>Mô tả :</strong> <span id="product-short_description"></span></p>
+            <p><strong>Mô tả chi tiết:</strong> <span id="product-description"></span></p>
+            <p><strong>Slug:</strong> <span id="product-slug"></span></p>
+            <p><strong>Giá sản phẩm:</strong> <span id="product-original_price"></span></p>
+            <p><strong>Trạng thái:</strong> <span id="product-status"></span></p>
+            <h6>Danh sách các tag:</h6>
+            <table id="datatable-product-tag-show" class="table table-bordered dt-responsive nowrap"
+                   style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <thead>
+                <tr>
+                    <th>Số thứ tự</th>
+                    <th>Tag</th>
+                    <th>Mô tả</th>
+                    <th>Slug</th>
+                    <th>Hành động</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <!-- Button to navigate back to the product tag index page -->
+        <button type="button" class="btn btn-lighten-info" onclick="window.location.href='{{ path('product_tag_index') }}'"><i class="fa fa-arrow-left" aria-hidden="true"></i> Quay lại</button>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+
+        $(document).ready(function () {
+            const product_id = {{ id }};
+            // Ensure that the DOM is fully loaded before executing
+            $.ajax({
+                url: "{{ path('product_tag_api_show', { id: id }) }}",
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    const table = $('#datatable-product-tag-show tbody');
+                    table.empty();
+                    // Populate product details
+                    $('#product-name').text(data.product.name);
+                    $('#product-description').text(data.product.description);
+                    $('#product-slug').text(data.product.slug);
+                    $('#product-short_description').text(data.product.short_description);
+                    $('#product-original_price').text(data.product.original_price);
+                    $('#product-status').text(data.product.status);
+                    let number = 1;
+                    // Iterate over the tags array and populate the table rows
+                    data.tags.forEach(tag => {
+                        const row = `
+                        <tr>
+                            <td>${number}</td>
+                            <td>${tag.tag_name}</td>
+                            <td>${tag.tag_description}</td>
+                            <td>${tag.tag_slug}</td>
+                            <td>
+                              <button class="btn btn-icon btn-danger" onclick="confirmDelete(${tag.tag_id}, ${product_id})">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                              </button>
+                            </td>
+
+                        </tr>
+                    `;
+                        table.append(row);
+                        number++;
+                    });
+                    // Initialize DataTable for the tags table with custom column widths
+                    $('#datatable-product-tag-show').DataTable({
+                        columnDefs: [
+                            { width: "50px", targets: 0 },
+                            { width: "200px", targets: 1 },
+                            { width: "300px", targets: 2 },
+                            { width: "150px", targets: 3 },
+                            { width: "150px", targets: 4 }
+                        ],
+                        autoWidth: false,
+                        responsive: true,
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi khi tải dữ liệu:', error);
+                }
+            });
+        });
+        // Function to confirm and handle tag deletion
+        function confirmDelete(tag_id, product_id) {
+            const confirmation = confirm('Bạn có chắc chắn muốn xóa tag này không?');
+            if (confirmation) {
+
+                const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/product-tag/${tag_id}/${product_id}/delete-tag`;
+
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = '_csrf_token';
+                csrfInput.value = csrfToken;
+                form.appendChild(csrfInput);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+
+    </script>
+{% endblock %}
