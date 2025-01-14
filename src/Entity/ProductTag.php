@@ -21,7 +21,6 @@ class ProductTag
     #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Product $product = null;
 
-    #[ORM\ManyToOne(targetEntity: Tag::class, inversedBy: 'productsTags')]
     #[ORM\JoinColumn(name: 'tag_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Tag $tag = null;
 
