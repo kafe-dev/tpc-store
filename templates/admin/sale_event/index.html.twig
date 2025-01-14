@@ -1,0 +1,214 @@
+{% extends "_layouts/admin/main.html.twig" %}
+
+{% block page %}{{ page_title }}{% endblock %}
+
+{% block stylesheets%}
+    {{ parent() }}
+
+    <!-- Datatable css -->
+    <link href="{{ asset('resources/admin/libs/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('resources/admin/libs/datatables/buttons.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('resources/admin/libs/datatables/responsive.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('resources/admin/libs/datatables/select.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
+    <!-- App css -->
+    <link href="{{ asset('resources/admin/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" id="bootstrap-stylesheet" />
+    <link href="{{ asset('resources/admin/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('resources/admin/css/app.min.css') }}" rel="stylesheet" type="text/css" id="app-stylesheet" />
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <h5 class="font-14">Danh sách sự kiện Sale </h5>
+            <p class="sub-header">
+                Danh sách sự kiện Sale của hệ thống.
+            </p>
+            <div class="table-responsive mb-3">
+                <a href="{{ path('admin_sale_event_create') }}" class="btn btn-primary">Tạo mới</a>
+            </div>
+            <table id="sale-event-datatable" class="table table-bordered table-striped dt-responsive nowrap font-12 "
+                   style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Tên sự kiện Sale</th>
+                    <th>Lượng giảm giá</th>
+                    <th>Kiểu giảm giá</th>
+                    <th>Bắt đầu vào</th>
+                    <th>Kết Thúc Vào</th>
+                    <th>Tạo Vào</th>
+                    <th>Cập Nhật Vào</th>
+                    <th>Thao Tác</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                </tbody>
+
+                <tfoot>
+                <tr>
+                    <th></th>
+                    <th>Tên sự kiện Sale</th>
+                    <th>Lượng giảm giá</th>
+                    <th>Kiểu giảm giá</th>
+                    <th>Bắt đầu vào</th>
+                    <th>Kết Thúc Vào</th>
+                    <th>Tạo Vào</th>
+                    <th>Cập Nhật Vào</th>
+                    <th></th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+
+    <!-- Required datatable js -->
+    <script src="{{ asset('resources/admin/libs/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Buttons examples -->
+    <script src="{{ asset('resources/admin/libs/datatables/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/dataTables.keyTable.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/dataTables.select.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/buttons.print.min.js') }}"></script>
+
+    <!-- Responsive examples -->
+    <script src="{{ asset('resources/admin/libs/datatables/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('resources/admin/libs/datatables/responsive.bootstrap4.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function () {
+            if ($('#sale-event-datatable_wrapper').length > 0) {
+                return;
+            }
+
+            var table = $('#sale-event-datatable tbody')
+
+            $.ajax({
+                url: '{{ path('admin_sale_event_list') }}',
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (data) {
+                    table.empty();
+
+                    var urlTemplate = "{{ path('admin_sale_event_update', {id: 'REPLACE_ID'}) }}";
+
+                    const discountTypes = {{ discount_types|raw }};
+
+                    $.each(data, function (index, item) {
+                        var url = urlTemplate.replace('REPLACE_ID', item.id);
+
+                        function formatDateTime(dateTime) {
+                            let date = new Date(dateTime);
+                            return date.toLocaleDateString("vi-VN", { year: "numeric", month: "2-digit", day: "2-digit" }) +
+                                ' ' +
+                                date.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
+                        }
+
+                        table.append('<tr>' +
+                            '<td>' + item.id + '</td>' +
+                            '<td>' + item.name + '</td>' +
+                            '<td>' + item.discountAmount + '</td>' +
+                            '<td>' + discountTypes[item.discountType] + '</td>' +
+                            '<td>' + formatDateTime(item.startAt) + '</td>' +
+                            '<td>' + formatDateTime(item.endAt) + '</td>' +
+                            '<td>' + formatDateTime(item.createdAt) + '</td>' +
+                            '<td>' + formatDateTime(item.updatedAt) + '</td>' +
+                            '<td>' +
+                            '<button class="btn btn-outline-info btn-sm btn-detail mr-2 mb-1" data-id="' + item.id + '"><i class="fa fa-eye"></i></button>' +
+                            '<button class="btn btn-outline-warning btn-sm btn-edit mr-2 mb-1" data-url="' + url + '"><i class="fa fa-edit"></i></button>' +
+                            '<button class="btn btn-outline-danger btn-sm btn-delete mb-1" data-id="' + item.id + '"><i class="fa fa-trash"></i></button>' +
+                            '</td>' +
+                            '</tr>');
+                    });
+
+                    $('#sale-event-datatable').DataTable({
+                        columnDefs: [
+                            {orderable: false, targets: 3},
+                            {searchable: false, targets: 3},
+                            { width:  '5%', targets: 0 },
+                            { width: '15%', targets: 1 },
+                            { width: '15%', targets: 2 },
+                            { width: '14%', targets: 3 },
+                            { width: '12%', targets: 4 },
+                            { width: '12%', targets: 5 },
+                            { width: '12%', targets: 6 },
+                            { width: '12%', targets: 7 },
+                            { width: '12%', targets: 8 },
+                        ],
+
+                        initComplete: function () {
+                            this.api()
+                                .columns()
+                                .every(function () {
+                                    let column = this;
+
+                                    if (column.index() === 8) {
+                                        return;
+                                    }
+
+                                    let input = document.createElement('input');
+                                    input.type = 'text';
+                                    input.style.width = '100%';
+                                    input.placeholder = 'Search...';
+                                    column.footer().replaceChildren(input);
+
+                                    input.addEventListener('input', function () {
+                                        column
+                                            .search(input.value, { exact: false })
+                                            .draw();
+                                    });
+                                });
+                        }
+                    });
+                }
+            });
+
+            $(document).on('click', '.btn-delete', function () {
+                let saleEventId = $(this).data('id');
+                let deleteUrl = "{{ path('admin_sale_event_delete', {id: 'REPLACE_ID'}) }}".replace('REPLACE_ID', saleEventId);
+
+                if (confirm('Bạn có chắc chắn muốn xóa?')) {
+                    $.ajax({
+                        url: deleteUrl,
+                        type: 'POST',
+                        data: {
+                            delete_id: saleEventId
+                        },
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        success: function () {
+                            alert('Xóa thành công!');
+                            location.reload();
+                        },
+                        error: function () {
+                            alert('Có lỗi xảy ra khi xóa!');
+                        }
+                    });
+                }
+            });
+
+            $(document).on('click', '.btn-edit', function () {
+                window.location.href = $(this).data('url');
+            });
+
+            $(document).on('click', '.btn-detail', function () {
+                let saleEventId = $(this).data('id');
+                window.location.href = "{{ path('admin_sale_event_detail', {id: 'REPLACE_ID'}) }}".replace('REPLACE_ID', saleEventId);
+            });
+        });
+    </script>
+{% endblock %}

@@ -9,7 +9,6 @@ use Doctrine\Persistence\ObjectManager;
 
 class AppFactory extends Fixture
 {
-
     public function load(ObjectManager $manager): void
     {
         //

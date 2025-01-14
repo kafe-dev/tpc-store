@@ -1,0 +1,21 @@
+{% extends '_layouts/admin/main.html.twig' %}
+
+{% block page %}Sửa Danh Mục{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div>
+                {{ form_start(form) }}
+                {% for field in form %}
+                    {{ form_row(field, {'errors': []}) }}
+                {% endfor %}
+                {{ form_end(form) }}
+            </div>
+        </div>
+        <!-- end col -->
+    </div>
+
+
+{% endblock %}

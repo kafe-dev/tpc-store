@@ -31,11 +31,11 @@ class ProductReview
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Product::class, cascade: ['persist', 'remove'], inversedBy: 'productReviews')]
+    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productReviews')]
     #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Product $product = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist', 'remove'], inversedBy: 'productReviews')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'productReviews')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?User $user = null;
 

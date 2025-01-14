@@ -17,7 +17,7 @@ class SaleEventMeta
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: SaleEvent::class, cascade: ['persist', 'remove'], inversedBy: 'saleEventsMetas')]
+    #[ORM\ManyToOne(targetEntity: SaleEvent::class, inversedBy: 'saleEventsMetas')]
     #[ORM\JoinColumn(name: 'sale_event_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?SaleEvent $sale_event = null;
 

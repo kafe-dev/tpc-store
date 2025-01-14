@@ -24,11 +24,11 @@ class ProductVariantAttribute
     private ?int $attribute_id = null;
 
 
-    #[ORM\ManyToOne(targetEntity: ProductVariant::class, cascade: ['persist', 'remove'], inversedBy: 'productVariantsAttributes')]
+    #[ORM\ManyToOne(targetEntity: ProductVariant::class, inversedBy: 'productVariantsAttributes')]
     #[ORM\JoinColumn(name: 'product_variant_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?ProductVariant $product_variant = null;
 
-    #[ORM\ManyToOne(targetEntity: Attribute::class, cascade: ['persist', 'remove'], inversedBy: 'productVariantsAttributes')]
+    #[ORM\ManyToOne(targetEntity: Attribute::class, inversedBy: 'productVariantsAttributes')]
     #[ORM\JoinColumn(name: 'attribute_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Attribute $attribute = null;
     public function getId(): ?int
